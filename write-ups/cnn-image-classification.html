@@ -25,7 +25,10 @@
   <section class="writeup-section">
     <h2>Loading and normalizing the data</h2>
     <p>Each image channel is normalized as <code>x' = (x - &mu;) / &sigma;</code>, using the per-channel mean and standard deviation computed on the training set. CIFAR-10 is RGB, so this needs three mean/std values &mdash; for a grayscale dataset it would drop to one value each, since there's only a single channel to normalize.</p>
-
+    <figure class="writeup-figure">
+      <img src="../assets/write-ups/cnn-sample-images.jpg" alt="Four sample CIFAR-10 training images: a truck, a ship, a religious icon painting, and a horse">
+      <figcaption>A batch of CIFAR-10 training images after loading &mdash; 32&times;32 RGB photos spanning the dataset's 10 classes.</figcaption>
+    </figure>
   </section>
   <section class="writeup-section">
     <h2>Network architecture</h2>
@@ -81,12 +84,22 @@ torch.save(net.state_dict(), PATH)</code></pre>
     <p>At only 5 epochs, the smaller batch size actually won &mdash; noisier, more frequent updates helped the model learn faster early on. Once given enough epochs, that reversed: the larger batch's steadier gradient estimates pulled ahead. The single biggest lever, though, was training longer, not the batch size choice itself.</p>
     <div class="writeup-figrow">
       <figure class="writeup-figure">
+        <img src="../assets/write-ups/cnn-loss-b4-e5.jpg" alt="Training loss curve for batch size 4, 5 epochs">
+        <figcaption>Batch size 4, 5 epochs &mdash; noisier updates get an early head start (58.1% test accuracy).</figcaption>
+      </figure>
+      <figure class="writeup-figure">
+        <img src="../assets/write-ups/cnn-loss-b4-e20.jpg" alt="Training loss curve for batch size 4, 20 epochs">
+        <figcaption>Batch size 4, 20 epochs &mdash; more training helps, but noisier gradients cap how far it gets (61.2%).</figcaption>
+      </figure>
+    </div>
+    <div class="writeup-figrow">
+      <figure class="writeup-figure">
         <img src="../assets/write-ups/cnn-loss-b16-e5.jpg" alt="Training loss curve for batch size 16, 5 epochs, still fairly high at the end">
-        <figcaption>Batch size 16, 5 epochs &mdash; loss is still dropping when training cuts off (55.5% test accuracy).</figcaption>
+        <figcaption>Batch size 16, 5 epochs &mdash; loss is still dropping when training cuts off (55.5%, the weakest of the four).</figcaption>
       </figure>
       <figure class="writeup-figure">
         <img src="../assets/write-ups/cnn-loss-b16-e20.jpg" alt="Training loss curve for batch size 16, 20 epochs, flattening out near the end">
-        <figcaption>Batch size 16, 20 epochs &mdash; the extra training time lets loss flatten out further (65.7% test accuracy, the best of the four runs).</figcaption>
+        <figcaption>Batch size 16, 20 epochs &mdash; steadier gradients plus enough training time flatten the loss curve out (65.7%, the best of the four runs).</figcaption>
       </figure>
     </div>
   </section>
