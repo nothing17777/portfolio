@@ -276,6 +276,19 @@ main{
 }
 .findings strong{ color: var(--ink); }
 
+.project-preview{
+  display: block;
+  margin: 0 0 16px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+}
+.project-preview img{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .project-links{ display: flex; gap: 18px; }
 .project-links a{
   font-size: 14px;
