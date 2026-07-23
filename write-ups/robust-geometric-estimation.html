@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robust Geometric Estimation — SIFT, RANSAC & Homography — Tim Zhang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="writeup-nav">
+  <a href="../index.html#projects">&larr; Back to portfolio</a>
+</nav>
+
+<header class="writeup-header">
+  <p class="eyebrow mono">EC ENGR 149 · Foundations of Computer Vision</p>
+  <h1>Robust Geometric Estimation — SIFT, RANSAC & Homography</h1>
+  <p>Matching features between two images, estimating the geometric transform that relates them, and using that transform for three different tasks: panorama stitching, compositing new content into a photo, and reconstructing 3D points from stereo views.</p>
+</header>
+
+<main class="writeup-body">
+  <section class="writeup-section">
+    <h2>Why SIFT uses a cheap approximation instead of the real Laplacian</h2>
+    <p>The Laplacian of a Gaussian (LoG) is the ideal filter for detecting blobs at a given scale, but it's expensive to compute directly at every scale. It turns out the derivative of a Gaussian with respect to its own scale, &part;G/&part;&sigma;, is proportional to the Laplacian: &part;G/&part;&sigma; = &sigma;&middot;L(x,y). Approximating that derivative with a simple difference of two Gaussians at nearby scales, D(x,y,&sigma;) = G(x,y,k&sigma;) &minus; G(x,y,&sigma;), gives L(x,y) &asymp; D(x,y,&sigma;) / ((k&minus;1)&sigma;&sup2;) &mdash; a subtraction instead of a second derivative, which is why SIFT calls it the Difference of Gaussians (DoG).</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Refining a keypoint's exact location</h2>
+    <p>Once a candidate keypoint is found, its position is refined by fitting a second-order Taylor expansion of the DoG function around it and solving for the offset that sits at the peak: &Delta;x = &minus;H<sup>&minus;1</sup>&nabla;f, where H is the local Hessian. This pulls the keypoint to sub-pixel, sub-scale accuracy rather than snapping to the nearest sampled pixel, and if the refined point lands closer to a neighboring pixel or scale level than to the original guess, the process repeats from there until it converges &mdash; which also naturally filters out unstable, poorly localized keypoints.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Matching features and stitching two images together</h2>
+    <p>The actual pipeline: detect SIFT keypoints and descriptors in both images, match descriptors with a ratio test to get an initial (noisy) set of correspondences, estimate a homography from a random sample of those correspondences via direct linear transform (DLT, solved with SVD), then run RANSAC &mdash; repeatedly sampling, fitting, and counting inliers &mdash; to find the homography that most of the correspondences actually agree with. The final image is produced by inverse-warping through that homography with bilinear interpolation.</p>
+    <p>Stitching the same image pair <strong>without</strong> RANSAC visibly breaks the panorama &mdash; a small number of bad correspondences (mismatched features) is enough to skew the whole homography. That's the direct, visual argument for why robust estimation isn't just a theoretical nicety.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Compositing new content into a photo via homography</h2>
+    <p>The same DLT machinery works in reverse: given just four corner correspondences between a rectangular source image and a target region in a photo, you can solve for the homography that warps the source into that region &mdash; used here to insert a name and flag into an Olympic pool photo, in the same spot a real broadcaster's graphics overlay would sit.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Reconstructing 3D points from two camera views</h2>
+    <p>Given point correspondences between two images of the same scene from different viewpoints, the eight-point algorithm estimates the essential matrix (via SVD, with the smallest singular value zeroed out to enforce its rank-2 structure), decomposes it into a relative rotation and translation between the two cameras, then triangulates each point's depth in both views and reconstructs its 3D position.</p>
+    <p>Reprojecting the reconstructed 3D points back into the second image and comparing against the real 2D correspondences gave a <strong>2.7% mean reprojection error</strong> &mdash; a direct numerical check that the whole pipeline (matrix estimation, decomposition, triangulation) was self-consistent.</p>
+
+  </section>
+
+</main>
+
+<div class="writeup-footer">
+  <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/robust-geometric-estimation.ipynb" target="_blank" rel="noopener">Full notebook (code + outputs) &#8599;</a>
+  <a href="../index.html#projects">&larr; Back to portfolio</a>
+</div>
+
+</body>
+</html>

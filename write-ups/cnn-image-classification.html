@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CNN-Based Image Classification — CIFAR-10 — Tim Zhang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="writeup-nav">
+  <a href="../index.html#projects">&larr; Back to portfolio</a>
+</nav>
+
+<header class="writeup-header">
+  <p class="eyebrow mono">EC ENGR 149 · Foundations of Computer Vision</p>
+  <h1>CNN-Based Image Classification — CIFAR-10</h1>
+  <p>Building, training, and tuning a convolutional neural network in PyTorch for 10-class image classification, then digging into why the training choices (batch size, epochs, batch normalization) actually mattered.</p>
+</header>
+
+<main class="writeup-body">
+  <section class="writeup-section">
+    <h2>Loading and normalizing the data</h2>
+    <p>Each image channel is normalized as <code>x' = (x - &mu;) / &sigma;</code>, using the per-channel mean and standard deviation computed on the training set. CIFAR-10 is RGB, so this needs three mean/std values &mdash; for a grayscale dataset it would drop to one value each, since there's only a single channel to normalize.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Network architecture</h2>
+    <p>A small LeNet-style CNN: a 5&times;5 convolution (3&rarr;6 channels) into ReLU into 2&times;2 max pooling, a second 5&times;5 convolution (6&rarr;16 channels) into ReLU into max pooling, then a flatten into three fully connected layers (16&middot;5&middot;5 &rarr; 120 &rarr; 84 &rarr; 10).</p>
+    <ul>
+      <li><strong>Padding</strong> controls how many zero-valued pixels are added around the border before convolving, which directly controls the output feature map size.</li>
+      <li><strong>Max pooling</strong> keeps only the largest value in each small region, shrinking the feature map while keeping the strongest activations &mdash; and since it has no learnable weights, it needs no gradient computed for it during backpropagation.</li>
+      <li>Swapping the kernel size to 3 without changing anything else breaks the network: the flattened feature size no longer matches 16&middot;5&middot;5, so the first fully connected layer's input size has to be recalculated and updated to match.</li>
+    </ul>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Training, and why gradients get reset every batch</h2>
+    <p>PyTorch accumulates gradients by default &mdash; each <code>loss.backward()</code> call adds to whatever gradient is already sitting there. Skipping <code>optimizer.zero_grad()</code> before the next batch would silently mix old and new gradients together, corrupting every update after the first.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Batch size &times; epoch count: what actually moved accuracy</h2>
+    <p>Trained the same architecture across four configurations on GPU:</p>
+    <ul>
+      <li>Batch size 4, 5 epochs: <strong>58.1%</strong> test accuracy</li>
+      <li>Batch size 4, 20 epochs: <strong>61.2%</strong></li>
+      <li>Batch size 16, 5 epochs: <strong>55.5%</strong></li>
+      <li>Batch size 16, 20 epochs: <strong>65.7%</strong> (best)</li>
+    </ul>
+    <p>At only 5 epochs, the smaller batch size actually won &mdash; noisier, more frequent updates helped the model learn faster early on. Once given enough epochs, that reversed: the larger batch's steadier gradient estimates pulled ahead. The single biggest lever, though, was training longer, not the batch size choice itself.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Bonus: why batch normalization behaves differently at test time</h2>
+    <p>During training, batch norm normalizes each activation using the current mini-batch's mean and variance &mdash; which differ slightly from batch to batch, injecting a bit of noise that discourages the network from over-relying on any single feature (a mild regularizing effect). At inference there's no batch to compute statistics from, or the batch might be a single example, so it instead uses running averages of the mean and variance accumulated across all of training.</p>
+
+  </section>
+
+</main>
+
+<div class="writeup-footer">
+  <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/cnn-image-classification.ipynb" target="_blank" rel="noopener">Full notebook (code + outputs) &#8599;</a>
+  <a href="../index.html#projects">&larr; Back to portfolio</a>
+</div>
+
+</body>
+</html>

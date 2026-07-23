@@ -343,3 +343,115 @@ main{
   .navlinks a{ font-size: 13px; }
   .hero{ min-height: 100vh; }
 }
+
+/* ---------------------------------------------------------
+   Write-up pages
+--------------------------------------------------------- */
+.writeup-nav{
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 28px var(--edge) 0;
+}
+.writeup-nav a{
+  font-family: var(--mono);
+  font-size: 13px;
+  text-decoration: none;
+  color: var(--graphite);
+}
+.writeup-nav a:hover{ color: var(--accent); }
+
+.writeup-header{
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 22px var(--edge) 40px;
+  border-bottom: 1px solid var(--hairline);
+}
+.writeup-header .eyebrow{ margin-bottom: 10px; }
+.writeup-header h1{
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.05;
+  margin-bottom: 14px;
+}
+.writeup-header p{
+  color: var(--ink-soft);
+  max-width: 62ch;
+  font-size: 16px;
+  margin: 0;
+}
+
+.writeup-body{
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 8px var(--edge) 40px;
+}
+
+.writeup-section{
+  padding: 30px 0;
+  border-top: 1px solid var(--hairline);
+}
+.writeup-section:first-child{ border-top: none; }
+.writeup-section h2{
+  font-size: clamp(19px, 2.6vw, 23px);
+  margin-bottom: 12px;
+}
+.writeup-section p{
+  color: var(--ink-soft);
+  max-width: 68ch;
+  margin: 0 0 12px;
+}
+.writeup-section ul{
+  padding-left: 20px;
+  max-width: 68ch;
+  margin: 0 0 12px;
+}
+.writeup-section li{
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.writeup-section strong{ color: var(--ink); }
+.writeup-section code{
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--paper-raised);
+  border: 1px solid var(--hairline);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.writeup-section pre{
+  background: var(--paper-raised);
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0 0 14px;
+}
+.writeup-section pre code{
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.writeup-note{
+  font-size: 14px;
+  color: var(--graphite);
+  border-left: 2px solid var(--accent);
+  padding-left: 14px;
+  margin: 0 0 12px;
+}
+
+.writeup-footer{
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 30px var(--edge) 70px;
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.writeup-footer a{
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+.writeup-footer a:hover{ text-decoration: underline; }

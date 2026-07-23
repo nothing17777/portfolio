@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Detection — Edges, Blobs & Corners — Tim Zhang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="writeup-nav">
+  <a href="../index.html#projects">&larr; Back to portfolio</a>
+</nav>
+
+<header class="writeup-header">
+  <p class="eyebrow mono">EC ENGR 149 · Foundations of Computer Vision</p>
+  <h1>Feature Detection — Edges, Blobs & Corners</h1>
+  <p>A ground-up image filtering and feature-detection stack &mdash; convolution, denoising, edge/blob/corner detectors &mdash; with every operator derived and implemented by hand rather than called from a library.</p>
+</header>
+
+<main class="writeup-body">
+  <section class="writeup-section">
+    <h2>Writing 2D convolution from scratch</h2>
+    <p>Zero-pad the image on all sides so the output matches the input size, flip the kernel (true convolution rather than correlation), then slide it across every pixel taking the elementwise product-sum. This one function underpins every filter used afterward &mdash; blurring, denoising, edges, and blobs are all just different kernels run through the same convolution.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Blurring and denoising: averaging vs. Gaussian vs. median</h2>
+    <p>Built a Gaussian filter directly from the 2D Gaussian formula, and confirmed the expected behavior: larger kernel size and larger &sigma; both increase blur, since both mean more neighboring pixels are being averaged together with more equal weight.</p>
+    <p>Comparing three denoising filters on a noisy image by relative L1 distance from the clean original:</p>
+    <ul>
+      <li>Average filter: 0.0653</li>
+      <li>Gaussian filter: 0.0600</li>
+      <li><strong>Median filter: 0.0333</strong> (best)</li>
+    </ul>
+    <p>Median filtering won on both the error metric and visual edge preservation &mdash; averaging and Gaussian filtering blur across edges because they mix pixel values from both sides of a boundary, while the median is far less swayed by the handful of extreme (noisy) pixels in a neighborhood.</p>
+    <p class="writeup-note">A Gaussian filter is fundamentally a low-pass filter: it keeps low frequencies and suppresses high ones. Edges <em>are</em> high-frequency content, so a Gaussian filter can't tell the difference between an edge and noise &mdash; it smooths both. A bilateral filter fixes this by adding a second weighting term based on intensity difference, so pixels across a sharp edge (very different intensity) barely influence each other even if they're spatially close &mdash; which is the same idea behind "cartoonize" filters in consumer photo apps.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Computing image gradients for edge detection</h2>
+    <p>Horizontal and vertical gradient filters (Sobel-style) give G<sub>x</sub> and G<sub>y</sub> at every pixel; the gradient direction is then just &theta; = arctan(G<sub>y</sub> / G<sub>x</sub>). Both gradient kernels are separable &mdash; each factors into the outer product of a 1D smoothing filter and a 1D derivative filter, which is why real implementations apply two small 1D convolutions instead of one 2D one.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>A higher-order edge and blob-detection filter, derived from Taylor series</h2>
+    <p>The standard central-difference edge filter only looks at a pixel's immediate neighbors. Expanding f(x&plusmn;h) and f(x&plusmn;2h) in a Taylor series and solving the resulting system gives a more accurate 5-tap gradient filter, &frac1;&frasl;&#8321;&#8322;[1, &minus;8, 0, 8, &minus;1], and an analogous higher-order Laplacian filter, &frac1;&frasl;&#8321;&#8322;[&minus;1, 16, &minus;30, 16, &minus;1].</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Detecting blobs with a scale-normalized Laplacian of Gaussian</h2>
+    <p>The Laplacian of a 2D Gaussian, once normalized by &sigma;&sup2; to keep responses comparable across scales, gives a filter whose response peaks when the filter's scale matches a blob's actual size &mdash; running it across several &sigma; values and taking the strongest response at each location detects blobs of different sizes in the same image.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Finding corners with the Harris detector</h2>
+    <p>Compute image gradients, build the local structure tensor from their products, then score each pixel with the Harris response R = det(M) &minus; k&middot;trace(M)&sup2;. High positive R marks a corner. To turn the raw response map into clean, non-duplicated corner detections: threshold to get candidates, sort them by response strength, then greedily keep a candidate only if it isn't too close to one already kept &mdash; non-maximum suppression, implemented from scratch rather than called from a library.</p>
+
+  </section>
+
+</main>
+
+<div class="writeup-footer">
+  <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/feature-detection.ipynb" target="_blank" rel="noopener">Full notebook (code + outputs) &#8599;</a>
+  <a href="../index.html#projects">&larr; Back to portfolio</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semantic Matching & Reasoning with Language Models — Tim Zhang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav class="writeup-nav">
+  <a href="../index.html#projects">&larr; Back to portfolio</a>
+</nav>
+
+<header class="writeup-header">
+  <p class="eyebrow mono">M146 · Introduction to Machine Learning &mdash; Final Project</p>
+  <h1>Semantic Matching & Reasoning with Language Models</h1>
+  <p>Two questions, one theme: how far can you push a small language model using architecture, fine-tuning, and prompting alone &mdash; on detecting paraphrases, and on solving grade-school math word problems.</p>
+</header>
+
+<main class="writeup-body">
+  <section class="writeup-section">
+    <h2>Part A &mdash; Why word overlap alone can't detect paraphrases</h2>
+    <p>Measuring the Jaccard similarity (shared words / all words) between sentence pairs in the PAWS dataset showed something important: paraphrase and non-paraphrase pairs have almost identical overlap distributions, both concentrated at high overlap. That's because PAWS is specifically built from sentences with the <em>same words in a different order</em> &mdash; meaning is changed by rearrangement, not by word choice, so a method that only counts shared words is blind to the label. That motivated the hypothesis that a model comparing token-level order (a cross-encoder) should beat one that only compares whole-sentence summaries (a bi-encoder).</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Baseline: comparing sentence embeddings directly</h2>
+    <p>A bi-encoder baseline &mdash; MiniLM sentence embeddings for each sentence separately, combined into a feature vector and classified with logistic regression &mdash; reached only <strong>61.8%</strong> test accuracy. It can't directly compare tokens across the two sentences, only their aggregate meaning, so it misses exactly the word-order swaps PAWS is built around.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Fine-tuning a cross-encoder</h2>
+    <p>Fine-tuning DistilBERT end-to-end on sentence pairs &mdash; so the model can attend across both sentences at the token level &mdash; jumped accuracy to <strong>81.9%</strong>. The trade-off: roughly 60&times; slower per prediction, since every pair needs a full forward pass through the transformer instead of a cached embedding lookup.</p>
+    <p>Looking specifically at the cases where the two models disagreed, the cross-encoder was correct 76% of the time &mdash; catching subtle subject/object swaps and single-word insertions (like the addition of "also") that quietly flip meaning without the bi-encoder noticing.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Prompting an instruction-tuned model instead of training anything</h2>
+    <p>Zero-shot prompting a 1.5B instruction-tuned model reached 74.5% accuracy with no training at all. Adding four labeled examples to the prompt (few-shot) pushed that to <strong>81.5%</strong> &mdash; nearly matching the fine-tuned cross-encoder's 81.9%, with zero gradient updates.</p>
+    <p class="writeup-note">Prompt wording turned out to matter a lot: a second, only slightly differently worded zero-shot prompt collapsed accuracy to exactly 50% &mdash; the model started predicting "not paraphrase" for every single example. Small wording changes can cause a total behavioral collapse, which is a real argument for testing prompts carefully before trusting one.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Part B &mdash; How well can a small model do grade-school math?</h2>
+    <p>The un-tuned 1.5B base model scored 36% on a 100-question GSM8K subset. Reading through its failures showed a consistent pattern: the model usually sets up the problem correctly, then loses points to an arithmetic slip (15 + 25 = 4 instead of 40), a misread percentage (treating a 150% increase as 15%), or a step it silently forgets (not restarting a download from zero after an interruption).</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Fine-tuning efficiently with LoRA</h2>
+    <p>Instead of updating all 1.55 billion parameters, LoRA fine-tuning adds small low-rank adapter matrices to the attention layers and trains only those &mdash; about 2.18 million parameters, or <strong>0.14%</strong> of the model. Training on 1,000 examples raised accuracy from 36% to 47%; adding another 1,000 examples (2,000 total) pushed it slightly further to 49%, with most of the gain clearly front-loaded in that first batch of data.</p>
+    <p>Comparing the fine-tuned model against the same three failure cases from before: it fixed some of the raw arithmetic slips, but still made new mistakes on multi-step problems &mdash; fine-tuning improved reliability on format and execution more than it fixed deeper misreadings of what a problem was actually asking.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>Does few-shot prompting help a model that's already fine-tuned?</h2>
+    <p>Somewhat counterintuitively, adding worked examples to the prompt slightly <em>hurt</em> accuracy for both the base model (38% &rarr; 33%) and the fine-tuned model (49% &rarr; 48%). At this model size, a longer prompt seems to cost more in context budget than the extra examples give back &mdash; a pattern that's known to reverse for much larger models.</p>
+
+  </section>
+  <section class="writeup-section">
+    <h2>A better prompt alone matched what fine-tuning achieved</h2>
+    <p>Testing six prompt variations on the un-tuned base model, the best one &mdash; explicitly instructing the model to reread the problem and list its numbers before solving &mdash; lifted accuracy from 44% to <strong>60%</strong>, beating the LoRA fine-tuned model's 49%, entirely without training. Rigid, over-structured prompts actually performed worse than a plain one, suggesting the model was spending effort conforming to format instead of reasoning through the math.</p>
+
+  </section>
+
+</main>
+
+<div class="writeup-footer">
+  <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/semantic-matching-llm.ipynb" target="_blank" rel="noopener">Full notebook (code + outputs) &#8599;</a>
+  <a href="../index.html#projects">&larr; Back to portfolio</a>
+</div>
+
+</body>
+</html>
