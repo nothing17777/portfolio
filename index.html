@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tim Zhang — Software Engineering</title>
+<meta name="description" content="Tim Zhang — UCLA Computer Science. Systems, computer vision, and applied ML.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="hero">
+  <canvas id="field" aria-hidden="true"></canvas>
+  <nav class="topnav">
+    <span class="wordmark">TZ</span>
+    <div class="navlinks">
+      <a href="#projects">Projects</a>
+      <a href="#coursework">Coursework</a>
+      <a href="#experience">Experience</a>
+      <a href="assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    </div>
+  </nav>
+
+  <div class="hero-content">
+    <p class="eyebrow">com sci · ucla</p>
+    <h1>Tim Zhang</h1>
+    <p class="hero-role">Software engineer in training — building systems<br class="br-desktop"> that see, reason, and ship.</p>
+    <p class="hero-sub">C++ &amp; Python foundations. Full-stack and API-driven applications. LLM-integrated pipelines. Currently looking for a Software Engineering internship.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="assets/resume.pdf" target="_blank" rel="noopener">Download résumé</a>
+      <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn btn-ghost" href="mailto:timzhang.email@gmail.com">Email</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="section" id="about">
+    <div class="section-head">
+      <span class="eyebrow mono">about</span>
+      <div class="rule"></div>
+    </div>
+    <p class="lede">
+      I'm a Computer Science undergraduate at UCLA, working at the intersection of classical
+      systems thinking and applied machine learning — from deriving convolution kernels by
+      hand to fine-tuning language models with LoRA. I like problems where the theory and the
+      implementation both have to be right: a filter that's mathematically justified and also
+      fast, a prompt that's clever and also reproducible.
+    </p>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="section-head">
+      <span class="eyebrow mono">selected work</span>
+      <div class="rule"></div>
+    </div>
+
+    <article class="project">
+      <div class="project-meta">
+        <span class="tag">EC ENGR 149 · Foundations of Computer Vision</span>
+        <span class="tag mono">Python · PyTorch</span>
+      </div>
+      <h3>CNN-Based Image Classification — CIFAR-10</h3>
+      <p>
+        Built and trained a convolutional neural network from scratch in PyTorch for 10-class
+        image classification, then swept batch size and epoch count to study the trade-off
+        between gradient noise and convergence speed.
+      </p>
+      <ul class="findings">
+        <li>Best configuration (batch size 16, 20 epochs) reached <strong>65.7% test
+        accuracy</strong>, versus 55.5% at only 5 epochs with the same batch size \u2014 most of
+        the accuracy gain came from training longer, not from architecture changes.</li>
+        <li>At a fixed 5 epochs, the <em>smaller</em> batch size (4) outperformed the larger one
+        (58.1% vs. 55.5%) \u2014 noisier, more frequent gradient updates helped early on. That
+        reversed once given enough epochs, where the larger batch's steadier gradient estimates
+        pulled ahead (65.7% vs. 61.2% at 20 epochs).</li>
+        <li>Explained and applied core CNN mechanics: how padding and kernel size determine
+        output size, why max pooling has no learnable parameters, and why batch normalization
+        uses running statistics at inference instead of the current batch's mean/variance.</li>
+      </ul>
+      <div class="project-links">
+        <a href="#">Write-up ↗</a>
+        <a href="#">Code ↗</a>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-meta">
+        <span class="tag">EC ENGR 149 · Foundations of Computer Vision</span>
+        <span class="tag mono">Python · NumPy · OpenCV</span>
+      </div>
+      <h3>Robust Geometric Estimation — SIFT, RANSAC & Homography</h3>
+      <p>
+        Full correspondence pipeline built from primitives: SIFT keypoint detection and
+        descriptor matching, a from-scratch RANSAC loop for robust homography estimation, and
+        inverse warping with bilinear interpolation to stitch image pairs into a single panorama.
+      </p>
+      <ul class="findings">
+        <li>Implemented direct linear transform (DLT) homography estimation from raw
+        correspondences, then RANSAC to separate true matches from spurious ones.</li>
+        <li>Stitching without RANSAC visibly breaks on outlier matches — a direct, visual
+        demonstration of why robust estimation matters, not just a theoretical footnote.</li>
+        <li>Extended the same approach to insert new content into a target image via homography
+        (compositing a name plate into a photograph using four corner correspondences).</li>
+        <li>Also implemented the eight-point algorithm for essential matrix estimation and 3D
+        point reconstruction from stereo correspondences (2.7% mean reprojection error).</li>
+      </ul>
+      <div class="project-links">
+        <a href="#">Write-up ↗</a>
+        <a href="#">Code ↗</a>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-meta">
+        <span class="tag">EC ENGR 149 · Foundations of Computer Vision</span>
+        <span class="tag mono">Python · NumPy</span>
+      </div>
+      <h3>Feature Detection — Edges, Blobs &amp; Corners</h3>
+      <p>
+        A ground-up image-filtering stack: 2D convolution, Gaussian/median/bilateral filtering,
+        gradient-based edge detection, Laplacian-of-Gaussian blob detection, and Harris corner
+        detection with non-maximum suppression — every operator derived and implemented by hand.
+      </p>
+      <ul class="findings">
+        <li>Compared average, Gaussian, and median filtering for denoising; median filtering won
+        on both quantitative error (lowest relative L1 distance) and visual edge preservation.</li>
+        <li>Derived a bilateral filter from first principles to smooth flat regions while keeping
+        edges sharp — the same idea behind "cartoonize" filters in consumer photo apps.</li>
+        <li>Built full non-max suppression for Harris corners: threshold → sort by response →
+        greedy spatial suppression, from scratch, no library calls.</li>
+      </ul>
+      <div class="project-links">
+        <a href="#">Write-up ↗</a>
+        <a href="#">Code ↗</a>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-meta">
+        <span class="tag">M146 · Intro to Machine Learning</span>
+        <span class="tag mono">Python · HF Transformers · PEFT / LoRA</span>
+      </div>
+      <h3>Semantic Matching &amp; Reasoning with Language Models</h3>
+      <p>
+        Two-part final project comparing how far you can push a small language model with
+        architecture, fine-tuning, and prompting alone.
+      </p>
+      <ul class="findings">
+        <li><strong>Paraphrase detection (PAWS):</strong> a bi-encoder baseline (MiniLM + logistic
+        regression) hit 61.8% test accuracy — it can't see token-level word-order swaps that
+        flip meaning. Fine-tuning a DistilBERT cross-encoder pushed that to 81.9%, matched by
+        few-shot prompting a 1.5B instruct model (81.5%) with zero training.</li>
+        <li><strong>Math reasoning (GSM8K):</strong> LoRA fine-tuned Qwen2.5-1.5B on 1,000 then
+        2,000 examples, taking base-model accuracy from 36% → 47% → 49%, training under 0.15%
+        of total parameters. Diagnosed the model's actual failure modes (percentage
+        misinterpretation, arithmetic slips, problem misreads) before and after tuning.</li>
+        <li><strong>Prompt engineering:</strong> a "reread the problem first" prompt alone lifted
+        base-model accuracy 44% → 60% — matching what fine-tuning achieved, with no training.</li>
+      </ul>
+      <div class="project-links">
+        <a href="#">Write-up ↗</a>
+        <a href="#">Code ↗</a>
+      </div>
+    </article>
+
+  </section>
+
+  <section class="section" id="coursework">
+    <div class="section-head">
+      <span class="eyebrow mono">coursework</span>
+      <div class="rule"></div>
+    </div>
+    <p class="lede small">
+      Data Structures &amp; Algorithms · Object-Oriented Programming · Software Design ·
+      Introduction to Machine Learning · Foundations of Computer Vision
+    </p>
+  </section>
+
+  <section class="section" id="experience">
+    <div class="section-head">
+      <span class="eyebrow mono">experience</span>
+      <div class="rule"></div>
+    </div>
+
+    <div class="xp-row">
+      <div class="xp-when mono">Mar 2026 — present</div>
+      <div class="xp-what">
+        <h4>Computer Lab Consultant · UCLA SEASNet</h4>
+        <p>Technical support for 100s of engineering students and faculty daily — software,
+        hardware, and network issues. Runs training sessions on lab tools and contributes to
+        lab-wide system improvements with the SEASNet technical team.</p>
+      </div>
+    </div>
+
+    <div class="xp-row">
+      <div class="xp-when mono">Jun 2022 — 2024</div>
+      <div class="xp-what">
+        <h4>Translator / Transcriber · TED Translators</h4>
+        <p>Translated TED Talk scripts between English and Simplified Chinese; reviewed peer
+        translations for accuracy, tone, and cultural sensitivity. Produced time-synced
+        subtitles for global accessibility across concurrent projects.</p>
+      </div>
+    </div>
+
+    <div class="xp-row">
+      <div class="xp-when mono">Aug 2023 — Apr 2024</div>
+      <div class="xp-what">
+        <h4>Mathematics Tutor · Learn To Be</h4>
+        <p>Tutored K–12 students from underserved communities, breaking down concepts into
+        individualized, approachable lesson plans over live virtual sessions.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-row">
+    <span class="mono">Alhambra, CA</span>
+    <span class="mono">English · Mandarin · Cantonese</span>
+  </div>
+  <div class="footer-row">
+    <a href="mailto:timzhang.email@gmail.com">timzhang.email@gmail.com</a>
+    <a href="https://github.com/" target="_blank" rel="noopener">github.com/</a>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
