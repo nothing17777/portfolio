@@ -440,6 +440,34 @@ main{
   margin: 0 0 12px;
 }
 
+.writeup-figure{
+  margin: 0 0 18px;
+}
+.writeup-figure img{
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: var(--paper-raised);
+}
+.writeup-figure figcaption{
+  font-size: 13px;
+  color: var(--graphite);
+  margin-top: 8px;
+  max-width: 68ch;
+}
+.writeup-figrow{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 0 0 18px;
+}
+.writeup-figrow .writeup-figure{ margin-bottom: 0; }
+@media (max-width: 620px){
+  .writeup-figrow{ grid-template-columns: 1fr; }
+}
+
 .writeup-footer{
   max-width: var(--measure);
   margin: 0 auto;

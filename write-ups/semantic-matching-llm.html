@@ -25,7 +25,10 @@
   <section class="writeup-section">
     <h2>Part A &mdash; Why word overlap alone can't detect paraphrases</h2>
     <p>Measuring the Jaccard similarity (shared words / all words) between sentence pairs in the PAWS dataset showed something important: paraphrase and non-paraphrase pairs have almost identical overlap distributions, both concentrated at high overlap. That's because PAWS is specifically built from sentences with the <em>same words in a different order</em> &mdash; meaning is changed by rearrangement, not by word choice, so a method that only counts shared words is blind to the label. That motivated the hypothesis that a model comparing token-level order (a cross-encoder) should beat one that only compares whole-sentence summaries (a bi-encoder).</p>
-
+    <figure class="writeup-figure">
+      <img src="../assets/write-ups/m146-lexical-overlap.jpg" alt="Histogram of lexical overlap by label on the PAWS test set, showing paraphrase and non-paraphrase pairs with nearly identical overlap distributions">
+      <figcaption>Lexical (Jaccard) overlap by label on the PAWS test set: both classes cluster at high word overlap, so raw word-overlap alone carries almost no signal about the label.</figcaption>
+    </figure>
   </section>
   <section class="writeup-section">
     <h2>Baseline: comparing sentence embeddings directly</h2>
@@ -41,7 +44,15 @@
   <section class="writeup-section">
     <h2>Prompting an instruction-tuned model instead of training anything</h2>
     <p>Zero-shot prompting a 1.5B instruction-tuned model reached 74.5% accuracy with no training at all. Adding four labeled examples to the prompt (few-shot) pushed that to <strong>81.5%</strong> &mdash; nearly matching the fine-tuned cross-encoder's 81.9%, with zero gradient updates.</p>
-    <p class="writeup-note">Prompt wording turned out to matter a lot: a second, only slightly differently worded zero-shot prompt collapsed accuracy to exactly 50% &mdash; the model started predicting "not paraphrase" for every single example. Small wording changes can cause a total behavioral collapse, which is a real argument for testing prompts carefully before trusting one.</p>
+    <pre><code>Determine whether the following two sentences are paraphrases
+of each other. A paraphrase expresses the same meaning even
+if worded differently.
+
+Sentence 1: {sentence1}
+Sentence 2: {sentence2}
+
+Answer with exactly one word: paraphrase or not_paraphrase.</code></pre>
+    <p class="writeup-note">Prompt wording turned out to matter a lot: a second, only slightly differently worded zero-shot prompt ("Do these two sentences mean the same thing?") collapsed accuracy to exactly 50% &mdash; the model started predicting "not paraphrase" for every single example. Small wording changes can cause a total behavioral collapse, which is a real argument for testing prompts carefully before trusting one.</p>
 
   </section>
   <section class="writeup-section">
@@ -52,6 +63,16 @@
   <section class="writeup-section">
     <h2>Fine-tuning efficiently with LoRA</h2>
     <p>Instead of updating all 1.55 billion parameters, LoRA fine-tuning adds small low-rank adapter matrices to the attention layers and trains only those &mdash; about 2.18 million parameters, or <strong>0.14%</strong> of the model. Training on 1,000 examples raised accuracy from 36% to 47%; adding another 1,000 examples (2,000 total) pushed it slightly further to 49%, with most of the gain clearly front-loaded in that first batch of data.</p>
+    <pre><code># LoRA SFT configuration used for both runs
+rank = 8
+alpha = 16          # scales the adapter update by alpha / rank
+learning_rate = 2e-4
+effective_batch_size = 32
+trainable_params = 2_179_072   # ~0.14% of Qwen2.5-1.5B's 1.55B parameters</code></pre>
+    <figure class="writeup-figure">
+      <img src="../assets/write-ups/m146-gsm8k-lora-accuracy.jpg" alt="Line chart of GSM8K accuracy versus number of LoRA fine-tuning training examples, rising from base accuracy through 1,000 and 2,000 examples">
+      <figcaption>GSM8K accuracy vs. LoRA training set size: 36% base &rarr; 47% at 1,000 examples &rarr; 49% at 2,000, with the curve already flattening &mdash; most of the gain came from the first batch of data.</figcaption>
+    </figure>
     <p>Comparing the fine-tuned model against the same three failure cases from before: it fixed some of the raw arithmetic slips, but still made new mistakes on multi-step problems &mdash; fine-tuning improved reliability on format and execution more than it fixed deeper misreadings of what a problem was actually asking.</p>
 
   </section>

@@ -30,20 +30,64 @@
   <section class="writeup-section">
     <h2>Blurring and denoising: averaging vs. Gaussian vs. median</h2>
     <p>Built a Gaussian filter directly from the 2D Gaussian formula, and confirmed the expected behavior: larger kernel size and larger &sigma; both increase blur, since both mean more neighboring pixels are being averaged together with more equal weight.</p>
+    <figure class="writeup-figure">
+      <img src="../assets/write-ups/fd-denoising.jpg" alt="Noisy image, noiseless reference, and average/Gaussian/median filtering outputs side by side">
+      <figcaption>Denoising a noisy house photo: average and Gaussian filtering both leave visible blur, median filtering gets closest back to the noiseless reference.</figcaption>
+    </figure>
     <p>Comparing three denoising filters on a noisy image by relative L1 distance from the clean original:</p>
     <ul>
       <li>Average filter: 0.0653</li>
       <li>Gaussian filter: 0.0600</li>
       <li><strong>Median filter: 0.0333</strong> (best)</li>
     </ul>
-    <p>Median filtering won on both the error metric and visual edge preservation &mdash; averaging and Gaussian filtering blur across edges because they mix pixel values from both sides of a boundary, while the median is far less swayed by the handful of extreme (noisy) pixels in a neighborhood.</p>
-    <p class="writeup-note">A Gaussian filter is fundamentally a low-pass filter: it keeps low frequencies and suppresses high ones. Edges <em>are</em> high-frequency content, so a Gaussian filter can't tell the difference between an edge and noise &mdash; it smooths both. A bilateral filter fixes this by adding a second weighting term based on intensity difference, so pixels across a sharp edge (very different intensity) barely influence each other even if they're spatially close &mdash; which is the same idea behind "cartoonize" filters in consumer photo apps.</p>
-
+    <p>Median filtering won on both the error metric and visual edge preservation &mdash; averaging and Gaussian filtering blur across edges because they mix pixel values from both sides of a boundary, while the median is far less swayed by the handful of extreme (noisy) pixels in a neighborhood. The median filter itself is a straightforward sliding-window operation:</p>
+    <pre><code>def median_filtering(image: np.array, kernel_size: int = None):
+    H, W = image.shape
+    k = kernel_size
+    pad = k // 2
+    padded = np.zeros((H + 2*pad, W + 2*pad))
+    padded[pad:pad+H, pad:pad+W] = image
+    output = np.zeros_like(image)
+    for i in range(H):
+        for j in range(W):
+            region = padded[i:i+k, j:j+k]
+            output[i, j] = np.median(region)
+    return output</code></pre>
+    <p class="writeup-note">A Gaussian filter is fundamentally a low-pass filter: it keeps low frequencies and suppresses high ones. Edges <em>are</em> high-frequency content, so a Gaussian filter can't tell the difference between an edge and noise &mdash; it smooths both. A bilateral filter fixes this by adding a second weighting term based on intensity difference, so pixels across a sharp edge (very different intensity) barely influence each other even if they're spatially close.</p>
+    <figure class="writeup-figure">
+      <img src="../assets/write-ups/fd-bilateral.jpg" alt="Original image next to Gaussian-filtered and bilateral-filtered versions">
+      <figcaption>Gaussian filtering (center) blurs across the roofline; the bilateral filter (right) smooths flat regions while keeping edges sharp.</figcaption>
+    </figure>
+    <pre><code>def bilateral_filter(image: np.array, kernel: np.array = None,
+                      sigma_int: float = None, norm_fac: float = None):
+    H, W = image.shape
+    k = kernel.shape[0]
+    pad = k // 2
+    padded = np.zeros((H + 2*pad, W + 2*pad))
+    padded[pad:pad+H, pad:pad+W] = image
+    output = np.zeros_like(image)
+    for i in range(H):
+        for j in range(W):
+            region = padded[i:i+k, j:j+k]
+            center = padded[i+pad, j+pad]
+            # intensity Gaussian
+            intensity_weights = np.exp(-((region - center)**2) / (2 * sigma_int**2))
+            weights = kernel * intensity_weights
+            output[i, j] = np.sum(weights * region) / np.sum(weights)
+    return output</code></pre>
+    <p>Chaining edge enhancement, bilateral smoothing, and median denoising turns a photo into a flat-color, clean-edged "cartoon":</p>
+    <figure class="writeup-figure">
+      <img src="../assets/write-ups/fd-cartoon.jpg" alt="Cartoonized version of a face next to the original photograph">
+      <figcaption>Cartoonizing a photo: edge enhancement via gradient filters, bilateral smoothing to flatten color regions, and median filtering to knock out noise first.</figcaption>
+    </figure>
   </section>
   <section class="writeup-section">
     <h2>Computing image gradients for edge detection</h2>
     <p>Horizontal and vertical gradient filters (Sobel-style) give G<sub>x</sub> and G<sub>y</sub> at every pixel; the gradient direction is then just &theta; = arctan(G<sub>y</sub> / G<sub>x</sub>). Both gradient kernels are separable &mdash; each factors into the outer product of a 1D smoothing filter and a 1D derivative filter, which is why real implementations apply two small 1D convolutions instead of one 2D one.</p>
-
+    <figure class="writeup-figure">
+      <img src="../assets/write-ups/fd-gradients.jpg" alt="Gradient-X, Gradient-Y, and Gradient-Sum images of a house photo">
+      <figcaption>Gradient-X picks up vertical edges (window frames, chimney corners), Gradient-Y picks up horizontal ones (rooflines, gutters); summing both recovers the full edge map.</figcaption>
+    </figure>
   </section>
   <section class="writeup-section">
     <h2>A higher-order edge and blob-detection filter, derived from Taylor series</h2>
@@ -53,12 +97,53 @@
   <section class="writeup-section">
     <h2>Detecting blobs with a scale-normalized Laplacian of Gaussian</h2>
     <p>The Laplacian of a 2D Gaussian, once normalized by &sigma;&sup2; to keep responses comparable across scales, gives a filter whose response peaks when the filter's scale matches a blob's actual size &mdash; running it across several &sigma; values and taking the strongest response at each location detects blobs of different sizes in the same image.</p>
-
+    <pre><code>def log_filter(size: int, sigma: float):
+    half = size // 2
+    x, y = np.meshgrid(np.arange(-half, half + 1), np.arange(-half, half + 1))
+    r2 = x**2 + y**2
+    exponent = np.exp(-r2 / (2 * sigma**2))
+    # Raw LoG (without normalization)
+    raw_log = (1 / (2 * np.pi * sigma**4)) * (r2 / sigma**2 - 2) * exponent
+    # Scale-normalized LoG (multiply by sigma^2)
+    kernel = sigma**2 * raw_log
+    return kernel</code></pre>
+    <figure class="writeup-figure">
+      <img src="../assets/write-ups/fd-blob-detection.jpg" alt="Blob detection response at five different sigma values on an image of circles of increasing size">
+      <figcaption>Running the scale-normalized LoG at five &sigma; values over a test image of circles: each scale lights up most strongly on the circles whose radius matches it, which is exactly the scale-selection behavior blob detection is supposed to have.</figcaption>
+    </figure>
   </section>
   <section class="writeup-section">
     <h2>Finding corners with the Harris detector</h2>
     <p>Compute image gradients, build the local structure tensor from their products, then score each pixel with the Harris response R = det(M) &minus; k&middot;trace(M)&sup2;. High positive R marks a corner. To turn the raw response map into clean, non-duplicated corner detections: threshold to get candidates, sort them by response strength, then greedily keep a candidate only if it isn't too close to one already kept &mdash; non-maximum suppression, implemented from scratch rather than called from a library.</p>
+    <pre><code>def threshold_harris_response(harris_response: np.array, threshold: float):
+    indices = np.argwhere(harris_response &gt; threshold)
+    return indices
 
+def sort_detections(candidate_detections: np.array, harris_response: np.array):
+    responses = harris_response[candidate_detections[:, 0], candidate_detections[:, 1]]
+    sorted_indices = np.argsort(responses)[::-1]
+    return candidate_detections[sorted_indices]
+
+def local_max(sorted_detections: np.array, distance: float):
+    selected = []
+    for detection in sorted_detections:
+        keep = True
+        for corner in selected:
+            if np.linalg.norm(detection - corner) &lt; distance:
+                keep = False
+                break
+        if keep:
+            selected.append(detection)
+    return np.array(selected)
+
+def non_max_suppression(harris_response: np.array, distance: float, threshold: float):
+    candidates = threshold_harris_response(harris_response, threshold)
+    sorted_detections = sort_detections(candidates, harris_response)
+    return local_max(sorted_detections, distance)</code></pre>
+    <figure class="writeup-figure">
+      <img src="../assets/write-ups/fd-harris-corners.jpg" alt="Harris corner detections after non-maximum suppression on a synthetic checkerboard and squares image">
+      <figcaption>Harris corners after non-max suppression on a synthetic test image &mdash; every true corner of the diamonds and squares is caught once, with no duplicate detections clustered around a single corner.</figcaption>
+    </figure>
   </section>
 
 </main>
