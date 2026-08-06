@@ -193,6 +193,35 @@
       <article class="project">
         <div class="project-meta">
           <span class="tag">Personal Project</span>
+          <span class="tag mono">TypeScript · Node · Playwright · Next.js</span>
+        </div>
+        <h3>Website Template Cloner</h3>
+        <p>
+          An agent-driven pipeline that turns any webpage into a reusable front-end template:
+          it captures the rendered DOM, every stylesheet and a full-page screenshot, measures how
+          the page is built, and emits a self-contained Next.js app with placeholder copy and
+          imagery &mdash; the construction reproduced, the content left behind.
+        </p>
+        <ul class="findings">
+          <li>Resolves exact values without staying attached to the live page: the captured DOM is
+            reloaded with the captured CSS in a headless browser, so <code>getComputedStyle</code>
+            resolves the real cascade offline and every run is reproducible from the same bytes.</li>
+          <li>Every colour, spacing, type-scale and breakpoint value is cited to a selector and
+            property, or written as <code>UNVERIFIED</code> &mdash; never guessed.</li>
+          <li>Placeholder substitution is enforced by an idempotent script, matching original word
+            counts and image dimensions so the template still measures like the page it came from
+            &mdash; the apple.com/iPhone rebuild lands within <strong>1px over a 12,967px page</strong>.</li>
+          <li>Reconnaissance, per-section specs, parallel builder agents, visual band-by-band diffing
+            and the static&rarr;Next.js conversion are wired together as a Claude Code skill.</li>
+        </ul>
+        <div class="project-links">
+          <a href="https://github.com/nothing17777/Website-Template-Cloner" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">Personal Project</span>
           <span class="tag mono">Next.js · TypeScript · Tailwind · Framer Motion</span>
         </div>
         <h3>Rift Connections</h3>
