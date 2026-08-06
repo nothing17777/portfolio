@@ -127,3 +127,19 @@
 
   init();
 })();
+
+/* Back-to-top button: shown once the hero has scrolled past. */
+(() => {
+  const btn = document.getElementById("to-top");
+  if (!btn) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const sync = () => btn.classList.toggle("is-visible", window.scrollY > 600);
+  sync();
+  window.addEventListener("scroll", sync, { passive: true });
+
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  });
+})();
