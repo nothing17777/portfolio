@@ -39,8 +39,9 @@ newest/strongest first.
 ```
 
 Rules that are easy to get wrong:
-- **Omit `.project-preview` entirely** if there is no deployed URL to screenshot — don't ship a
-  broken image or a preview that links to `#`.
+- **Omit `.project-preview` entirely** if there is no image worth showing — never ship a broken
+  image or a preview that links to `#`. With no deployed site, a composed image (e.g. a
+  before/after comparison from the README) linking to the repo works.
 - Side projects link Live/GitHub; academic projects link Write-up/Notebook (notebooks use absolute
   GitHub blob URLs, not relative paths).
 - Prose uses HTML entities: `&mdash;`, `&times;`, `&amp;`, `&ndash;`, `&rarr;`. Never a raw em dash.
