@@ -317,6 +317,84 @@
         </div>
       </article>
 
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">Personal Project</span>
+          <span class="tag mono">LangChain · LangGraph · ChromaDB · Ollama · Streamlit</span>
+        </div>
+        <h3>Yu-Gi-Oh! RAG Chatbot</h3>
+        <p>
+          A Retrieval-Augmented Generation chatbot that answers questions over the full
+          Yu-Gi-Oh! card database (~14,500 cards) using a locally-hosted LLM &mdash; no paid
+          APIs, no external inference.
+        </p>
+        <ul class="findings">
+          <li>Hybrid retrieval combines semantic vector search (Sentence Transformers +
+            ChromaDB) with exact metadata filtering on archetype/card type, avoiding
+            hallucinated results on structured queries like "list all Blue-Eyes cards."</li>
+          <li>A LangGraph ReAct agent handles tool-calling and intent classification,
+            routing greetings away from the retrieval pipeline and resolving follow-up
+            questions ("what about that one's ATK?") from cached sources and chat history.</li>
+          <li>Generation is grounded strictly in retrieved context &mdash; the prompt constrains
+            the LLM (Qwen2.5-7B via Ollama) from inventing card names not present in the
+            retrieved chunks.</li>
+        </ul>
+        <div class="project-links">
+          <a href="https://github.com/nothing17777/yugiohChatbot" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">Personal Project</span>
+          <span class="tag mono">CrewAI · Ollama · Serper</span>
+        </div>
+        <h3>CrewAI News Agent</h3>
+        <p>
+          A multi-agent news pipeline built with CrewAI: a News Collector agent searches
+          the web for the latest coverage of a topic, and a News Reporter agent turns
+          those findings into a validated headline &mdash; both running sequentially against
+          a local LLM rather than a hosted API.
+        </p>
+        <ul class="findings">
+          <li>Two agents with distinct roles, goals, and backstories are orchestrated as a
+            sequential Crew, with task outputs from the first agent feeding directly into
+            the second.</li>
+          <li>Web search is wired in as a CrewAI tool (Serper) so the collector agent can
+            ground its findings in live results rather than model knowledge alone.</li>
+          <li>Inference runs locally via Ollama (Qwen2.5-7B-Instruct), keeping the whole
+            pipeline free to run.</li>
+        </ul>
+        <div class="project-links">
+          <a href="https://github.com/nothing17777/crewai-news-agent" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">Personal Project</span>
+          <span class="tag mono">Python · Streamlit · Whisper · PyTorch</span>
+        </div>
+        <h3>German Whisper Transcriber</h3>
+        <p>
+          A Streamlit app that transcribes German audio/video locally using OpenAI's
+          Whisper model, then translates the transcript to English &mdash; built for cases
+          where content shouldn't leave the machine to get transcribed.
+        </p>
+        <ul class="findings">
+          <li>Runs Whisper fully locally with a model-size selector (tiny &rarr; large) and
+            automatic GPU/CPU detection via PyTorch, trading speed for accuracy as needed.</li>
+          <li>German transcription is force-decoded with <code>language="de"</code> to stay
+            robust on unclear audio, then chunked and translated to English via
+            MyMemory/Deep Translator to respect per-request character limits.</li>
+          <li>Accepts mp3, mp4, wav, m4a, and webm uploads, with both the transcript and
+            translation downloadable as text files.</li>
+        </ul>
+        <div class="project-links">
+          <a href="https://github.com/nothing17777/german-whisper-transcriber" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </article>
+
     </section>
 
     <section class="section" id="coursework">
