@@ -261,6 +261,36 @@ main{
 /* ---------------------------------------------------------
    Projects
 --------------------------------------------------------- */
+.project-group{ margin-top: 8px; }
+.project-group + .project-group{ margin-top: 4px; }
+
+.project-group-head{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+.project-group-head::-webkit-details-marker{ display: none; }
+.project-group-head .rule{
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
+.project-group-head::before{
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid var(--graphite);
+  border-bottom: 1.5px solid var(--graphite);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.project-group[open] > .project-group-head::before{ transform: rotate(-135deg); }
+.project-group-head:hover .eyebrow{ color: var(--ink); }
+
 .project{
   padding: 34px 0;
   border-top: 1px solid var(--hairline);
