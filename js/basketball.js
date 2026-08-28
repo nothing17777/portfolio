@@ -106,15 +106,16 @@
       const dockCenterX = dockRect.left + dockRect.width / 2;
 
       if (!hoopMoved) {
-        // Hoop and ball rest symmetrically around the dock's center so the
-        // pair reads as one centered composition, not two stray props.
-        hoopX = dockCenterX - 60 - 45;
+        // Center the hoop's actual visual box (120px wide) and the ball's
+        // rest point symmetrically around the dock's center, so the pair
+        // reads as one balanced composition, not two stray props.
+        hoopX = dockCenterX - 55 - 60;
         hoopY = dockRect.top - 90;
       }
       positionHoop();
 
       if (!ballMoved) {
-        restX = Math.min(dockCenterX + 60, window.innerWidth - BALL_R - 20);
+        restX = Math.min(dockCenterX + 55, window.innerWidth - BALL_R - 20);
         restY = dockRect.top - 40;
       }
       if (!flying && !held) resetBall();
