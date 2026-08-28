@@ -62,6 +62,12 @@
   function initIcons() {
     document.querySelectorAll('[data-app]').forEach((el) => {
       el.addEventListener('click', () => openWindow(el.dataset.app));
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openWindow(el.dataset.app);
+        }
+      });
     });
   }
 

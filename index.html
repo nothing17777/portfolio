@@ -26,27 +26,27 @@
   </div>
 
   <div class="desktop">
-    <div class="desktop-icon" data-app="about">
+    <div class="desktop-icon" data-app="about" tabindex="0" role="button">
       <img class="icon-glyph" src="assets/icons/about.svg" alt="" width="40" height="40">
       <span>About Me</span>
     </div>
-    <div class="desktop-icon" data-app="sideprojects">
+    <div class="desktop-icon" data-app="sideprojects" tabindex="0" role="button">
       <img class="icon-glyph" src="assets/icons/folder-sideprojects.svg" alt="" width="40" height="40">
       <span>Side Projects</span>
     </div>
-    <div class="desktop-icon" data-app="tools">
+    <div class="desktop-icon" data-app="tools" tabindex="0" role="button">
       <img class="icon-glyph" src="assets/icons/tools.svg" alt="" width="40" height="40">
       <span>Tools & Automation</span>
     </div>
-    <div class="desktop-icon" data-app="coursework">
+    <div class="desktop-icon" data-app="coursework" tabindex="0" role="button">
       <img class="icon-glyph" src="assets/icons/coursework.svg" alt="" width="40" height="40">
       <span>Coursework</span>
     </div>
-    <div class="desktop-icon" data-app="certs">
+    <div class="desktop-icon" data-app="certs" tabindex="0" role="button">
       <img class="icon-glyph" src="assets/icons/certs.svg" alt="" width="40" height="40">
       <span>Certificates</span>
     </div>
-    <div class="desktop-icon" data-app="experience">
+    <div class="desktop-icon" data-app="experience" tabindex="0" role="button">
       <img class="icon-glyph" src="assets/icons/experience.svg" alt="" width="40" height="40">
       <span>Experience</span>
     </div>
@@ -163,19 +163,19 @@ Type 'help' to see available commands.</div>
     </div>
     <div class="window-content">
       <div class="folder-grid">
-        <div class="folder-icon" data-app="proj-cnn">
+        <div class="folder-icon" data-app="proj-cnn" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>CNN Image Classification</span>
         </div>
-        <div class="folder-icon" data-app="proj-rge">
+        <div class="folder-icon" data-app="proj-rge" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>Robust Geometric Estimation</span>
         </div>
-        <div class="folder-icon" data-app="proj-fd">
+        <div class="folder-icon" data-app="proj-fd" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>Feature Detection</span>
         </div>
-        <div class="folder-icon" data-app="proj-llm">
+        <div class="folder-icon" data-app="proj-llm" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>Semantic Matching &amp; Reasoning</span>
         </div>
@@ -372,35 +372,35 @@ Type 'help' to see available commands.</div>
     <div class="window-content">
       <div class="folder-grid">
         <div class="folder-group-label">web tooling</div>
-        <div class="folder-icon" data-app="side-cloner">
+        <div class="folder-icon" data-app="side-cloner" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>Website Template Cloner</span>
         </div>
 
         <div class="folder-group-label">league of legends</div>
-        <div class="folder-icon" data-app="side-rift">
+        <div class="folder-icon" data-app="side-rift" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>Rift Connections</span>
         </div>
-        <div class="folder-icon" data-app="side-esports">
+        <div class="folder-icon" data-app="side-esports" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>ESPORTS.DATA</span>
         </div>
-        <div class="folder-icon" data-app="side-winrate">
+        <div class="folder-icon" data-app="side-winrate" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>Win Rate Quiz</span>
         </div>
 
         <div class="folder-group-label">ai agents &amp; tools</div>
-        <div class="folder-icon" data-app="side-yugioh">
+        <div class="folder-icon" data-app="side-yugioh" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>Yu-Gi-Oh! RAG Chatbot</span>
         </div>
-        <div class="folder-icon" data-app="side-crewai">
+        <div class="folder-icon" data-app="side-crewai" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>CrewAI News Agent</span>
         </div>
-        <div class="folder-icon" data-app="side-whisper">
+        <div class="folder-icon" data-app="side-whisper" tabindex="0" role="button">
           <img src="assets/icons/project-generic.svg" alt="">
           <span>German Whisper Transcriber</span>
         </div>
@@ -835,26 +835,58 @@ Type 'help' to see available commands.</div>
     </div>
   </div>
 
+  <div id="win-resume" class="mac-window" style="top: 90px; left: 260px; width: 480px; height: 560px;">
+    <div class="window-header">
+      <div class="window-controls">
+        <button class="control-btn close-btn" aria-label="Close"></button>
+        <button class="control-btn min-btn" aria-label="Minimize"></button>
+        <button class="control-btn max-btn" aria-label="Maximize"></button>
+      </div>
+      <div class="window-title">Résumé</div>
+    </div>
+    <div class="window-content prose-app">
+      <p><a href="assets/resume.pdf" target="_blank" rel="noopener">Download résumé ↗</a></p>
+      <embed src="assets/resume.pdf" type="application/pdf" width="100%" height="100%">
+    </div>
+  </div>
+
+  <div id="win-contact" class="mac-window" style="top: 120px; left: 300px; width: 360px; height: 220px;">
+    <div class="window-header">
+      <div class="window-controls">
+        <button class="control-btn close-btn" aria-label="Close"></button>
+        <button class="control-btn min-btn" aria-label="Minimize"></button>
+        <button class="control-btn max-btn" aria-label="Maximize"></button>
+      </div>
+      <div class="window-title">Contact</div>
+    </div>
+    <div class="window-content prose-app">
+      <ul>
+        <li><a href="mailto:timzhang.email@gmail.com">timzhang.email@gmail.com</a></li>
+        <li><a href="https://github.com/nothing17777" target="_blank" rel="noopener">github.com/nothing17777</a></li>
+      </ul>
+    </div>
+  </div>
+
   <!-- WINDOWS: added in Tasks 9-10 -->
 
   <div class="dock">
-    <div class="dock-icon" data-app="terminal">
+    <div class="dock-icon" data-app="terminal" tabindex="0" role="button">
       <img class="dock-icon-img" src="assets/icons/terminal.svg" alt="" width="30" height="30">
       <span class="dock-tooltip">Terminal</span>
     </div>
-    <div class="dock-icon" data-app="claude">
+    <div class="dock-icon" data-app="claude" tabindex="0" role="button">
       <img class="dock-icon-img" src="assets/icons/claude.svg" alt="" width="30" height="30">
       <span class="dock-tooltip">Claude Code</span>
     </div>
-    <div class="dock-icon" data-app="projects">
+    <div class="dock-icon" data-app="projects" tabindex="0" role="button">
       <img class="dock-icon-img" src="assets/icons/folder-projects.svg" alt="" width="30" height="30">
       <span class="dock-tooltip">Projects</span>
     </div>
-    <div class="dock-icon" data-app="resume">
+    <div class="dock-icon" data-app="resume" tabindex="0" role="button">
       <img class="dock-icon-img" src="assets/icons/resume.svg" alt="" width="30" height="30">
       <span class="dock-tooltip">Resume</span>
     </div>
-    <div class="dock-icon" data-app="contact">
+    <div class="dock-icon" data-app="contact" tabindex="0" role="button">
       <img class="dock-icon-img" src="assets/icons/contact.svg" alt="" width="30" height="30">
       <span class="dock-tooltip">Contact</span>
     </div>

@@ -36,6 +36,10 @@ module.exports = async function handler(req, res) {
     res.status(400).json({ error: 'Missing "message" in request body' });
     return;
   }
+  if (message.length > 2000) {
+    res.status(400).json({ error: 'Message is too long (max 2000 characters).' });
+    return;
+  }
 
   const context = retrieveContext(message);
   const systemPrompt = `You are a helpful assistant answering questions about Tim Zhang's portfolio, based ONLY on the context below. If the context doesn't cover the question, say you don't have that information rather than guessing.\n\n${context}`;
