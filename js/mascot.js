@@ -59,6 +59,16 @@
       body.setAttribute('fill', next);
     }
 
+    let rainbowTimeout = null;
+    function triggerRainbow() {
+      if (reduced) { bounceColor(); return; }
+      mascot.classList.remove('mascot-rainbow');
+      void mascot.offsetWidth;
+      mascot.classList.add('mascot-rainbow');
+      clearTimeout(rainbowTimeout);
+      rainbowTimeout = setTimeout(() => mascot.classList.remove('mascot-rainbow'), 900);
+    }
+
     function place() {
       mascot.style.left = `${x}px`;
       mascot.style.top = `${y}px`;
@@ -75,13 +85,15 @@
       x += vx * dt;
       y += vy * dt;
 
-      let bounced = false;
-      if (x <= b.minX) { x = b.minX; vx = Math.abs(vx); bounced = true; }
-      else if (x >= b.maxX) { x = b.maxX; vx = -Math.abs(vx); bounced = true; }
-      if (y <= b.minY) { y = b.minY; vy = Math.abs(vy); bounced = true; }
-      else if (y >= b.maxY) { y = b.maxY; vy = -Math.abs(vy); bounced = true; }
+      let bouncedX = false;
+      let bouncedY = false;
+      if (x <= b.minX) { x = b.minX; vx = Math.abs(vx); bouncedX = true; }
+      else if (x >= b.maxX) { x = b.maxX; vx = -Math.abs(vx); bouncedX = true; }
+      if (y <= b.minY) { y = b.minY; vy = Math.abs(vy); bouncedY = true; }
+      else if (y >= b.maxY) { y = b.maxY; vy = -Math.abs(vy); bouncedY = true; }
 
-      if (bounced) bounceColor();
+      if (bouncedX && bouncedY) triggerRainbow();
+      else if (bouncedX || bouncedY) bounceColor();
       place();
     }
 

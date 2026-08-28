@@ -350,6 +350,14 @@ body{
   100%{ transform: scale(1); }
 }
 .mascot-squish{ animation: mascot-squish 0.35s ease; }
+.mascot-rainbow svg{ animation: mascot-rainbow-spin 0.9s linear; }
+@keyframes mascot-rainbow-spin{
+  0%{ filter: hue-rotate(0deg) saturate(2.4) drop-shadow(0 6px 10px rgba(21, 23, 27, 0.18)); }
+  100%{ filter: hue-rotate(360deg) saturate(2.4) drop-shadow(0 6px 10px rgba(21, 23, 27, 0.18)); }
+}
+@media (prefers-reduced-motion: reduce){
+  .mascot-rainbow svg{ animation: none; }
+}
 
 /* Basketball */
 #court-overlay{
