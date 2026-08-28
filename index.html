@@ -71,7 +71,28 @@ Type 'help' to see available commands.</div>
     </div>
   </div>
 
-  <!-- WINDOWS: added in Tasks 3-10 -->
+  <div id="win-claude" class="mac-window" style="top: 90px; left: 140px;">
+    <div class="window-header">
+      <div class="window-controls">
+        <button class="control-btn close-btn" aria-label="Close"></button>
+        <button class="control-btn min-btn" aria-label="Minimize"></button>
+        <button class="control-btn max-btn" aria-label="Maximize"></button>
+      </div>
+      <div class="window-title">claude-code — agentic-harness</div>
+    </div>
+    <div class="window-content claude-harness">
+      <div id="claude-output">
+        <div>Claude Code CLI — sandboxed session ready.</div>
+        <div style="margin-top: 8px; color: var(--graphite);">This is a scripted demo — type any task and watch a simulated agent loop run.</div>
+      </div>
+      <div class="claude-input-row">
+        <span class="claude-prompt">claude &gt;</span>
+        <input type="text" id="claude-input" class="claude-input" autocomplete="off" spellcheck="false" placeholder="e.g. 'refactor the window manager'" />
+      </div>
+    </div>
+  </div>
+
+  <!-- WINDOWS: added in Tasks 4-10 -->
 
   <div class="dock">
     <div class="dock-icon" data-app="terminal">

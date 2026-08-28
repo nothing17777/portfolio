@@ -56,7 +56,48 @@
     });
   }
 
+  function initClaudeDemo() {
+    const input = document.getElementById('claude-input');
+    const output = document.getElementById('claude-output');
+    if (!input || !output) return;
+
+    const STEPS = [
+      { type: 'thinking', text: 'Scanning workspace for relevant files…' },
+      { type: 'shell', text: 'git diff --stat' },
+      { type: 'thinking', text: 'Planning the change…' },
+      { type: 'success', text: 'Done — changes applied and verified.' },
+    ];
+
+    function runTask(task) {
+      input.disabled = true;
+      output.innerHTML += `<div style="margin-top: 12px; color: var(--accent-ink);">&gt; ${task}</div>`;
+
+      let i = 0;
+      function next() {
+        if (i >= STEPS.length) {
+          input.disabled = false;
+          input.focus();
+          return;
+        }
+        const step = STEPS[i];
+        output.innerHTML += `<div class="claude-step"><span class="claude-badge claude-badge-${step.type}">${step.type}</span>${step.text}</div>`;
+        output.parentElement.scrollTop = output.parentElement.scrollHeight;
+        i += 1;
+        setTimeout(next, 900);
+      }
+      next();
+    }
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      const task = input.value.trim();
+      input.value = '';
+      if (task) runTask(task);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initTerminal();
+    initClaudeDemo();
   });
 })();

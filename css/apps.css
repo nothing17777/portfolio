@@ -15,3 +15,29 @@
   flex-grow: 1;
   font-size: 0.85rem;
 }
+
+.claude-harness{ font-family: var(--mono); font-size: 0.85rem; }
+.claude-step{ margin-bottom: 8px; }
+.claude-badge{
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 6px;
+}
+.claude-badge-thinking{ background: #FDF3D8; color: #8A6D1D; }
+.claude-badge-shell{ background: var(--accent-soft); color: var(--accent-ink); }
+.claude-badge-success{ background: #DFF3E6; color: #1E7A46; }
+.claude-input-row{ display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.claude-prompt{ color: var(--accent-ink); font-weight: bold; }
+.claude-input{
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: var(--mono);
+  flex-grow: 1;
+  font-size: 0.85rem;
+}
