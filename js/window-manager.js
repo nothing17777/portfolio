@@ -400,11 +400,34 @@
     });
   }
 
+  function centerWindow(appId) {
+    const win = getWin(appId);
+    if (!win) return;
+    const wasHidden = win.style.display !== 'flex';
+    if (wasHidden) win.style.display = 'flex'; // measure real size before showing
+    const rect = win.getBoundingClientRect();
+    if (wasHidden) win.style.display = 'none';
+    const menubar = document.querySelector('.menubar');
+    const dock = document.querySelector('.dock');
+    const top = menubar ? menubar.getBoundingClientRect().height : 0;
+    const bottom = dock ? dock.getBoundingClientRect().top : window.innerHeight;
+    win.style.left = `${Math.max(16, (window.innerWidth - rect.width) / 2)}px`;
+    win.style.top = `${Math.max(top + 16, top + (bottom - top - rect.height) / 2)}px`;
+  }
+
+  function greetOnLoad() {
+    const win = getWin('claude');
+    if (!win) return;
+    centerWindow('claude');
+    openWindow('claude');
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initIcons();
     initWindowChrome();
     initClock();
     initDockMagnify();
+    greetOnLoad();
   });
 
   window.WM = { open: openWindow, close: closeWindow, focus: focusWindow };

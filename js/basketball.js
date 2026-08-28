@@ -102,16 +102,19 @@
     }
 
     function layout() {
+      const dockRect = dock.getBoundingClientRect();
+      const dockCenterX = dockRect.left + dockRect.width / 2;
+
       if (!hoopMoved) {
-        const dockRect = dock.getBoundingClientRect();
-        hoopX = dockRect.left + dockRect.width * 0.15;
+        // Hoop and ball rest symmetrically around the dock's center so the
+        // pair reads as one centered composition, not two stray props.
+        hoopX = dockCenterX - 60 - 45;
         hoopY = dockRect.top - 90;
       }
       positionHoop();
 
       if (!ballMoved) {
-        const dockRect = dock.getBoundingClientRect();
-        restX = Math.min(dockRect.right + 70, window.innerWidth - BALL_R - 20);
+        restX = Math.min(dockCenterX + 60, window.innerWidth - BALL_R - 20);
         restY = dockRect.top - 40;
       }
       if (!flying && !held) resetBall();
