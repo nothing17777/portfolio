@@ -1,6 +1,6 @@
 # Personal site — starter
 
-Plain HTML/CSS/JS, no build step, ready for GitHub Pages.
+Plain HTML/CSS/JS with a serverless chat backend, deployed via Vercel.
 
 ```
 site/
@@ -12,33 +12,15 @@ site/
 └── README.md
 ```
 
-## 1. Get it on GitHub
+## Deploy
 
-**Option A — user site (recommended), lives at `yourusername.github.io`**
-1. On GitHub, create a new repo named **exactly** `yourusername.github.io` (replace with your real GitHub username).
-2. Push these files to the root of that repo (see step 2 below).
-3. Go to the repo's **Settings → Pages**. Under "Build and deployment", source should already default to the `main` branch, root folder — save if needed.
-4. Your site is live in a minute or two at `https://yourusername.github.io`.
+This site is deployed via [Vercel](https://vercel.com):
 
-**Option B — project site, lives at `yourusername.github.io/reponame`**
-1. Create a repo with any name (e.g. `portfolio`).
-2. Push these files to it.
-3. Settings → Pages → set source to the `main` branch, `/ (root)` folder.
-4. Live at `https://yourusername.github.io/portfolio`.
+1. Import the repo into Vercel (New Project → select this GitHub repo).
+2. In Project Settings → Environment Variables, add `OPENROUTER_API_KEY` with a real OpenRouter API key (get one at https://openrouter.ai/keys). Required for the Claude Code chat window's `/api/chat` endpoint.
+3. Every push to `main` auto-deploys. The frontend stays fully static; only `api/chat.js` runs as a serverless function.
 
-## 2. Push the files
-
-From this folder:
-```bash
-git init
-git add .
-git commit -m "initial site"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git push -u origin main
-```
-
-## 3. Things to fill in before it's real
+## 1. Things to fill in before it's real
 
 - **GitHub/email links** — `index.html` has `href="https://github.com/"` placeholders in the nav, hero, and footer. Swap in your actual GitHub URL.
 - **Project links** — each project card has two `<a href="#">` placeholders for "Write-up" and "Code". Point these at:
@@ -47,6 +29,6 @@ git push -u origin main
 - **Resume** — `assets/resume.pdf` is your current resume. Re-drop an updated file with the same name whenever it changes, no HTML edits needed.
 - **Screenshots (optional but recommended)** — the corner-detection, image-stitching, and LoRA loss-curve results all produced real images in your Jupyter notebooks. Exporting 1–2 of the best ones per project into `assets/` and adding an `<img>` tag under the relevant `<p>` in `index.html` would make the CV projects noticeably stronger — visuals do a lot of work for computer vision work specifically.
 
-## 4. Editing content
+## 2. Editing content
 
 Everything is in `index.html` as plain text inside `<h3>`, `<p>`, and `<li>` tags — no templating, just edit directly. Styling lives entirely in `styles.css`; color and font choices are set once at the top as CSS variables (`:root`) if you want to retheme later.
