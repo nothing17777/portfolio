@@ -420,6 +420,43 @@ body{
   filter: drop-shadow(0 4px 6px rgba(21, 23, 27, 0.15));
 }
 
+/* Dock cats */
+.dock-cat{
+  position: absolute;
+  bottom: 100%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 20px;
+  cursor: pointer;
+  filter: drop-shadow(0 3px 4px rgba(21, 23, 27, 0.25));
+  transition: transform 0.15s var(--spring);
+}
+.dock-cat svg{ display: block; width: 100%; height: 100%; }
+.dock-cat:hover{ transform: translateX(-50%) translateY(-2px) scale(1.15); }
+.dock-cat:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.dock-cat.dock-cat-pet{ animation: dock-cat-wiggle 0.5s ease; }
+@keyframes dock-cat-wiggle{
+  0%, 100%{ transform: translateX(-50%) rotate(0deg); }
+  25%{ transform: translateX(-50%) rotate(-8deg); }
+  75%{ transform: translateX(-50%) rotate(8deg); }
+}
+.dock-cat-heart{
+  position: absolute;
+  top: -6px;
+  font-size: 10px;
+  color: #FF6FA5;
+  pointer-events: none;
+  animation: dock-cat-heart-float 0.9s ease forwards;
+}
+@keyframes dock-cat-heart-float{
+  0%{ opacity: 1; transform: translateY(0) scale(0.6); }
+  100%{ opacity: 0; transform: translateY(-22px) scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce){
+  .dock-cat, .dock-cat.dock-cat-pet{ animation: none; transition: none; }
+  .dock-cat-heart{ animation: none; opacity: 0; }
+}
+
 /* Draggable icons */
 .icon-dragging{
   opacity: 0.85;
