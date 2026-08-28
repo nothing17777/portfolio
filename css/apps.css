@@ -82,3 +82,35 @@
 .xp-app .xp-when{ flex-shrink: 0; width: 130px; font-family: var(--mono); font-size: 0.75rem; color: var(--graphite); }
 .xp-app .xp-what h4{ font-family: var(--display); font-size: 0.9rem; margin: 0 0 6px; }
 .xp-app .xp-what p{ font-size: 0.85rem; margin: 0; line-height: 1.55; }
+
+.folder-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 84px);
+  gap: 16px;
+  padding: 4px;
+}
+.folder-icon{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+.folder-icon:hover{ background: rgba(63, 85, 232, 0.08); }
+.folder-icon img{ width: 48px; height: 48px; }
+.folder-icon span{ font-size: 0.72rem; color: var(--ink); font-weight: 500; }
+.folder-group-label{
+  grid-column: 1 / -1;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--graphite);
+  margin: 10px 0 2px;
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 4px;
+}
+.folder-group-label:first-child{ margin-top: 0; }
