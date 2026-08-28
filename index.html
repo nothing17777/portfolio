@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,590 +7,77 @@
   <meta name="description" content="Tim Zhang — UCLA Computer Science. Systems, computer vision, and applied ML.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/os.css">
+  <link rel="stylesheet" href="css/apps.css">
 </head>
-
 <body>
 
-  <div class="grain" aria-hidden="true"></div>
-
-  <header class="hero">
-    <canvas id="field" aria-hidden="true"></canvas>
-    <nav class="topnav">
-      <span class="wordmark">TZ</span>
-      <div class="navlinks">
-        <a href="#projects">Projects</a>
-        <a href="#side-projects">Side Projects</a>
-        <a href="#tools">Tools</a>
-        <a href="#coursework">Coursework</a>
-        <a href="#certificates">Certificates</a>
-        <a href="#experience">Experience</a>
-        <a href="assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
-      </div>
-    </nav>
-
-    <div class="hero-content">
-      <p class="eyebrow">com sci · ucla</p>
-      <h1>Tim Zhang</h1>
-      <p class="hero-role">Software engineer in training — building systems<br class="br-desktop"> that see, reason, and
-        ship.</p>
-      <p class="hero-sub">C++ &amp; Python foundations. Full-stack and API-driven applications. LLM-integrated
-        pipelines. Currently looking for a Software Engineering internship.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="assets/resume.pdf" target="_blank" rel="noopener">Download résumé</a>
-        <a class="btn btn-ghost" href="https://github.com/nothing17777" target="_blank" rel="noopener">GitHub ↗</a>
-        <a class="btn btn-ghost" href="mailto:timzhang.email@gmail.com">Email</a>
-      </div>
+  <div class="menubar">
+    <div class="menubar-left">
+      <span class="menubar-logo">TZ</span>
+      <span class="menubar-item">File</span>
+      <span class="menubar-item">Edit</span>
+      <span class="menubar-item">View</span>
     </div>
-  </header>
-
-  <main>
-
-    <section class="section" id="about">
-      <div class="section-head">
-        <span class="eyebrow mono">about</span>
-        <div class="rule"></div>
-      </div>
-      <p class="lede">
-        I'm a Computer Science undergraduate at UCLA who uses agentic AI in my daily workflow to
-        build and code cool projects. I enjoy turning ideas into practical software while learning
-        new technologies along the way.
-      </p>
-    </section>
-
-    <section class="section" id="projects">
-      <div class="section-head">
-        <span class="eyebrow mono">selected work</span>
-        <div class="rule"></div>
-      </div>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">EC ENGR 149 · Foundations of Computer Vision</span>
-          <span class="tag mono">Python · PyTorch</span>
-        </div>
-        <h3>CNN-Based Image Classification — CIFAR-10</h3>
-        <a class="project-preview" href="write-ups/cnn-image-classification.html">
-          <img src="assets/write-ups/cnn-sample-images.jpg" alt="Sample CIFAR-10 training images: a truck, a bird, a frog and a horse at 32&times;32 resolution" loading="lazy">
-        </a>
-        <p>
-          Built and trained a convolutional neural network from scratch in PyTorch for 10-class
-          image classification, then swept batch size and epoch count to study the trade-off
-          between gradient noise and convergence speed.
-        </p>
-        <ul class="findings">
-          <li>Best configuration (batch size 16, 20 epochs) reached <strong>65.7% test
-              accuracy</strong>, versus 55.5% at only 5 epochs with the same batch size 2014 most of
-            the accuracy gain came from training longer, not from architecture changes.</li>
-          <li>At a fixed 5 epochs, the <em>smaller</em> batch size (4) outperformed the larger one
-            (58.1% vs. 55.5%) 2014 noisier, more frequent gradient updates helped early on. That
-            reversed once given enough epochs, where the larger batch's steadier gradient estimates
-            pulled ahead (65.7% vs. 61.2% at 20 epochs).</li>
-          <li>Explained and applied core CNN mechanics: how padding and kernel size determine
-            output size, why max pooling has no learnable parameters, and why batch normalization
-            uses running statistics at inference instead of the current batch's mean/variance.</li>
-        </ul>
-        <div class="project-links">
-          <a href="write-ups/cnn-image-classification.html">Write-up ↗</a>
-          <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/cnn-image-classification.ipynb"
-            target="_blank" rel="noopener">Notebook ↗</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">EC ENGR 149 · Foundations of Computer Vision</span>
-          <span class="tag mono">Python · NumPy · OpenCV</span>
-        </div>
-        <h3>Robust Geometric Estimation — SIFT, RANSAC & Homography</h3>
-        <a class="project-preview" href="write-ups/robust-geometric-estimation.html">
-          <img src="assets/write-ups/rge-sift-correspondences.jpg" alt="SIFT keypoint correspondences drawn between two overlapping photographs of a campus courtyard" loading="lazy">
-        </a>
-        <p>
-          Full correspondence pipeline built from primitives: SIFT keypoint detection and
-          descriptor matching, a from-scratch RANSAC loop for robust homography estimation, and
-          inverse warping with bilinear interpolation to stitch image pairs into a single panorama.
-        </p>
-        <ul class="findings">
-          <li>Implemented direct linear transform (DLT) homography estimation from raw
-            correspondences, then RANSAC to separate true matches from spurious ones.</li>
-          <li>Stitching without RANSAC visibly breaks on outlier matches — a direct, visual
-            demonstration of why robust estimation matters, not just a theoretical footnote.</li>
-          <li>Extended the same approach to insert new content into a target image via homography
-            (compositing a name plate into a photograph using four corner correspondences).</li>
-          <li>Also implemented the eight-point algorithm for essential matrix estimation and 3D
-            point reconstruction from stereo correspondences (2.7% mean reprojection error).</li>
-        </ul>
-        <div class="project-links">
-          <a href="write-ups/robust-geometric-estimation.html">Write-up ↗</a>
-          <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/robust-geometric-estimation.ipynb"
-            target="_blank" rel="noopener">Notebook ↗</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">EC ENGR 149 · Foundations of Computer Vision</span>
-          <span class="tag mono">Python · NumPy</span>
-        </div>
-        <h3>Feature Detection — Edges, Blobs &amp; Corners</h3>
-        <a class="project-preview" href="write-ups/feature-detection.html">
-          <img src="assets/write-ups/fd-harris-corners.jpg" alt="Harris corner detection output: corners marked on a synthetic test image after non-maximum suppression" loading="lazy">
-        </a>
-        <p>
-          A ground-up image-filtering stack: 2D convolution, Gaussian/median/bilateral filtering,
-          gradient-based edge detection, Laplacian-of-Gaussian blob detection, and Harris corner
-          detection with non-maximum suppression — every operator derived and implemented by hand.
-        </p>
-        <ul class="findings">
-          <li>Compared average, Gaussian, and median filtering for denoising; median filtering won
-            on both quantitative error (lowest relative L1 distance) and visual edge preservation.</li>
-          <li>Derived a bilateral filter from first principles to smooth flat regions while keeping
-            edges sharp — the same idea behind "cartoonize" filters in consumer photo apps.</li>
-          <li>Built full non-max suppression for Harris corners: threshold → sort by response →
-            greedy spatial suppression, from scratch, no library calls.</li>
-        </ul>
-        <div class="project-links">
-          <a href="write-ups/feature-detection.html">Write-up ↗</a>
-          <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/feature-detection.ipynb"
-            target="_blank" rel="noopener">Notebook ↗</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">M146 · Intro to Machine Learning</span>
-          <span class="tag mono">Python · HF Transformers · PEFT / LoRA</span>
-        </div>
-        <h3>Semantic Matching &amp; Reasoning with Language Models</h3>
-        <a class="project-preview" href="write-ups/semantic-matching-llm.html">
-          <img src="assets/write-ups/m146-lexical-overlap.jpg" alt="Histogram of lexical overlap by label on the PAWS test set, showing paraphrase and non-paraphrase pairs overlapping almost entirely" loading="lazy">
-        </a>
-        <p>
-          Two-part final project comparing how far you can push a small language model with
-          architecture, fine-tuning, and prompting alone.
-        </p>
-        <ul class="findings">
-          <li><strong>Paraphrase detection (PAWS):</strong> a bi-encoder baseline (MiniLM + logistic
-            regression) hit 61.8% test accuracy — it can't see token-level word-order swaps that
-            flip meaning. Fine-tuning a DistilBERT cross-encoder pushed that to 81.9%, matched by
-            few-shot prompting a 1.5B instruct model (81.5%) with zero training.</li>
-          <li><strong>Math reasoning (GSM8K):</strong> LoRA fine-tuned Qwen2.5-1.5B on 1,000 then
-            2,000 examples, taking base-model accuracy from 36% → 47% → 49%, training under 0.15%
-            of total parameters. Diagnosed the model's actual failure modes (percentage
-            misinterpretation, arithmetic slips, problem misreads) before and after tuning.</li>
-          <li><strong>Prompt engineering:</strong> a "reread the problem first" prompt alone lifted
-            base-model accuracy 44% → 60% — matching what fine-tuning achieved, with no training.</li>
-        </ul>
-        <div class="project-links">
-          <a href="write-ups/semantic-matching-llm.html">Write-up ↗</a>
-          <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/semantic-matching-llm.ipynb"
-            target="_blank" rel="noopener">Notebook ↗</a>
-        </div>
-      </article>
-
-    </section>
-
-    <section class="section" id="side-projects">
-      <div class="section-head">
-        <span class="eyebrow mono">side projects</span>
-        <div class="rule"></div>
-      </div>
-
-      <details class="project-group" open>
-      <summary class="project-group-head">
-        <span class="eyebrow mono">web tooling</span>
-        <div class="rule"></div>
-      </summary>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Personal Project</span>
-          <span class="tag mono">TypeScript · Node · Playwright · Next.js</span>
-        </div>
-        <h3>Website Template Cloner</h3>
-        <a class="project-preview" href="https://github.com/nothing17777/Website-Template-Cloner" target="_blank" rel="noopener">
-          <img src="assets/previews/preview-website-template-cloner.jpg" alt="Side-by-side comparison of cluely.com and the generated template: identical layout and geometry, with all copy and imagery replaced by placeholders" loading="lazy">
-        </a>
-        <p>
-          An agent-driven pipeline that turns any webpage into a reusable front-end template:
-          it captures the rendered DOM, every stylesheet and a full-page screenshot, measures how
-          the page is built, and emits a self-contained Next.js app with placeholder copy and
-          imagery &mdash; the construction reproduced, the content left behind.
-        </p>
-        <ul class="findings">
-          <li>Resolves exact values without staying attached to the live page: the captured DOM is
-            reloaded with the captured CSS in a headless browser, so <code>getComputedStyle</code>
-            resolves the real cascade offline and every run is reproducible from the same bytes.</li>
-          <li>Every colour, spacing, type-scale and breakpoint value is cited to a selector and
-            property, or written as <code>UNVERIFIED</code> &mdash; never guessed.</li>
-          <li>Placeholder substitution is enforced by an idempotent script, matching original word
-            counts and image dimensions so the template still measures like the page it came from
-            &mdash; the apple.com/iPhone rebuild lands within <strong>1px over a 12,967px page</strong>.</li>
-          <li>Reconnaissance, per-section specs, parallel builder agents, visual band-by-band diffing
-            and the static&rarr;Next.js conversion are wired together as a Claude Code skill.</li>
-        </ul>
-        <div class="project-links">
-          <a href="https://github.com/nothing17777/Website-Template-Cloner" target="_blank" rel="noopener">GitHub ↗</a>
-        </div>
-      </article>
-
-      </details>
-
-      <details class="project-group" open>
-      <summary class="project-group-head">
-        <span class="eyebrow mono">league of legends</span>
-        <div class="rule"></div>
-      </summary>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Personal Project</span>
-          <span class="tag mono">Next.js · TypeScript · Tailwind · Framer Motion</span>
-        </div>
-        <h3>Rift Connections</h3>
-        <a class="project-preview" href="https://rift-connection.vercel.app" target="_blank" rel="noopener">
-          <img src="assets/previews/preview-rift-connections.jpg" alt="Rift Connections homepage showing the daily 4x4 connections puzzle and Teemo mascot scene" loading="lazy">
-        </a>
-        <p>
-          A daily NYT Connections-style puzzle for League of Legends: group 16 champions into
-          four hidden thematic categories (shared regions, roles, resources, abilities) in a
-          4&times;4 grid, with a 3D mascot scene and streak tracking across daily and unlimited modes.
-        </p>
-        <ul class="findings">
-          <li>Puzzles are procedurally generated from a bank of 40 disjoint champion-relationship
-            pools, so the daily board is different every time rather than hand-authored per day.</li>
-          <li>Ships both a daily puzzle (with a browsable archive of past boards) and an unlimited
-            practice mode, plus a match-history view for tracking streaks over time.</li>
-          <li>Built as a Next.js 14 monorepo workspace with Tailwind CSS, Framer Motion for the
-            grid/reveal animations, and Zustand for client-side game state.</li>
-        </ul>
-        <div class="project-links">
-          <a href="https://rift-connection.vercel.app" target="_blank" rel="noopener">Live ↗</a>
-          <a href="https://github.com/nothing17777/rift_connection" target="_blank" rel="noopener">GitHub ↗</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Personal Project</span>
-          <span class="tag mono">Next.js · TypeScript · Turso (libSQL) · Recharts</span>
-        </div>
-        <h3>ESPORTS.DATA — League of Legends Esports Analytics</h3>
-        <a class="project-preview" href="https://riot-esports-data.vercel.app" target="_blank" rel="noopener">
-          <img src="assets/previews/preview-esports-data.jpg" alt="ESPORTS.DATA dashboard showing professional League of Legends match, champion, and player statistics" loading="lazy">
-        </a>
-        <p>
-          A data analytics dashboard covering 98,000+ professional League of Legends matches from
-          2014&ndash;2026 across every major global league, sourced from Oracle's Elixir and served
-          through a set of REST API routes backed by a Turso (libSQL) database.
-        </p>
-        <ul class="findings">
-          <li>Champion analytics across presence (pick/ban rate), synergy (best pairings), counters
-            (unfavorable matchups), lane-vs-lane performance, and win rates &mdash; each with its own
-            dedicated API route and dashboard view.</li>
-          <li>Browsable match history and pro player profiles, with league filtering across the
-            full dataset and a light/dark theme.</li>
-          <li>Built on Next.js 16 (App Router) with React 19, Tailwind CSS 4 and Radix/shadcn-style
-            components, querying a libSQL database directly from serverless API routes.</li>
-        </ul>
-        <div class="project-links">
-          <a href="https://riot-esports-data.vercel.app" target="_blank" rel="noopener">Live ↗</a>
-          <a href="https://github.com/nothing17777/riot-esports-data-" target="_blank" rel="noopener">GitHub ↗</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Personal Project</span>
-          <span class="tag mono">React · Vite · TypeScript · Tailwind</span>
-        </div>
-        <h3>League of Legends Win Rate Quiz</h3>
-        <a class="project-preview" href="https://league-winrate-quiz.vercel.app" target="_blank" rel="noopener">
-          <img src="assets/previews/preview-winrate-quiz.jpg" alt="League of Legends Win Rate Quiz showing two champions side by side for a Higher or Lower guess" loading="lazy">
-        </a>
-        <p>
-          A "Higher or Lower" streak quiz: two champions are shown side by side and you guess which
-          one has the higher win rate &mdash; guess right and the streak continues, guess wrong and the
-          run ends and both win rates are revealed.
-        </p>
-        <ul class="findings">
-          <li>Animated count-up reveal of the actual win rates after each guess, with a running
-            score bar and round-by-round guess history for the current run.</li>
-          <li>High score and recent run history persist locally in the browser via <code>localStorage</code>,
-            so streaks carry over between visits with no backend needed.</li>
-          <li>Champion splash art and icons are pulled live from Riot's public Data Dragon CDN
-            rather than bundled, keeping the app in sync with the current champion roster.</li>
-        </ul>
-        <div class="project-links">
-          <a href="https://league-winrate-quiz.vercel.app" target="_blank" rel="noopener">Live ↗</a>
-          <a href="https://github.com/nothing17777/league-winrate-quiz" target="_blank" rel="noopener">GitHub ↗</a>
-        </div>
-      </article>
-
-      </details>
-
-      <details class="project-group" open>
-      <summary class="project-group-head">
-        <span class="eyebrow mono">ai agents &amp; tools</span>
-        <div class="rule"></div>
-      </summary>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Personal Project</span>
-          <span class="tag mono">LangChain · LangGraph · ChromaDB · Ollama · Streamlit</span>
-        </div>
-        <h3>Yu-Gi-Oh! RAG Chatbot</h3>
-        <a class="project-preview" href="https://github.com/nothing17777/yugiohChatbot" target="_blank" rel="noopener">
-          <img src="assets/previews/preview-yugioh-chatbot.jpg" alt="Yu-Gi-Oh! RAG Chatbot answering a question about the Ritual Beast archetype with a list of matching cards" loading="lazy">
-        </a>
-        <p>
-          A Retrieval-Augmented Generation chatbot that answers questions over the full
-          Yu-Gi-Oh! card database (~14,500 cards) using a locally-hosted LLM &mdash; no paid
-          APIs, no external inference.
-        </p>
-        <ul class="findings">
-          <li>Hybrid retrieval combines semantic vector search (Sentence Transformers +
-            ChromaDB) with exact metadata filtering on archetype/card type, avoiding
-            hallucinated results on structured queries like "list all Blue-Eyes cards."</li>
-          <li>A LangGraph ReAct agent handles tool-calling and intent classification,
-            routing greetings away from the retrieval pipeline and resolving follow-up
-            questions ("what about that one's ATK?") from cached sources and chat history.</li>
-          <li>Generation is grounded strictly in retrieved context &mdash; the prompt constrains
-            the LLM (Qwen2.5-7B via Ollama) from inventing card names not present in the
-            retrieved chunks.</li>
-        </ul>
-        <div class="project-links">
-          <a href="https://github.com/nothing17777/yugiohChatbot" target="_blank" rel="noopener">GitHub ↗</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Personal Project</span>
-          <span class="tag mono">CrewAI · Ollama · Serper</span>
-        </div>
-        <h3>CrewAI News Agent</h3>
-        <p>
-          A multi-agent news pipeline built with CrewAI: a News Collector agent searches
-          the web for the latest coverage of a topic, and a News Reporter agent turns
-          those findings into a validated headline &mdash; both running sequentially against
-          a local LLM rather than a hosted API.
-        </p>
-        <ul class="findings">
-          <li>Two agents with distinct roles, goals, and backstories are orchestrated as a
-            sequential Crew, with task outputs from the first agent feeding directly into
-            the second.</li>
-          <li>Web search is wired in as a CrewAI tool (Serper) so the collector agent can
-            ground its findings in live results rather than model knowledge alone.</li>
-          <li>Inference runs locally via Ollama (Qwen2.5-7B-Instruct), keeping the whole
-            pipeline free to run.</li>
-        </ul>
-        <div class="project-links">
-          <a href="https://github.com/nothing17777/crewai-news-agent" target="_blank" rel="noopener">GitHub ↗</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Personal Project</span>
-          <span class="tag mono">Python · Streamlit · Whisper · PyTorch</span>
-        </div>
-        <h3>German Whisper Transcriber</h3>
-        <p>
-          A Streamlit app that transcribes German audio/video locally using OpenAI's
-          Whisper model, then translates the transcript to English &mdash; built for cases
-          where content shouldn't leave the machine to get transcribed.
-        </p>
-        <ul class="findings">
-          <li>Runs Whisper fully locally with a model-size selector (tiny &rarr; large) and
-            automatic GPU/CPU detection via PyTorch, trading speed for accuracy as needed.</li>
-          <li>German transcription is force-decoded with <code>language="de"</code> to stay
-            robust on unclear audio, then chunked and translated to English via
-            MyMemory/Deep Translator to respect per-request character limits.</li>
-          <li>Accepts mp3, mp4, wav, m4a, and webm uploads, with both the transcript and
-            translation downloadable as text files.</li>
-        </ul>
-        <div class="project-links">
-          <a href="https://github.com/nothing17777/german-whisper-transcriber" target="_blank" rel="noopener">GitHub ↗</a>
-        </div>
-      </article>
-
-      </details>
-
-    </section>
-
-    <section class="section" id="tools">
-      <div class="section-head">
-        <span class="eyebrow mono">tools &amp; automation</span>
-        <div class="rule"></div>
-      </div>
-      <p class="lede">
-        Beyond project code, I use Zapier to wire OpenAI's ChatGPT and Claude directly into the
-        tools I use daily &mdash; email and document handling included.
-      </p>
-      <ul class="findings">
-        <li>Zapier pipelines connect ChatGPT and Claude to Gmail to draft, schedule, and
-          auto-reply to email based on trigger conditions.</li>
-        <li>The same models are wired to Google Drive to generate on-demand summaries of
-          documents.</li>
-        <li>Extensive daily use of <strong>Claude Code</strong> &mdash; custom slash commands,
-          skills, and subagents built into a working development loop, not just chat.</li>
-        <li>Also work across Antigravity, Codex, and Cursor for AI-assisted development.</li>
-      </ul>
-    </section>
-
-    <section class="section" id="coursework">
-      <div class="section-head">
-        <span class="eyebrow mono">coursework</span>
-        <div class="rule"></div>
-      </div>
-      <p class="lede small">
-        Data Structures &amp; Algorithms · Object-Oriented Programming · Software Design ·
-        Introduction to Machine Learning · Foundations of Computer Vision
-      </p>
-    </section>
-
-    <section class="section" id="certificates">
-      <div class="section-head">
-        <span class="eyebrow mono">certificates</span>
-        <div class="rule"></div>
-      </div>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Harvard University</span>
-          <span class="tag mono">Python &middot; 2024</span>
-        </div>
-        <h3>CS50's Introduction to Programming with Python</h3>
-        <a class="project-preview" href="https://cs50.harvard.edu/certificates/6f5148e6-1801-45be-8e0f-d5d5aa9cfa25" target="_blank" rel="noopener">
-          <img src="assets/certificates/cert-cs50p.jpg" alt="CS50 certificate awarded to Yuqian Zhang for CS50's Introduction to Programming with Python, signed by David J. Malan" loading="lazy">
-        </a>
-        <p>
-          Harvard University's introduction to programming in Python, completed through nine
-          problem sets and one final project and awarded from Cambridge, Massachusetts in 2024.
-        </p>
-        <p class="lede small">
-          Issued under my legal name, Yuqian Zhang &mdash; Tim is the English name I go by.
-        </p>
-        <div class="project-links">
-          <a href="https://cs50.harvard.edu/certificates/6f5148e6-1801-45be-8e0f-d5d5aa9cfa25" target="_blank" rel="noopener">Verify &#8599;</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Anthropic</span>
-          <span class="tag mono">AI Fluency</span>
-        </div>
-        <h3>AI Fluency: Framework &amp; Foundations</h3>
-        <a class="project-preview" href="https://verify.skilljar.com/c/oweqzv8o2ei3" target="_blank" rel="noopener">
-          <img src="assets/certificates/cert-ai-fluency.jpg" alt="Anthropic certificate of completion awarded to Tim Zhang for AI Fluency: Framework &amp; Foundations" loading="lazy">
-        </a>
-        <p>
-          Anthropic's course on working effectively with AI systems, developed with University
-          College Cork and Ringling College of Art + Design.
-        </p>
-        <div class="project-links">
-          <a href="https://verify.skilljar.com/c/oweqzv8o2ei3" target="_blank" rel="noopener">Verify &#8599;</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Anthropic</span>
-          <span class="tag mono">Claude Code</span>
-        </div>
-        <h3>Claude Code 101</h3>
-        <a class="project-preview" href="https://verify.skilljar.com/c/tay9smbmvv9c" target="_blank" rel="noopener">
-          <img src="assets/certificates/cert-claude-code-101.jpg" alt="Anthropic certificate of completion awarded to Tim Zhang for Claude Code 101" loading="lazy">
-        </a>
-        <p>
-          Anthropic's introductory course on Claude Code, its agentic command-line coding tool.
-        </p>
-        <div class="project-links">
-          <a href="https://verify.skilljar.com/c/tay9smbmvv9c" target="_blank" rel="noopener">Verify &#8599;</a>
-        </div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">
-          <span class="tag">Anthropic</span>
-          <span class="tag mono">Claude Code</span>
-        </div>
-        <h3>Claude Code in Action</h3>
-        <a class="project-preview" href="https://verify.skilljar.com/c/r8q4gcxeaye9" target="_blank" rel="noopener">
-          <img src="assets/certificates/cert-claude-code-in-action.jpg" alt="Anthropic certificate of completion awarded to Tim Zhang for Claude Code in Action" loading="lazy">
-        </a>
-        <p>
-          Anthropic's applied follow-on course on using Claude Code across real codebases and
-          development workflows.
-        </p>
-        <div class="project-links">
-          <a href="https://verify.skilljar.com/c/r8q4gcxeaye9" target="_blank" rel="noopener">Verify &#8599;</a>
-        </div>
-      </article>
-
-    </section>
-
-    <section class="section" id="experience">
-      <div class="section-head">
-        <span class="eyebrow mono">experience</span>
-        <div class="rule"></div>
-      </div>
-
-      <div class="xp-row">
-        <div class="xp-when mono">Mar 2026 — present</div>
-        <div class="xp-what">
-          <h4>Computer Lab Consultant · UCLA SEASNet</h4>
-          <p>Technical support for 100s of engineering students and faculty daily — software,
-            hardware, and network issues. Runs training sessions on lab tools and contributes to
-            lab-wide system improvements with the SEASNet technical team.</p>
-        </div>
-      </div>
-
-      <div class="xp-row">
-        <div class="xp-when mono">Jun 2022 — 2024</div>
-        <div class="xp-what">
-          <h4>Translator / Transcriber · TED Translators</h4>
-          <p>Translated TED Talk scripts between English and Simplified Chinese; reviewed peer
-            translations for accuracy, tone, and cultural sensitivity. Produced time-synced
-            subtitles for global accessibility across concurrent projects.</p>
-        </div>
-      </div>
-
-      <div class="xp-row">
-        <div class="xp-when mono">Aug 2023 — Apr 2024</div>
-        <div class="xp-what">
-          <h4>Mathematics Tutor · Learn To Be</h4>
-          <p>Tutored K–12 students from underserved communities, breaking down concepts into
-            individualized, approachable lesson plans over live virtual sessions.</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="footer">
-    <div class="footer-row">
-      <span class="mono">Alhambra, CA</span>
-      <span class="mono">English · Mandarin · Cantonese</span>
+    <div class="menubar-right">
+      <span id="menubar-clock" class="menubar-clock"></span>
     </div>
-    <div class="footer-row">
-      <a href="mailto:timzhang.email@gmail.com">timzhang.email@gmail.com</a>
-      <a href="https://github.com/nothing17777" target="_blank" rel="noopener">github.com/nothing17777</a>
+  </div>
+
+  <div class="desktop">
+    <div class="desktop-icon" data-app="about">
+      <span class="icon-glyph">👤</span>
+      <span>About Me</span>
     </div>
-  </footer>
+    <div class="desktop-icon" data-app="sideprojects">
+      <span class="icon-glyph">🧪</span>
+      <span>Side Projects</span>
+    </div>
+    <div class="desktop-icon" data-app="tools">
+      <span class="icon-glyph">🛠️</span>
+      <span>Tools & Automation</span>
+    </div>
+    <div class="desktop-icon" data-app="coursework">
+      <span class="icon-glyph">🎓</span>
+      <span>Coursework</span>
+    </div>
+    <div class="desktop-icon" data-app="certs">
+      <span class="icon-glyph">🏅</span>
+      <span>Certificates</span>
+    </div>
+    <div class="desktop-icon" data-app="experience">
+      <span class="icon-glyph">💼</span>
+      <span>Experience</span>
+    </div>
+  </div>
 
-  <button class="to-top" id="to-top" type="button" aria-label="Back to top">
-    <span class="arrow" aria-hidden="true">↑</span> Top
-  </button>
+  <!-- WINDOWS: added in Tasks 2-10 -->
 
-  <script src="script.js"></script>
+  <div class="dock">
+    <div class="dock-icon" data-app="terminal">
+      🐚
+      <span class="dock-tooltip">Terminal</span>
+    </div>
+    <div class="dock-icon" data-app="claude">
+      🤖
+      <span class="dock-tooltip">Claude Code</span>
+    </div>
+    <div class="dock-icon" data-app="projects">
+      💼
+      <span class="dock-tooltip">Projects</span>
+    </div>
+    <div class="dock-icon" data-app="resume">
+      📄
+      <span class="dock-tooltip">Resume</span>
+    </div>
+    <div class="dock-icon" data-app="contact">
+      ✉️
+      <span class="dock-tooltip">Contact</span>
+    </div>
+  </div>
+
+  <script src="js/window-manager.js"></script>
+  <script src="js/apps.js"></script>
 </body>
-
 </html>
