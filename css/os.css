@@ -292,6 +292,29 @@ body{
     linear-gradient(var(--paper-raised), var(--paper-raised)) padding-box;
 }
 
+.window-resize-handle{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+  z-index: 2;
+}
+.window-resize-handle::before{
+  content: "";
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 9px;
+  height: 9px;
+  background-image:
+    linear-gradient(135deg, transparent 0 45%, var(--graphite) 45% 55%, transparent 55% 100%),
+    linear-gradient(135deg, transparent 0 65%, var(--graphite) 65% 75%, transparent 75% 100%);
+  opacity: 0.55;
+}
+.window-resize-handle:hover::before{ opacity: 0.9; }
+
 .desktop-icon .icon-glyph{
   width: 40px;
   height: 40px;

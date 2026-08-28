@@ -296,6 +296,42 @@
     });
   }
 
+  const MIN_WIN_WIDTH = 320;
+  const MIN_WIN_HEIGHT = 220;
+
+  function resizeStart(win, startClientX, startClientY) {
+    focusWindow(idOf(win));
+    const rect = win.getBoundingClientRect();
+    const startWidth = rect.width;
+    const startHeight = rect.height;
+
+    function move(x, y) {
+      const newWidth = Math.max(MIN_WIN_WIDTH, startWidth + (x - startClientX));
+      const newHeight = Math.max(MIN_WIN_HEIGHT, startHeight + (y - startClientY));
+      win.style.width = `${newWidth}px`;
+      win.style.height = `${newHeight}px`;
+    }
+
+    function onMouseMove(e) { move(e.clientX, e.clientY); }
+    function onMouseUp() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    }
+    function onTouchMove(e) {
+      const t = e.touches[0];
+      move(t.clientX, t.clientY);
+    }
+    function onTouchEnd() {
+      document.removeEventListener('touchmove', onTouchMove);
+      document.removeEventListener('touchend', onTouchEnd);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchend', onTouchEnd);
+  }
+
   function initWindowChrome() {
     document.querySelectorAll('.mac-window').forEach((win) => {
       const header = win.querySelector('.window-header');
@@ -313,6 +349,20 @@
 
       win.addEventListener('mousedown', () => focusWindow(idOf(win)));
       closeBtn.addEventListener('click', () => closeWindow(idOf(win)));
+
+      const handle = document.createElement('div');
+      handle.className = 'window-resize-handle';
+      handle.setAttribute('aria-hidden', 'true');
+      win.appendChild(handle);
+      handle.addEventListener('mousedown', (e) => {
+        e.stopPropagation();
+        resizeStart(win, e.clientX, e.clientY);
+      });
+      handle.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+        const t = e.touches[0];
+        resizeStart(win, t.clientX, t.clientY);
+      }, { passive: true });
     });
   }
 
