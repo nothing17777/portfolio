@@ -102,21 +102,24 @@
     }
 
     function layout() {
+      const menubar = document.querySelector('.menubar');
+      const menubarH = menubar ? menubar.getBoundingClientRect().height : 0;
       const dockRect = dock.getBoundingClientRect();
-      const dockCenterX = dockRect.left + dockRect.width / 2;
+      const deskCenterX = window.innerWidth / 2;
+      const deskCenterY = menubarH + (dockRect.top - menubarH) / 2;
 
       if (!hoopMoved) {
         // Center the hoop's actual visual box (120px wide) and the ball's
-        // rest point symmetrically around the dock's center, so the pair
-        // reads as one balanced composition, not two stray props.
-        hoopX = dockCenterX - 55 - 60;
-        hoopY = dockRect.top - 90;
+        // rest point symmetrically around the desktop area's center, so
+        // the pair reads as one balanced composition on the wallpaper.
+        hoopX = deskCenterX - 55 - 60;
+        hoopY = deskCenterY - 65;
       }
       positionHoop();
 
       if (!ballMoved) {
-        restX = Math.min(dockCenterX + 55, window.innerWidth - BALL_R - 20);
-        restY = dockRect.top - 40;
+        restX = Math.min(deskCenterX + 55, window.innerWidth - BALL_R - 20);
+        restY = deskCenterY - 15;
       }
       if (!flying && !held) resetBall();
     }

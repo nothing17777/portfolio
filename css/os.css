@@ -364,12 +364,12 @@ body{
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  z-index: 410;
+  z-index: 6;
   pointer-events: none;
 }
 #hoop{
   position: fixed;
-  z-index: 400;
+  z-index: 5;
   cursor: grab;
   touch-action: none;
   user-select: none;
@@ -383,7 +383,7 @@ body{
 }
 #hoop-score{
   position: fixed;
-  z-index: 400;
+  z-index: 5;
   font-family: var(--mono);
   font-size: 0.85rem;
   font-weight: 600;
@@ -396,7 +396,7 @@ body{
 }
 #ball-hint{
   position: fixed;
-  z-index: 400;
+  z-index: 5;
   width: 140px;
   text-align: center;
   font-family: var(--mono);
@@ -415,7 +415,7 @@ body{
   position: fixed;
   width: 40px;
   height: 40px;
-  z-index: 450;
+  z-index: 7;
   cursor: grab;
   user-select: none;
   touch-action: none;
