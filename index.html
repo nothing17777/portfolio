@@ -153,7 +153,142 @@ Type 'help' to see available commands.</div>
     </div>
   </div>
 
-  <!-- WINDOWS: added in Tasks 5-10 -->
+  <div id="win-projects" class="mac-window" style="top: 50px; left: 320px; width: 640px; height: 520px;">
+    <div class="window-header">
+      <div class="window-controls">
+        <button class="control-btn close-btn" aria-label="Close"></button>
+        <button class="control-btn min-btn" aria-label="Minimize"></button>
+        <button class="control-btn max-btn" aria-label="Maximize"></button>
+      </div>
+      <div class="window-title">Projects</div>
+    </div>
+    <div class="window-content projects-app">
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">EC ENGR 149 · Foundations of Computer Vision</span>
+          <span class="tag mono">Python · PyTorch</span>
+        </div>
+        <h3>CNN-Based Image Classification — CIFAR-10</h3>
+        <a class="project-preview" href="write-ups/cnn-image-classification.html">
+          <img src="assets/write-ups/cnn-sample-images.jpg" alt="Sample CIFAR-10 training images: a truck, a bird, a frog and a horse at 32&times;32 resolution" loading="lazy">
+        </a>
+        <p>
+          Built and trained a convolutional neural network from scratch in PyTorch for 10-class
+          image classification, then swept batch size and epoch count to study the trade-off
+          between gradient noise and convergence speed.
+        </p>
+        <ul class="findings">
+          <li>Best configuration (batch size 16, 20 epochs) reached <strong>65.7% test
+              accuracy</strong>, versus 55.5% at only 5 epochs with the same batch size &mdash; most of
+            the accuracy gain came from training longer, not from architecture changes.</li>
+          <li>At a fixed 5 epochs, the <em>smaller</em> batch size (4) outperformed the larger one
+            (58.1% vs. 55.5%) &mdash; noisier, more frequent gradient updates helped early on. That
+            reversed once given enough epochs, where the larger batch's steadier gradient estimates
+            pulled ahead (65.7% vs. 61.2% at 20 epochs).</li>
+          <li>Explained and applied core CNN mechanics: how padding and kernel size determine
+            output size, why max pooling has no learnable parameters, and why batch normalization
+            uses running statistics at inference instead of the current batch's mean/variance.</li>
+        </ul>
+        <div class="project-links">
+          <a href="write-ups/cnn-image-classification.html">Write-up ↗</a>
+          <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/cnn-image-classification.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">EC ENGR 149 · Foundations of Computer Vision</span>
+          <span class="tag mono">Python · NumPy · OpenCV</span>
+        </div>
+        <h3>Robust Geometric Estimation — SIFT, RANSAC & Homography</h3>
+        <a class="project-preview" href="write-ups/robust-geometric-estimation.html">
+          <img src="assets/write-ups/rge-sift-correspondences.jpg" alt="SIFT keypoint correspondences drawn between two overlapping photographs of a campus courtyard" loading="lazy">
+        </a>
+        <p>
+          Full correspondence pipeline built from primitives: SIFT keypoint detection and
+          descriptor matching, a from-scratch RANSAC loop for robust homography estimation, and
+          inverse warping with bilinear interpolation to stitch image pairs into a single panorama.
+        </p>
+        <ul class="findings">
+          <li>Implemented direct linear transform (DLT) homography estimation from raw
+            correspondences, then RANSAC to separate true matches from spurious ones.</li>
+          <li>Stitching without RANSAC visibly breaks on outlier matches — a direct, visual
+            demonstration of why robust estimation matters, not just a theoretical footnote.</li>
+          <li>Extended the same approach to insert new content into a target image via homography
+            (compositing a name plate into a photograph using four corner correspondences).</li>
+          <li>Also implemented the eight-point algorithm for essential matrix estimation and 3D
+            point reconstruction from stereo correspondences (2.7% mean reprojection error).</li>
+        </ul>
+        <div class="project-links">
+          <a href="write-ups/robust-geometric-estimation.html">Write-up ↗</a>
+          <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/robust-geometric-estimation.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">EC ENGR 149 · Foundations of Computer Vision</span>
+          <span class="tag mono">Python · NumPy</span>
+        </div>
+        <h3>Feature Detection — Edges, Blobs &amp; Corners</h3>
+        <a class="project-preview" href="write-ups/feature-detection.html">
+          <img src="assets/write-ups/fd-harris-corners.jpg" alt="Harris corner detection output: corners marked on a synthetic test image after non-maximum suppression" loading="lazy">
+        </a>
+        <p>
+          A ground-up image-filtering stack: 2D convolution, Gaussian/median/bilateral filtering,
+          gradient-based edge detection, Laplacian-of-Gaussian blob detection, and Harris corner
+          detection with non-maximum suppression — every operator derived and implemented by hand.
+        </p>
+        <ul class="findings">
+          <li>Compared average, Gaussian, and median filtering for denoising; median filtering won
+            on both quantitative error (lowest relative L1 distance) and visual edge preservation.</li>
+          <li>Derived a bilateral filter from first principles to smooth flat regions while keeping
+            edges sharp — the same idea behind "cartoonize" filters in consumer photo apps.</li>
+          <li>Built full non-max suppression for Harris corners: threshold → sort by response →
+            greedy spatial suppression, from scratch, no library calls.</li>
+        </ul>
+        <div class="project-links">
+          <a href="write-ups/feature-detection.html">Write-up ↗</a>
+          <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/feature-detection.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">M146 · Intro to Machine Learning</span>
+          <span class="tag mono">Python · HF Transformers · PEFT / LoRA</span>
+        </div>
+        <h3>Semantic Matching &amp; Reasoning with Language Models</h3>
+        <a class="project-preview" href="write-ups/semantic-matching-llm.html">
+          <img src="assets/write-ups/m146-lexical-overlap.jpg" alt="Histogram of lexical overlap by label on the PAWS test set, showing paraphrase and non-paraphrase pairs overlapping almost entirely" loading="lazy">
+        </a>
+        <p>
+          Two-part final project comparing how far you can push a small language model with
+          architecture, fine-tuning, and prompting alone.
+        </p>
+        <ul class="findings">
+          <li><strong>Paraphrase detection (PAWS):</strong> a bi-encoder baseline (MiniLM + logistic
+            regression) hit 61.8% test accuracy — it can't see token-level word-order swaps that
+            flip meaning. Fine-tuning a DistilBERT cross-encoder pushed that to 81.9%, matched by
+            few-shot prompting a 1.5B instruct model (81.5%) with zero training.</li>
+          <li><strong>Math reasoning (GSM8K):</strong> LoRA fine-tuned Qwen2.5-1.5B on 1,000 then
+            2,000 examples, taking base-model accuracy from 36% → 47% → 49%, training under 0.15%
+            of total parameters. Diagnosed the model's actual failure modes (percentage
+            misinterpretation, arithmetic slips, problem misreads) before and after tuning.</li>
+          <li><strong>Prompt engineering:</strong> a "reread the problem first" prompt alone lifted
+            base-model accuracy 44% → 60% — matching what fine-tuning achieved, with no training.</li>
+        </ul>
+        <div class="project-links">
+          <a href="write-ups/semantic-matching-llm.html">Write-up ↗</a>
+          <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/semantic-matching-llm.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- WINDOWS: added in Tasks 6-10 -->
 
   <div class="dock">
     <div class="dock-icon" data-app="terminal">
