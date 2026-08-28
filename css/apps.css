@@ -16,31 +16,33 @@
   font-size: 0.85rem;
 }
 
-.claude-harness{ font-family: var(--mono); font-size: 0.85rem; }
-.claude-step{ margin-bottom: 8px; }
-.claude-badge{
-  display: inline-block;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.68rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  margin-right: 6px;
-}
-.claude-badge-thinking{ background: #FDF3D8; color: #8A6D1D; }
-.claude-badge-shell{ background: var(--accent-soft); color: var(--accent-ink); }
-.claude-badge-success{ background: #DFF3E6; color: #1E7A46; }
-.claude-input-row{ display: flex; align-items: center; gap: 8px; margin-top: 10px; }
-.claude-prompt{ color: var(--accent-ink); font-weight: bold; }
-.claude-input{
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--ink);
-  font-family: var(--mono);
-  flex-grow: 1;
+.claude-chat{ display: flex; flex-direction: column; height: 100%; font-family: var(--body); }
+.claude-messages{ flex: 1; overflow-y: auto; padding-bottom: 12px; display: flex; flex-direction: column; gap: 10px; }
+.claude-msg{ max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.5; }
+.claude-msg-user{ align-self: flex-end; background: var(--accent); color: white; }
+.claude-msg-assistant{ align-self: flex-start; background: var(--accent-soft); color: var(--ink); }
+.claude-msg-error{ align-self: flex-start; background: #FDEAEA; color: #8A1F1F; }
+.claude-chat-form{ display: flex; gap: 8px; padding-top: 10px; border-top: 1px solid var(--hairline); }
+.claude-chat-input{
+  flex: 1;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-family: var(--body);
   font-size: 0.85rem;
+  color: var(--ink);
 }
+.claude-chat-send{
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.claude-chat-send:disabled{ opacity: 0.5; cursor: default; }
 
 .prose-app{ font-family: var(--body); font-size: 0.92rem; line-height: 1.6; }
 .prose-app p{ margin: 0 0 12px; }

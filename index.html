@@ -80,15 +80,14 @@ Type 'help' to see available commands.</div>
       </div>
       <div class="window-title">claude-code — agentic-harness</div>
     </div>
-    <div class="window-content claude-harness">
-      <div id="claude-output">
-        <div>Claude Code CLI — sandboxed session ready.</div>
-        <div style="margin-top: 8px; color: var(--graphite);">This is a scripted demo — type any task and watch a simulated agent loop run.</div>
+    <div class="window-content claude-chat">
+      <div id="claude-messages" class="claude-messages">
+        <div class="claude-msg claude-msg-assistant">Hi — I'm a small assistant that knows about Tim's projects, experience, and background. Ask me anything about his portfolio.</div>
       </div>
-      <div class="claude-input-row">
-        <span class="claude-prompt">claude &gt;</span>
-        <input type="text" id="claude-input" class="claude-input" autocomplete="off" spellcheck="false" placeholder="e.g. 'refactor the window manager'" />
-      </div>
+      <form id="claude-chat-form" class="claude-chat-form">
+        <input type="text" id="claude-chat-input" class="claude-chat-input" autocomplete="off" spellcheck="false" placeholder="Ask about a project, his experience..." />
+        <button type="submit" id="claude-chat-send" class="claude-chat-send">Send</button>
+      </form>
     </div>
   </div>
 

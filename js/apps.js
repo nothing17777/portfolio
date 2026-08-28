@@ -56,48 +56,55 @@
     });
   }
 
-  function initClaudeDemo() {
-    const input = document.getElementById('claude-input');
-    const output = document.getElementById('claude-output');
-    if (!input || !output) return;
+  function initClaudeChat() {
+    const form = document.getElementById('claude-chat-form');
+    const input = document.getElementById('claude-chat-input');
+    const send = document.getElementById('claude-chat-send');
+    const messages = document.getElementById('claude-messages');
+    if (!form || !input || !messages) return;
 
-    const STEPS = [
-      { type: 'thinking', text: 'Scanning workspace for relevant files…' },
-      { type: 'shell', text: 'git diff --stat' },
-      { type: 'thinking', text: 'Planning the change…' },
-      { type: 'success', text: 'Done — changes applied and verified.' },
-    ];
-
-    function runTask(task) {
-      input.disabled = true;
-      output.innerHTML += `<div style="margin-top: 12px; color: var(--accent-ink);">&gt; ${task}</div>`;
-
-      let i = 0;
-      function next() {
-        if (i >= STEPS.length) {
-          input.disabled = false;
-          input.focus();
-          return;
-        }
-        const step = STEPS[i];
-        output.innerHTML += `<div class="claude-step"><span class="claude-badge claude-badge-${step.type}">${step.type}</span>${step.text}</div>`;
-        output.parentElement.scrollTop = output.parentElement.scrollHeight;
-        i += 1;
-        setTimeout(next, 900);
-      }
-      next();
+    function appendMessage(text, kind) {
+      const div = document.createElement('div');
+      div.className = `claude-msg claude-msg-${kind}`;
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
     }
 
-    input.addEventListener('keydown', (e) => {
-      if (e.key !== 'Enter') return;
-      const task = input.value.trim();
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage(text, 'user');
       input.value = '';
-      if (task) runTask(task);
+      input.disabled = true;
+      send.disabled = true;
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text }),
+        });
+        const data = await res.json();
+        if (data.error) {
+          appendMessage(data.error, 'error');
+        } else {
+          appendMessage(data.reply, 'assistant');
+        }
+      } catch (err) {
+        appendMessage('Could not reach the assistant. Please try again.', 'error');
+      } finally {
+        input.disabled = false;
+        send.disabled = false;
+        input.focus();
+      }
     });
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     initTerminal();
-    initClaudeDemo();
+    initClaudeChat();
   });
 })();
