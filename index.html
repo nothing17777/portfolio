@@ -288,7 +288,230 @@ Type 'help' to see available commands.</div>
     </div>
   </div>
 
-  <!-- WINDOWS: added in Tasks 6-10 -->
+  <div id="win-sideprojects" class="mac-window" style="top: 60px; left: 260px; width: 620px; height: 520px;">
+    <div class="window-header">
+      <div class="window-controls">
+        <button class="control-btn close-btn" aria-label="Close"></button>
+        <button class="control-btn min-btn" aria-label="Minimize"></button>
+        <button class="control-btn max-btn" aria-label="Maximize"></button>
+      </div>
+      <div class="window-title">Side Projects</div>
+    </div>
+    <div class="window-content projects-app sideprojects-app">
+
+      <details class="project-group" open>
+        <summary class="project-group-head">web tooling</summary>
+        <article class="project">
+          <div class="project-meta">
+            <span class="tag">Personal Project</span>
+            <span class="tag mono">TypeScript · Node · Playwright · Next.js</span>
+          </div>
+          <h3>Website Template Cloner</h3>
+          <a class="project-preview" href="https://github.com/nothing17777/Website-Template-Cloner" target="_blank" rel="noopener">
+            <img src="assets/previews/preview-website-template-cloner.jpg" alt="Side-by-side comparison of cluely.com and the generated template: identical layout and geometry, with all copy and imagery replaced by placeholders" loading="lazy">
+          </a>
+          <p>
+            An agent-driven pipeline that turns any webpage into a reusable front-end template:
+            it captures the rendered DOM, every stylesheet and a full-page screenshot, measures how
+            the page is built, and emits a self-contained Next.js app with placeholder copy and
+            imagery &mdash; the construction reproduced, the content left behind.
+          </p>
+          <ul class="findings">
+            <li>Resolves exact values without staying attached to the live page: the captured DOM is
+              reloaded with the captured CSS in a headless browser, so <code>getComputedStyle</code>
+              resolves the real cascade offline and every run is reproducible from the same bytes.</li>
+            <li>Every colour, spacing, type-scale and breakpoint value is cited to a selector and
+              property, or written as <code>UNVERIFIED</code> &mdash; never guessed.</li>
+            <li>Placeholder substitution is enforced by an idempotent script, matching original word
+              counts and image dimensions so the template still measures like the page it came from
+              &mdash; the apple.com/iPhone rebuild lands within <strong>1px over a 12,967px page</strong>.</li>
+            <li>Reconnaissance, per-section specs, parallel builder agents, visual band-by-band diffing
+              and the static&rarr;Next.js conversion are wired together as a Claude Code skill.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://github.com/nothing17777/Website-Template-Cloner" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </article>
+      </details>
+
+      <details class="project-group" open>
+        <summary class="project-group-head">league of legends</summary>
+
+        <article class="project">
+          <div class="project-meta">
+            <span class="tag">Personal Project</span>
+            <span class="tag mono">Next.js · TypeScript · Tailwind · Framer Motion</span>
+          </div>
+          <h3>Rift Connections</h3>
+          <a class="project-preview" href="https://rift-connection.vercel.app" target="_blank" rel="noopener">
+            <img src="assets/previews/preview-rift-connections.jpg" alt="Rift Connections homepage showing the daily 4x4 connections puzzle and Teemo mascot scene" loading="lazy">
+          </a>
+          <p>
+            A daily NYT Connections-style puzzle for League of Legends: group 16 champions into
+            four hidden thematic categories (shared regions, roles, resources, abilities) in a
+            4&times;4 grid, with a 3D mascot scene and streak tracking across daily and unlimited modes.
+          </p>
+          <ul class="findings">
+            <li>Puzzles are procedurally generated from a bank of 40 disjoint champion-relationship
+              pools, so the daily board is different every time rather than hand-authored per day.</li>
+            <li>Ships both a daily puzzle (with a browsable archive of past boards) and an unlimited
+              practice mode, plus a match-history view for tracking streaks over time.</li>
+            <li>Built as a Next.js 14 monorepo workspace with Tailwind CSS, Framer Motion for the
+              grid/reveal animations, and Zustand for client-side game state.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://rift-connection.vercel.app" target="_blank" rel="noopener">Live ↗</a>
+            <a href="https://github.com/nothing17777/rift_connection" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-meta">
+            <span class="tag">Personal Project</span>
+            <span class="tag mono">Next.js · TypeScript · Turso (libSQL) · Recharts</span>
+          </div>
+          <h3>ESPORTS.DATA — League of Legends Esports Analytics</h3>
+          <a class="project-preview" href="https://riot-esports-data.vercel.app" target="_blank" rel="noopener">
+            <img src="assets/previews/preview-esports-data.jpg" alt="ESPORTS.DATA dashboard showing professional League of Legends match, champion, and player statistics" loading="lazy">
+          </a>
+          <p>
+            A data analytics dashboard covering 98,000+ professional League of Legends matches from
+            2014&ndash;2026 across every major global league, sourced from Oracle's Elixir and served
+            through a set of REST API routes backed by a Turso (libSQL) database.
+          </p>
+          <ul class="findings">
+            <li>Champion analytics across presence (pick/ban rate), synergy (best pairings), counters
+              (unfavorable matchups), lane-vs-lane performance, and win rates &mdash; each with its own
+              dedicated API route and dashboard view.</li>
+            <li>Browsable match history and pro player profiles, with league filtering across the
+              full dataset and a light/dark theme.</li>
+            <li>Built on Next.js 16 (App Router) with React 19, Tailwind CSS 4 and Radix/shadcn-style
+              components, querying a libSQL database directly from serverless API routes.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://riot-esports-data.vercel.app" target="_blank" rel="noopener">Live ↗</a>
+            <a href="https://github.com/nothing17777/riot-esports-data-" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-meta">
+            <span class="tag">Personal Project</span>
+            <span class="tag mono">React · Vite · TypeScript · Tailwind</span>
+          </div>
+          <h3>League of Legends Win Rate Quiz</h3>
+          <a class="project-preview" href="https://league-winrate-quiz.vercel.app" target="_blank" rel="noopener">
+            <img src="assets/previews/preview-winrate-quiz.jpg" alt="League of Legends Win Rate Quiz showing two champions side by side for a Higher or Lower guess" loading="lazy">
+          </a>
+          <p>
+            A "Higher or Lower" streak quiz: two champions are shown side by side and you guess which
+            one has the higher win rate &mdash; guess right and the streak continues, guess wrong and the
+            run ends and both win rates are revealed.
+          </p>
+          <ul class="findings">
+            <li>Animated count-up reveal of the actual win rates after each guess, with a running
+              score bar and round-by-round guess history for the current run.</li>
+            <li>High score and recent run history persist locally in the browser via <code>localStorage</code>,
+              so streaks carry over between visits with no backend needed.</li>
+            <li>Champion splash art and icons are pulled live from Riot's public Data Dragon CDN
+              rather than bundled, keeping the app in sync with the current champion roster.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://league-winrate-quiz.vercel.app" target="_blank" rel="noopener">Live ↗</a>
+            <a href="https://github.com/nothing17777/league-winrate-quiz" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </article>
+      </details>
+
+      <details class="project-group" open>
+        <summary class="project-group-head">ai agents &amp; tools</summary>
+
+        <article class="project">
+          <div class="project-meta">
+            <span class="tag">Personal Project</span>
+            <span class="tag mono">LangChain · LangGraph · ChromaDB · Ollama · Streamlit</span>
+          </div>
+          <h3>Yu-Gi-Oh! RAG Chatbot</h3>
+          <a class="project-preview" href="https://github.com/nothing17777/yugiohChatbot" target="_blank" rel="noopener">
+            <img src="assets/previews/preview-yugioh-chatbot.jpg" alt="Yu-Gi-Oh! RAG Chatbot answering a question about the Ritual Beast archetype with a list of matching cards" loading="lazy">
+          </a>
+          <p>
+            A Retrieval-Augmented Generation chatbot that answers questions over the full
+            Yu-Gi-Oh! card database (~14,500 cards) using a locally-hosted LLM &mdash; no paid
+            APIs, no external inference.
+          </p>
+          <ul class="findings">
+            <li>Hybrid retrieval combines semantic vector search (Sentence Transformers +
+              ChromaDB) with exact metadata filtering on archetype/card type, avoiding
+              hallucinated results on structured queries like "list all Blue-Eyes cards."</li>
+            <li>A LangGraph ReAct agent handles tool-calling and intent classification,
+              routing greetings away from the retrieval pipeline and resolving follow-up
+              questions ("what about that one's ATK?") from cached sources and chat history.</li>
+            <li>Generation is grounded strictly in retrieved context &mdash; the prompt constrains
+              the LLM (Qwen2.5-7B via Ollama) from inventing card names not present in the
+              retrieved chunks.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://github.com/nothing17777/yugiohChatbot" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-meta">
+            <span class="tag">Personal Project</span>
+            <span class="tag mono">CrewAI · Ollama · Serper</span>
+          </div>
+          <h3>CrewAI News Agent</h3>
+          <p>
+            A multi-agent news pipeline built with CrewAI: a News Collector agent searches
+            the web for the latest coverage of a topic, and a News Reporter agent turns
+            those findings into a validated headline &mdash; both running sequentially against
+            a local LLM rather than a hosted API.
+          </p>
+          <ul class="findings">
+            <li>Two agents with distinct roles, goals, and backstories are orchestrated as a
+              sequential Crew, with task outputs from the first agent feeding directly into
+              the second.</li>
+            <li>Web search is wired in as a CrewAI tool (Serper) so the collector agent can
+              ground its findings in live results rather than model knowledge alone.</li>
+            <li>Inference runs locally via Ollama (Qwen2.5-7B-Instruct), keeping the whole
+              pipeline free to run.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://github.com/nothing17777/crewai-news-agent" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-meta">
+            <span class="tag">Personal Project</span>
+            <span class="tag mono">Python · Streamlit · Whisper · PyTorch</span>
+          </div>
+          <h3>German Whisper Transcriber</h3>
+          <p>
+            A Streamlit app that transcribes German audio/video locally using OpenAI's
+            Whisper model, then translates the transcript to English &mdash; built for cases
+            where content shouldn't leave the machine to get transcribed.
+          </p>
+          <ul class="findings">
+            <li>Runs Whisper fully locally with a model-size selector (tiny &rarr; large) and
+              automatic GPU/CPU detection via PyTorch, trading speed for accuracy as needed.</li>
+            <li>German transcription is force-decoded with <code>language="de"</code> to stay
+              robust on unclear audio, then chunked and translated to English via
+              MyMemory/Deep Translator to respect per-request character limits.</li>
+            <li>Accepts mp3, mp4, wav, m4a, and webm uploads, with both the transcript and
+              translation downloadable as text files.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://github.com/nothing17777/german-whisper-transcriber" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </article>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- WINDOWS: added in Tasks 7-10 -->
 
   <div class="dock">
     <div class="dock-icon" data-app="terminal">

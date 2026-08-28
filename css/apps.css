@@ -59,3 +59,16 @@
 .projects-app .findings{ padding-left: 18px; margin: 0 0 10px; }
 .projects-app .findings li{ font-size: 0.85rem; margin-bottom: 6px; }
 .projects-app .project-links{ display: flex; gap: 14px; font-family: var(--mono); font-size: 0.8rem; }
+
+.sideprojects-app .project-group{ margin-bottom: 20px; }
+.sideprojects-app .project-group-head{
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--graphite);
+  cursor: pointer;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 12px;
+}
