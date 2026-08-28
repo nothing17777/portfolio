@@ -74,3 +74,9 @@
 }
 
 .certs-app .project img{ max-width: 260px; }
+
+.xp-app .xp-row{ display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--hairline); }
+.xp-app .xp-row:last-child{ border-bottom: none; }
+.xp-app .xp-when{ flex-shrink: 0; width: 130px; font-family: var(--mono); font-size: 0.75rem; color: var(--graphite); }
+.xp-app .xp-what h4{ font-family: var(--display); font-size: 0.9rem; margin: 0 0 6px; }
+.xp-app .xp-what p{ font-size: 0.85rem; margin: 0; line-height: 1.55; }
