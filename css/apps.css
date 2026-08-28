@@ -72,3 +72,5 @@
   border-bottom: 1px solid var(--hairline);
   margin-bottom: 12px;
 }
+
+.certs-app .project img{ max-width: 260px; }
