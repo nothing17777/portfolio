@@ -22,6 +22,32 @@
 .claude-msg-user{ align-self: flex-end; background: var(--accent); color: white; }
 .claude-msg-assistant{ align-self: flex-start; background: var(--accent-soft); color: var(--ink); }
 .claude-msg-error{ align-self: flex-start; background: #FDEAEA; color: #8A1F1F; }
+.claude-msg-assistant p{ margin: 0 0 8px; }
+.claude-msg-assistant p:last-child{ margin-bottom: 0; }
+.claude-msg-assistant ul{ margin: 0 0 8px; padding-left: 18px; }
+.claude-msg-assistant ul:last-child{ margin-bottom: 0; }
+.claude-msg-assistant li{ margin-bottom: 4px; }
+.claude-msg-assistant .claude-md-heading{ font-weight: 700; }
+.claude-msg-assistant code{
+  background: rgba(21, 23, 27, 0.08);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: var(--mono);
+  font-size: 0.82em;
+}
+.claude-msg-thinking{ display: flex; align-items: center; padding: 10px 14px; }
+.claude-spinner{
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(63, 85, 232, 0.25);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: claude-spin 0.7s linear infinite;
+}
+@keyframes claude-spin{ to{ transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce){
+  .claude-spinner{ animation: none; }
+}
 .claude-chat-form{ display: flex; gap: 8px; padding-top: 10px; border-top: 1px solid var(--hairline); }
 .claude-chat-input{
   flex: 1;
@@ -43,6 +69,10 @@
   cursor: pointer;
 }
 .claude-chat-send:disabled{ opacity: 0.5; cursor: default; }
+
+.resume-app{ display: flex; flex-direction: column; height: 100%; }
+.resume-app p{ flex-shrink: 0; margin: 0 0 10px; font-weight: 600; }
+.resume-app embed{ flex: 1; border-radius: 6px; border: 1px solid var(--hairline); }
 
 .prose-app{ font-family: var(--body); font-size: 0.92rem; line-height: 1.6; }
 .prose-app p{ margin: 0 0 12px; }

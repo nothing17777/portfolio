@@ -9,7 +9,7 @@
     projects: 'Projects',
     resume: 'Resume',
     contact: 'Contact',
-    claude: 'Claude Code',
+    claude: 'AI Assistant',
   };
 
   function initTerminal() {
@@ -56,6 +56,42 @@
     });
   }
 
+  function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function inlineMarkdown(text) {
+    return text
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>');
+  }
+
+  function renderMarkdown(raw) {
+    const lines = escapeHtml(raw).split('\n');
+    let html = '';
+    let inList = false;
+    lines.forEach((line) => {
+      const trimmed = line.trim();
+      const bullet = trimmed.match(/^[-*]\s+(.*)/);
+      if (bullet) {
+        if (!inList) { html += '<ul>'; inList = true; }
+        html += `<li>${inlineMarkdown(bullet[1])}</li>`;
+        return;
+      }
+      if (inList) { html += '</ul>'; inList = false; }
+
+      const heading = trimmed.match(/^#{1,4}\s+(.*)/);
+      if (heading) {
+        html += `<p class="claude-md-heading">${inlineMarkdown(heading[1])}</p>`;
+        return;
+      }
+      if (trimmed === '') return;
+      html += `<p>${inlineMarkdown(trimmed)}</p>`;
+    });
+    if (inList) html += '</ul>';
+    return html;
+  }
+
   function initClaudeChat() {
     const form = document.getElementById('claude-chat-form');
     const input = document.getElementById('claude-chat-input');
@@ -66,9 +102,23 @@
     function appendMessage(text, kind) {
       const div = document.createElement('div');
       div.className = `claude-msg claude-msg-${kind}`;
-      div.textContent = text;
+      if (kind === 'assistant') {
+        div.innerHTML = renderMarkdown(text);
+      } else {
+        div.textContent = text;
+      }
       messages.appendChild(div);
       messages.scrollTop = messages.scrollHeight;
+      return div;
+    }
+
+    function appendThinking() {
+      const div = document.createElement('div');
+      div.className = 'claude-msg claude-msg-assistant claude-msg-thinking';
+      div.innerHTML = '<span class="claude-spinner"></span>';
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return div;
     }
 
     form.addEventListener('submit', async (e) => {
@@ -80,6 +130,7 @@
       input.value = '';
       input.disabled = true;
       send.disabled = true;
+      const thinkingEl = appendThinking();
 
       try {
         const res = await fetch('/api/chat', {
@@ -88,12 +139,14 @@
           body: JSON.stringify({ message: text }),
         });
         const data = await res.json();
+        thinkingEl.remove();
         if (data.error) {
           appendMessage(data.error, 'error');
         } else {
           appendMessage(data.reply, 'assistant');
         }
       } catch (err) {
+        thinkingEl.remove();
         appendMessage('Could not reach the assistant. Please try again.', 'error');
       } finally {
         input.disabled = false;

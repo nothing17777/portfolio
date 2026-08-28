@@ -1,6 +1,9 @@
 const profileData = require('./profile-data.json');
 
-const MODEL = 'meta-llama/llama-3.1-8b-instruct:free';
+// meta-llama/llama-3.1-8b-instruct:free was retired from OpenRouter's free
+// tier since this endpoint was first written; confirmed liquid/lfm-2.5-2.6b:free
+// responds successfully as of 2026-08-28.
+const MODEL = 'liquid/lfm-2.5-2.6b:free';
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
 function scoreSection(section, queryWords) {
