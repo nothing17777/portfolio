@@ -135,3 +135,53 @@ html, body{
   transition: opacity 0.15s;
 }
 .dock-icon:hover .dock-tooltip{ opacity: 1; }
+
+/* Windows */
+.mac-window{
+  position: absolute;
+  width: 620px;
+  height: 460px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - var(--menubar-h) - var(--dock-h) - 24px);
+  background: var(--paper-raised);
+  border-radius: 10px;
+  border: 1px solid var(--hairline);
+  box-shadow: 0 20px 48px rgba(21, 23, 27, 0.18);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+}
+.window-header{
+  background: #F0F0EC;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--hairline);
+  cursor: move;
+  flex-shrink: 0;
+}
+.window-controls{ display: flex; gap: 7px; position: absolute; }
+.control-btn{
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.close-btn{ background: #ff5f56; }
+.min-btn{ background: #ffbd2e; }
+.max-btn{ background: #27c93f; }
+.window-title{
+  width: 100%;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.window-content{
+  flex-grow: 1;
+  padding: 18px 20px;
+  overflow-y: auto;
+  color: var(--ink);
+}

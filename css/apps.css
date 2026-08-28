@@ -1,0 +1,17 @@
+.terminal-app{
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.terminal-output{ margin-bottom: 10px; white-space: pre-wrap; }
+.terminal-input-row{ display: flex; align-items: center; gap: 8px; }
+.terminal-prompt{ color: var(--accent-ink); font-weight: bold; }
+.terminal-input{
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: var(--mono);
+  flex-grow: 1;
+  font-size: 0.85rem;
+}
