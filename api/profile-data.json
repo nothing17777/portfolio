@@ -11,6 +11,21 @@
     "body": "Tim Zhang is a Computer Science undergraduate at UCLA and a software engineer building systems that see, reason, and ship. He uses agentic AI in his daily workflow to build and code cool projects, enjoys turning ideas into practical software while learning new technologies along the way, and is currently looking for a Software Engineering internship."
   },
   {
+    "id": "contact",
+    "title": "Contact",
+    "tags": [
+      "contact",
+      "contacts",
+      "email",
+      "github",
+      "reach",
+      "hire",
+      "resume",
+      "résumé"
+    ],
+    "body": "Reach Tim by email at timzhang.email@gmail.com, or find his code on GitHub at github.com/nothing17777. His full résumé is also downloadable from the site (About Me window, or the Resume app in the dock)."
+  },
+  {
     "id": "tools",
     "title": "Tools and Framework",
     "tags": [
