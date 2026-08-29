@@ -124,7 +124,7 @@
 
   function applyDockShape(el, data) {
     el.className = 'dock-icon';
-    el.innerHTML = `<img class="dock-icon-img" src="${data.icon}" alt="" width="30" height="30" draggable="false"><span class="dock-tooltip">${data.label}</span>`;
+    el.innerHTML = `<img class="dock-icon-img" src="${data.icon}" alt="" width="40" height="40" draggable="false"><span>${data.label}</span>`;
   }
 
   function wireIconInteraction(el) {

@@ -148,37 +148,59 @@ body{
   transform: translateX(-50%);
   background: rgba(251, 251, 249, 0.55);
   border-radius: 20px;
-  padding: 9px 10px;
+  padding: 10px 16px;
   display: flex;
   align-items: flex-end;
-  gap: 12px;
+  justify-content: center;
+  gap: 14px;
+  /* Wide enough to hold every default dock icon at full (desktop-icon) size
+     with room to spare, so the dock stays a comfortably large drop target —
+     and the pinned dock cats stay evenly spread — even after every icon has
+     been dragged off it, rather than shrinking to nothing. */
+  min-width: 420px;
+  min-height: 76px;
   z-index: 1000;
   backdrop-filter: blur(30px) saturate(1.8);
   -webkit-backdrop-filter: blur(30px) saturate(1.8);
   box-shadow: var(--shadow-dock), inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.25);
   transition: transform 0.2s var(--spring);
 }
+/* Dock icons match desktop icons' size and always-visible label — icons
+   look and behave the same whether they're sitting in the dock or on the
+   desktop, so dragging one between the two is just a change of location,
+   never a change of size. */
 .dock-icon{
-  width: 48px;
-  height: 48px;
+  width: 80px;
+  height: 84px;
   border-radius: 12px;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
-  background: var(--accent-soft);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 3px 8px rgba(21, 23, 27, 0.1);
-  transition: transform 0.18s var(--spring), box-shadow 0.18s ease;
+  gap: 5px;
+  text-align: center;
+  transition: transform 0.18s var(--spring);
   transform-origin: 50% 100%;
   position: relative;
   user-select: none;
 }
-.dock-icon:hover{ transform: scale(1.28) translateY(-14px); box-shadow: 0 12px 20px rgba(21, 23, 27, 0.22); }
+.dock-icon:hover{ transform: scale(1.1) translateY(-6px); }
+.dock-icon .dock-icon-img{
+  filter: drop-shadow(0 2px 5px rgba(21, 23, 27, 0.18));
+}
+.dock-icon span{
+  font-size: 0.72rem;
+  color: var(--ink);
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
 .dock-icon::after{
   content: "";
   position: absolute;
-  bottom: -8px;
+  bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
   width: 4px;
@@ -189,24 +211,6 @@ body{
   transition: opacity 0.15s ease;
 }
 .dock-icon.is-running::after{ opacity: 1; }
-.dock-tooltip{
-  position: absolute;
-  bottom: calc(100% + 16px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background: rgba(35, 37, 42, 0.92);
-  backdrop-filter: blur(8px);
-  color: #fff;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.7rem;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-}
-.dock-icon:hover .dock-tooltip{ opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* Windows */
 .mac-window{
@@ -321,8 +325,8 @@ body{
   margin-bottom: 4px;
 }
 .dock-icon .dock-icon-img{
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   pointer-events: none;
 }
 
