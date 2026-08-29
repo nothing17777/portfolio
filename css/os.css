@@ -226,6 +226,11 @@ body{
 .dock-running{
   display: contents;
 }
+.dock-icon-placeholder{
+  border-radius: 12px;
+  border: 1.5px dashed rgba(21, 23, 27, 0.22);
+  background: rgba(21, 23, 27, 0.04);
+}
 .dock:has(.dock-running:not(:empty)) .dock-divider{
   display: block;
 }
@@ -285,6 +290,13 @@ body{
   height: calc(100vh - var(--menubar-h) - var(--dock-h) - 8px) !important;
   max-width: calc(100vw - 16px) !important;
   max-height: calc(100vh - var(--menubar-h) - var(--dock-h) - 8px) !important;
+}
+/* Applied for the duration of a single maximize/restore toggle so the
+   resize eases instead of snapping; removed right after so drag/resize
+   stay instant the rest of the time. */
+.mac-window.is-maximize-animating{
+  transition: top 0.3s var(--spring), left 0.3s var(--spring),
+    width 0.3s var(--spring), height 0.3s var(--spring);
 }
 .window-header{
   background: linear-gradient(#F7F7F4, #ECECE7);
@@ -395,6 +407,49 @@ body{
 @keyframes mascot-rainbow-spin{
   0%{ filter: hue-rotate(0deg) saturate(2.4) drop-shadow(0 6px 10px rgba(21, 23, 27, 0.18)); }
   100%{ filter: hue-rotate(360deg) saturate(2.4) drop-shadow(0 6px 10px rgba(21, 23, 27, 0.18)); }
+}
+
+/* ---------------------------------------------------------
+   Mobile: windows go full-screen and single-app, one at a time,
+   instead of the free-floating drag/resize desktop metaphor.
+--------------------------------------------------------- */
+@media (max-width: 768px){
+  .desktop{
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-template-rows: 90px;
+    overflow-y: auto;
+  }
+
+  .dock{
+    min-width: 0;
+    max-width: calc(100vw - 16px);
+    padding: 8px 12px;
+    gap: 8px;
+    overflow-x: auto;
+  }
+  .dock-icon{
+    width: 56px;
+    height: 64px;
+  }
+  .dock-icon .dock-icon-img{
+    width: 32px;
+    height: 32px;
+  }
+  .dock-icon span{ font-size: 0.62rem; }
+  .dock-icon:hover{ transform: none; }
+
+  .mac-window{
+    top: var(--menubar-h) !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: calc(100vh - var(--menubar-h) - var(--dock-h)) !important;
+    max-width: 100% !important;
+    max-height: calc(100vh - var(--menubar-h) - var(--dock-h)) !important;
+    border-radius: 0;
+  }
+  .window-header{ cursor: default; }
+  .window-resize-handle{ display: none; }
 }
 @media (prefers-reduced-motion: reduce){
   .mascot-rainbow svg{ animation: none; }

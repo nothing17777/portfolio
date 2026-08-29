@@ -60,6 +60,7 @@
   }
 
   const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
 
   function openWindow(appId) {
     const win = getWin(appId);
@@ -131,6 +132,18 @@
 
   function toggleMaximize(win) {
     const appId = idOf(win);
+    if (!reducedMotion()) {
+      // .is-maximized's target values are set with !important (so they
+      // beat the inline top/left/width/height drag/resize leave behind),
+      // but a CSS transition still animates smoothly to !important values —
+      // only the cascade resolution is affected, not animatability. Add the
+      // transition for the duration of this one resize, then drop it so
+      // dragging/resizing afterward stays instant.
+      win.classList.add('is-maximize-animating');
+      win.addEventListener('transitionend', () => {
+        win.classList.remove('is-maximize-animating');
+      }, { once: true });
+    }
     if (win.classList.contains('is-maximized')) {
       const prev = win.dataset.prevRect ? JSON.parse(win.dataset.prevRect) : null;
       win.classList.remove('is-maximized');
@@ -298,12 +311,26 @@
     const offsetX = startClientX - rect.left;
     const offsetY = startClientY - rect.top;
     let dragging = false;
+    let placeholder = null;
 
     function move(x, y) {
       if (!dragging) {
         if (Math.hypot(x - startClientX, y - startClientY) < 4) return;
         dragging = true;
         el.classList.add('icon-dragging');
+        // Leave a same-sized placeholder in the icon's old dock/desktop
+        // slot for the drag's duration. Without it, pulling the icon out
+        // of the dock's flex layout shrinks the dock and re-centers it
+        // (since it's centered via left: 50%), which shifts every other
+        // icon's position mid-drag — the drop target keeps moving under
+        // the cursor, making reordering feel broken.
+        if (el.parentElement && el.parentElement.classList.contains('dock')) {
+          placeholder = document.createElement('div');
+          placeholder.className = 'dock-icon-placeholder';
+          placeholder.style.width = `${rect.width}px`;
+          placeholder.style.height = `${rect.height}px`;
+          el.parentElement.insertBefore(placeholder, el);
+        }
         document.body.appendChild(el);
         el.style.position = 'fixed';
         el.style.margin = '0';
@@ -311,6 +338,16 @@
       }
       el.style.left = `${x - offsetX}px`;
       el.style.top = `${y - offsetY}px`;
+      if (placeholder) {
+        const dockEl = document.querySelector('.dock');
+        const insertIndex = dockInsertIndexForX(dockEl, x, el);
+        const siblings = Array.from(dockEl.querySelectorAll(':scope > [data-app]'));
+        if (insertIndex >= siblings.length) {
+          dockEl.appendChild(placeholder);
+        } else {
+          dockEl.insertBefore(placeholder, siblings[insertIndex]);
+        }
+      }
     }
 
     function finish(x, y) {
@@ -340,15 +377,20 @@
         el.style.left = '';
         el.style.top = '';
         el.style.margin = '';
-        const insertIndex = dockInsertIndexForX(dockEl, x, el);
-        const siblings = Array.from(dockEl.querySelectorAll(':scope > [data-app]')).filter((c) => c !== el);
-        if (insertIndex >= siblings.length) {
-          dockEl.appendChild(el);
+        // The placeholder already tracks the live drop index (updated on
+        // every move), so just swap the real icon into its spot.
+        if (placeholder) {
+          placeholder.replaceWith(el);
+          placeholder = null;
         } else {
-          dockEl.insertBefore(el, siblings[insertIndex]);
+          dockEl.appendChild(el);
         }
         persistDockOrder(dockEl);
       } else {
+        if (placeholder) {
+          placeholder.remove();
+          placeholder = null;
+        }
         if (el.className !== 'desktop-icon') applyDesktopShape(el, data);
         const desktopRect = desktopEl.getBoundingClientRect();
         const iconRect = el.getBoundingClientRect();
@@ -585,6 +627,9 @@
   // behind clicks. Positions are fixed px (matches the rest of this file's
   // window placements, which assume a desktop-width viewport).
   function openDefaultWindows() {
+    // On mobile, windows are full-screen and single-app — skip the
+    // desktop-width tiling and just show the desktop icons/dock.
+    if (isMobile()) return;
     const about = getWin('about');
     const claude = getWin('claude');
     const tools = getWin('tools');
