@@ -11,6 +11,10 @@
     claude: 'AI Assistant',
   };
 
+  const APP_ALIASES = {
+    projects: 'sideprojects',
+  };
+
   function initTerminal() {
     const input = document.getElementById('term-input');
     const output = document.getElementById('term-output');
@@ -28,14 +32,14 @@
       if (lower === 'help') {
         print(`Available commands:
   help                 show this list
-  open &lt;app&gt;           open a window (about, academics, sideprojects,
+  open &lt;app&gt;           open a window (about, academics, projects,
                        tools, certs, experience, resume, contact, claude)
   clear                clear this terminal`);
       } else if (lower === 'clear') {
         output.innerHTML = '';
         return;
       } else if (lower.startsWith('open ')) {
-        const target = lower.slice(5).trim();
+        const target = APP_ALIASES[lower.slice(5).trim()] || lower.slice(5).trim();
         if (APP_NAMES[target]) {
           window.WM.open(target);
           print(`Opening ${APP_NAMES[target]}…`);
