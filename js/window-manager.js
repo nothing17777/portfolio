@@ -632,30 +632,67 @@
     if (isMobile()) return;
     const about = getWin('about');
     const claude = getWin('claude');
-    const tools = getWin('tools');
-    if (about) {
-      about.style.top = '70px';
-      about.style.left = '140px';
-      openWindow('about');
-    }
-    if (claude) {
-      const gap = 40;
-      const aboutRight = about ? about.getBoundingClientRect().right : 480;
-      // Left lower than About Me so the gap above it (between the menubar
-      // and this window) stays open for the basketball hoop/ball, which
-      // centers itself in that gap — see js/basketball.js.
-      claude.style.top = '420px';
-      claude.style.left = `${Math.round(aboutRight + gap)}px`;
-      openWindow('claude');
-      focusWindow('claude');
-    }
-    if (tools) {
-      const gap = 40;
-      const claudeRight = claude ? claude.getBoundingClientRect().right : 960;
-      tools.style.top = '60px';
-      tools.style.left = `${Math.round(claudeRight + gap)}px`;
-      openWindow('tools');
-      focusWindow('tools');
+    const gap = 60;
+    const iconClearance = 140; // keep clear of the desktop icon column on the left
+    const rightMargin = 16;
+    // Center the About Me + AI Assistant pair as a group on the desktop
+    // (Tools and Framework no longer opens by default, so there's no
+    // third window to balance against on the right).
+    const aboutW = about ? about.getBoundingClientRect().width || 420 : 420;
+    const claudeW = claude ? claude.getBoundingClientRect().width || 620 : 620;
+    const claudeH = claude ? claude.getBoundingClientRect().height || 460 : 460;
+    const sideBySideWidth = aboutW + gap + claudeW;
+    const fitsSideBySide = iconClearance + sideBySideWidth + rightMargin <= window.innerWidth;
+    const dock = document.querySelector('.dock');
+    const dockTop = dock ? dock.getBoundingClientRect().top : window.innerHeight - 90;
+    const maxClaudeTop = Math.max(70, Math.round(dockTop - 16 - claudeH));
+
+    if (fitsSideBySide) {
+      const startX = Math.max(
+        iconClearance,
+        Math.round((window.innerWidth - sideBySideWidth) / 2)
+      );
+      if (about) {
+        about.style.top = '70px';
+        about.style.left = `${startX}px`;
+        openWindow('about');
+      }
+      if (claude) {
+        // Left lower than About Me so the gap above it (between the menubar
+        // and this window) stays open for the basketball hoop/ball, which
+        // centers itself in that gap — see js/basketball.js. Clamped above
+        // the dock so short viewports don't hide the chat input behind it.
+        claude.style.top = `${Math.min(420, maxClaudeTop)}px`;
+        claude.style.left = `${startX + aboutW + gap}px`;
+        openWindow('claude');
+        focusWindow('claude');
+      }
+    } else {
+      // Not enough width to tile side by side (narrow desktop/tablet
+      // viewport) — stack them instead so both stay fully on-screen. Both
+      // windows' content areas scroll internally, so shrink their heights
+      // to fit rather than letting either spill past the dock.
+      const stackTop = 70;
+      const gapV = 24;
+      const minWinH = 200;
+      const available = Math.max(2 * minWinH + gapV, dockTop - 16 - stackTop);
+      const naturalAboutH = about ? about.getBoundingClientRect().height || 400 : 400;
+      const aboutH = Math.min(naturalAboutH, Math.max(minWinH, available - gapV - minWinH));
+      if (about) {
+        about.style.top = `${stackTop}px`;
+        about.style.left = `${iconClearance}px`;
+        if (aboutH < naturalAboutH) about.style.height = `${Math.round(aboutH)}px`;
+        openWindow('about');
+      }
+      if (claude) {
+        const claudeTop = Math.round(stackTop + aboutH + gapV);
+        const claudeAvailH = Math.max(minWinH, dockTop - 16 - claudeTop);
+        claude.style.top = `${claudeTop}px`;
+        claude.style.left = `${iconClearance}px`;
+        claude.style.height = `${Math.round(Math.min(claudeH, claudeAvailH))}px`;
+        openWindow('claude');
+        focusWindow('claude');
+      }
     }
   }
 
