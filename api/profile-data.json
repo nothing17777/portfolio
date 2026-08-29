@@ -267,5 +267,18 @@
       "transcription"
     ],
     "body": "A Streamlit app that transcribes German audio/video locally using OpenAI's Whisper model, then translates the transcript to English, built for cases where content shouldn't leave the machine. Runs fully locally with a model-size selector and automatic GPU/CPU detection via PyTorch. Accepts mp3, mp4, wav, m4a, and webm uploads."
+  },
+  {
+    "id": "side-mcpagent",
+    "title": "Google AI MCP Agent",
+    "tags": [
+      "project",
+      "side project",
+      "ai agents",
+      "mcp",
+      "ollama",
+      "gemini"
+    ],
+    "body": "A local Ollama agent that calls Google's free-tier AI tools (AI Studio/Gemini API, Stitch, NotebookLM, Google AI Mode search) as tools over MCP, with a hand-rolled Ollama-to-MCP bridge translating between Ollama's tool schema and MCP, plus an OpenAI-compatible FastAPI wrapper so any OpenAI-client chat UI (e.g. Open WebUI) can use it as a real tool-calling backend. Routes calls across five MCP servers through one client manager, with per-message tool scoping to keep a local 8B model responsive, and a per-response footer showing which tools fired."
   }
 ]

@@ -505,6 +505,10 @@ Type 'help' to see available commands.</div>
           <img src="assets/icons/side-whisper.svg" alt="" draggable="false">
           <span>German Whisper Transcriber</span>
         </div>
+        <div class="folder-icon" data-app="side-mcpagent" tabindex="0" role="button">
+          <img src="assets/icons/side-mcpagent.svg" alt="" draggable="false">
+          <span>Google AI MCP Agent</span>
+        </div>
       </div>
     </div>
   </div>
@@ -895,6 +899,57 @@ Type 'help' to see available commands.</div>
         </ul>
         <div class="project-links">
           <a href="https://github.com/nothing17777/german-whisper-transcriber" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <div id="win-side-mcpagent" class="mac-window" style="top: 200px; left: 430px; width: 560px; height: 520px;">
+    <div class="window-header">
+      <div class="window-controls">
+        <button class="control-btn close-btn" aria-label="Close"></button>
+        <button class="control-btn min-btn" aria-label="Minimize"></button>
+        <button class="control-btn max-btn" aria-label="Maximize"></button>
+      </div>
+      <div class="window-title">Google AI MCP Agent</div>
+    </div>
+    <div class="window-content projects-app">
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">Personal Project</span>
+          <span class="tag mono">Python · Ollama · MCP · FastAPI</span>
+        </div>
+        <h3>Google AI MCP Agent</h3>
+        <div class="tech-stack">
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/python.svg" alt="">Python</span>
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/ollama.svg" alt="">Ollama</span>
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/gemini.svg" alt="">Gemini</span>
+          <span class="tech-badge tech-badge-text">MCP</span>
+          <span class="tech-badge tech-badge-text">FastAPI</span>
+          <span class="tech-badge tech-badge-text">Playwright</span>
+        </div>
+        <p>
+          A local Ollama agent that calls Google's free-tier AI tools &mdash; AI Studio/Gemini,
+          Stitch, NotebookLM, and AI Mode search &mdash; as tools over MCP, with a hand-rolled
+          Ollama&harr;MCP bridge and an OpenAI-compatible API in front so any OpenAI-client chat
+          UI (Open WebUI, etc.) can use it as a real tool-calling backend.
+        </p>
+        <ul class="findings">
+          <li>Hand-rolled translation layer between Ollama's native tool-calling schema and
+            MCP, since Ollama has no first-class way to talk to arbitrary MCP servers.</li>
+          <li>Routes tool calls across five MCP servers &mdash; an echo sanity-check, AI Studio
+            (Gemini API), Stitch (HTTP), NotebookLM, and AI Mode search (both vendored,
+            browser-automated via Playwright) &mdash; through one client manager.</li>
+          <li>Per-message tool scoping (<code>/tools stitch</code>, <code>/tools all</code>) keeps
+            default requests to a local 8B model fast, since sending every server's full tool
+            schema on every turn pushed even trivial replies to 60&ndash;150+ seconds.</li>
+          <li>Every response ends with a footer showing which tools were offered, connected, and
+            actually fired that turn, so tool usage is visible directly in the chat.</li>
+        </ul>
+        <div class="project-links">
+          <a href="https://github.com/nothing17777/google-ai-mcp-agent" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
       </article>
 
