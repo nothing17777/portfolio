@@ -118,6 +118,30 @@
     return Math.min(Math.max(value, min), max);
   }
 
+  // Where a dropped icon should land among the dock's existing icons,
+  // based on the drop x position vs. each icon's horizontal midpoint.
+  function dockInsertIndexForX(dockEl, x, excludeEl) {
+    const children = Array.from(dockEl.querySelectorAll(':scope > [data-app]')).filter((c) => c !== excludeEl);
+    for (let i = 0; i < children.length; i++) {
+      const r = children[i].getBoundingClientRect();
+      if (x < r.left + r.width / 2) return i;
+    }
+    return children.length;
+  }
+
+  // Record the dock's current left-to-right icon order so it survives reload.
+  function persistDockOrder(dockEl) {
+    const layout = loadIconLayout();
+    Array.from(dockEl.querySelectorAll(':scope > [data-app]')).forEach((child, i) => {
+      layout[child.dataset.app] = { home: 'dock', order: i };
+    });
+    try {
+      localStorage.setItem(ICON_LAYOUT_KEY, JSON.stringify(layout));
+    } catch (e) {
+      // localStorage unavailable (private mode, quota) — layout just won't persist
+    }
+  }
+
   // Mutate an existing icon element in place into the desktop-icon shape —
   // never clone, so a dock icon dragged out stays the same DOM node
   // (drag listeners, tabindex, etc. survive) instead of leaving a stray
@@ -217,8 +241,14 @@
         el.style.left = '';
         el.style.top = '';
         el.style.margin = '';
-        dockEl.appendChild(el);
-        saveIconState(appId, { home: 'dock' });
+        const insertIndex = dockInsertIndexForX(dockEl, x, el);
+        const siblings = Array.from(dockEl.querySelectorAll(':scope > [data-app]')).filter((c) => c !== el);
+        if (insertIndex >= siblings.length) {
+          dockEl.appendChild(el);
+        } else {
+          dockEl.insertBefore(el, siblings[insertIndex]);
+        }
+        persistDockOrder(dockEl);
       } else {
         if (el.className !== 'desktop-icon') applyDesktopShape(el, data);
         const desktopRect = desktopEl.getBoundingClientRect();
@@ -285,24 +315,33 @@
 
     // Any icon can be dragged into or out of the dock, same as real macOS.
     const layout = loadIconLayout();
+    const dockAppIds = Object.keys(layout)
+      .filter((appId) => layout[appId] && layout[appId].home === 'dock')
+      .sort((a, b) => (layout[a].order ?? 0) - (layout[b].order ?? 0));
+
     Object.keys(layout).forEach((appId) => {
       const data = iconRegistry[appId];
       const saved = layout[appId];
-      if (!data || !saved) return;
+      if (!data || !saved || saved.home !== 'desktop') return;
 
       const el = document.querySelector(`.desktop > [data-app="${appId}"], .dock > [data-app="${appId}"]`);
       if (!el) return;
 
-      if (saved.home === 'desktop') {
-        if (el.className !== 'desktop-icon') applyDesktopShape(el, data);
-        el.style.position = 'absolute';
-        el.style.left = `${saved.x}px`;
-        el.style.top = `${saved.y}px`;
-        if (el.parentElement !== desktopEl) desktopEl.appendChild(el);
-      } else if (saved.home === 'dock') {
-        if (el.className !== 'dock-icon') applyDockShape(el, data);
-        if (el.parentElement !== dockEl) dockEl.appendChild(el);
-      }
+      if (el.className !== 'desktop-icon') applyDesktopShape(el, data);
+      el.style.position = 'absolute';
+      el.style.left = `${saved.x}px`;
+      el.style.top = `${saved.y}px`;
+      if (el.parentElement !== desktopEl) desktopEl.appendChild(el);
+    });
+
+    // Re-append dock icons in their saved left-to-right order (appendChild
+    // on each in sequence naturally reproduces that order).
+    dockAppIds.forEach((appId) => {
+      const data = iconRegistry[appId];
+      const el = document.querySelector(`.desktop > [data-app="${appId}"], .dock > [data-app="${appId}"]`);
+      if (!data || !el) return;
+      if (el.className !== 'dock-icon') applyDockShape(el, data);
+      dockEl.appendChild(el);
     });
 
     document.querySelectorAll('[data-app]').forEach((el) => {
