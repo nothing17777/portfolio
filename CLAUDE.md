@@ -31,6 +31,13 @@ Deployed via Vercel's GitHub integration (auto-deploy on push to `main`). `OPENR
 - Sections are anchored (`#projects`, `#side-projects`, `#coursework`, `#experience`) and referenced by the top nav — keep IDs in sync when adding sections.
 - Prose uses HTML entities (`&mdash;`, `&times;`, `&amp;`). Note: `index.html` currently has three spots where an em dash was mangled into a literal `2014` (from a broken `—` escape) — fix these to `&mdash;` if you touch those lines, and don't introduce more.
 
+## Checklist for content changes
+
+Whenever a project, tool, or framework is added/removed/changed, update all three together:
+- The relevant card/window in `index.html` (project article, or a `.tool-badge` in the "Tools and Framework" window).
+- `api/profile-data.json` — add/update/remove the matching `{id, title, tags, body}` entry so the chat assistant's retrieval stays in sync.
+- The "Tools and Framework" window's tech badges (`#win-tools` in `index.html`) if the change introduces or drops a language/library/service — not just the project's own card.
+
 ## Deliverables
 
 - When a task produces a viewable file (HTML report, generated page, screenshot, PDF), open it automatically with `open <path>` when the work finishes — don't just print the path.

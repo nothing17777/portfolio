@@ -77,6 +77,13 @@ hand-maintained and will silently drift otherwise.
 `index.html` has spots where an em dash was mangled into a literal `2014` (a broken `&mdash;`
 escape). Fix any you touch; don't introduce more.
 
+## Keep in sync
+
+Any project/tool/framework change touches three places, not one: the `index.html` card or
+`.tool-badge` itself, the matching `{id, title, tags, body}` entry in `api/profile-data.json`
+(the chat assistant's retrieval source), and the "Tools and Framework" window's tech badges if a
+new language/library/service is introduced or dropped.
+
 ## Shipping
 
 ```bash
