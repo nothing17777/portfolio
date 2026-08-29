@@ -1,10 +1,42 @@
 const profileData = require('./profile-data.json');
 
 // meta-llama/llama-3.1-8b-instruct:free was retired from OpenRouter's free
-// tier since this endpoint was first written; confirmed liquid/lfm-2.5-2.6b:free
-// responds successfully as of 2026-08-28.
-const MODEL = 'liquid/lfm-2.5-2.6b:free';
+// tier since this endpoint was first written. Free-tier models get rate
+// limited hard (a handful of requests/min without account credit), so this
+// tries a short list of free models in order and, if every one of them is
+// down or rate-limited, falls back to returning the retrieved profile
+// content directly rather than an error — the assistant should degrade to
+// "less polished" before it degrades to "broken."
+// Each entry is tried in order; a rate-limited (429), erroring, or
+// nonexistent slug is simply skipped in favor of the next one (see the loop
+// in the handler below), so it's safe to list more candidates than we've
+// individually verified are live right now — OpenRouter adds/retires free
+// slugs often enough that "confirmed working" goes stale fast. Check
+// https://openrouter.ai/models?max_price=0 for the current free roster if
+// this list needs pruning or refreshing later.
+const MODELS = [
+  'liquid/lfm-2.5-2.6b:free',
+  'deepseek/deepseek-chat-v3.1:free',
+  'deepseek/deepseek-r1:free',
+  'google/gemini-2.0-flash-exp:free',
+  'meta-llama/llama-3.2-3b-instruct:free',
+  'meta-llama/llama-3.3-70b-instruct:free',
+  'qwen/qwen-2.5-72b-instruct:free',
+  'mistralai/mistral-7b-instruct:free',
+  'google/gemma-2-9b-it:free',
+  'microsoft/phi-3-mini-128k-instruct:free',
+];
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
+
+// Big Pickle is a separate provider (OpenCode Zen, not OpenRouter) with its
+// own OpenAI-compatible endpoint and its own API key. It's currently free
+// while OpenCode collects feedback on it, but "free" still requires signing
+// up for an OpenCode Zen account and billing details to get an API key —
+// see https://opencode.ai/docs/zen/. Tried last, and only if a key is set,
+// since it needs OPENCODE_API_KEY in the environment (alongside
+// OPENROUTER_API_KEY) to do anything.
+const OPENCODE_ZEN_URL = 'https://opencode.ai/zen/v1/chat/completions';
+const BIG_PICKLE_MODEL = 'big-pickle';
 
 function scoreSection(section, queryWords) {
   const haystack = `${section.title} ${section.tags.join(' ')} ${section.body}`.toLowerCase();
@@ -16,7 +48,7 @@ function scoreSection(section, queryWords) {
   return score;
 }
 
-function retrieveContext(message) {
+function retrieveSections(message) {
   const queryWords = message.toLowerCase().split(/\W+/).filter(Boolean);
   const scored = profileData
     .map((section) => ({ section, score: scoreSection(section, queryWords) }))
@@ -24,8 +56,58 @@ function retrieveContext(message) {
 
   const top = scored.filter((s) => s.score > 0).slice(0, 5);
   const chosen = top.length > 0 ? top : scored.slice(0, 3);
+  return chosen.map((s) => s.section);
+}
 
-  return chosen.map(({ section }) => `### ${section.title}\n${section.body}`).join('\n\n');
+function contextBlock(sections) {
+  return sections.map((section) => `### ${section.title}\n${section.body}`).join('\n\n');
+}
+
+// No-LLM fallback: hand back the retrieved section(s) themselves, lightly
+// framed, so the visitor still gets a real answer instead of an error.
+function extractiveReply(sections) {
+  if (sections.length === 0) {
+    return "I don't have specifics on that, but feel free to ask about Tim's projects, experience, or background.";
+  }
+  const top = sections.slice(0, 2);
+  const body = top.map((s) => `**${s.title}**\n${s.body}`).join('\n\n');
+  return `${body}\n\n_(The AI assistant is at capacity right now, so this is pulled straight from Tim's profile — ask again in a bit for a conversational answer.)_`;
+}
+
+async function callChatCompletions(url, apiKey, model, systemPrompt, message) {
+  const apiRes = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: message },
+      ],
+    }),
+  });
+
+  if (!apiRes.ok) {
+    return { ok: false, status: apiRes.status };
+  }
+
+  const data = await apiRes.json();
+  const reply = data?.choices?.[0]?.message?.content;
+  if (!reply) {
+    return { ok: false, status: apiRes.status };
+  }
+  return { ok: true, reply };
+}
+
+function callModel(model, systemPrompt, message) {
+  return callChatCompletions(OPENROUTER_URL, process.env.OPENROUTER_API_KEY, model, systemPrompt, message);
+}
+
+function callBigPickle(systemPrompt, message) {
+  return callChatCompletions(OPENCODE_ZEN_URL, process.env.OPENCODE_API_KEY, BIG_PICKLE_MODEL, systemPrompt, message);
 }
 
 module.exports = async function handler(req, res) {
@@ -44,44 +126,37 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const context = retrieveContext(message);
-  const systemPrompt = `You are a helpful assistant answering questions about Tim Zhang's portfolio, based ONLY on the context below. If the context doesn't cover the question, say you don't have that information rather than guessing.\n\n${context}`;
+  const sections = retrieveSections(message);
+  const systemPrompt = `You are a helpful assistant answering questions about Tim Zhang's portfolio, based ONLY on the context below. If the context doesn't cover the question, say you don't have that information rather than guessing.\n\n${contextBlock(sections)}`;
 
-  try {
-    const apiRes = await fetch(OPENROUTER_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: message },
-        ],
-      }),
-    });
-
-    if (apiRes.status === 429) {
-      res.status(200).json({ error: 'This assistant is rate-limited right now — please try again in a minute.' });
-      return;
+  for (const model of MODELS) {
+    try {
+      const result = await callModel(model, systemPrompt, message);
+      if (result.ok) {
+        res.status(200).json({ reply: result.reply });
+        return;
+      }
+      // 429 (rate limited) or a bad/empty response: try the next model.
+    } catch (err) {
+      // Network error on this model: try the next one.
     }
-
-    if (!apiRes.ok) {
-      res.status(200).json({ error: 'The assistant is temporarily unavailable. Please try again shortly.' });
-      return;
-    }
-
-    const data = await apiRes.json();
-    const reply = data?.choices?.[0]?.message?.content;
-    if (!reply) {
-      res.status(200).json({ error: 'The assistant could not generate a reply. Please try again.' });
-      return;
-    }
-
-    res.status(200).json({ reply });
-  } catch (err) {
-    res.status(200).json({ error: 'The assistant is temporarily unavailable. Please try again shortly.' });
   }
+
+  // Every OpenRouter model failed — try Big Pickle on OpenCode Zen as a last
+  // resort, but only if it's actually configured.
+  if (process.env.OPENCODE_API_KEY) {
+    try {
+      const result = await callBigPickle(systemPrompt, message);
+      if (result.ok) {
+        res.status(200).json({ reply: result.reply });
+        return;
+      }
+    } catch (err) {
+      // Fall through to the extractive reply below.
+    }
+  }
+
+  // Every model failed or was rate-limited — answer from retrieval alone
+  // instead of surfacing an error.
+  res.status(200).json({ reply: extractiveReply(sections) });
 };

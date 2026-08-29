@@ -2,109 +2,234 @@
   {
     "id": "about",
     "title": "About Tim Zhang",
-    "tags": ["about", "bio", "background", "ucla"],
+    "tags": [
+      "about",
+      "bio",
+      "background",
+      "ucla"
+    ],
     "body": "Tim Zhang is a Computer Science undergraduate at UCLA who uses agentic AI in his daily workflow to build and code projects. He enjoys turning ideas into practical software while learning new technologies along the way."
   },
   {
     "id": "tools",
     "title": "Tools & Automation",
-    "tags": ["tools", "automation", "zapier", "claude code", "ai workflow"],
-    "body": "Tim uses Zapier to wire ChatGPT and Claude directly into daily tools: Gmail (drafting, scheduling, auto-replying to email based on trigger conditions) and Google Drive (on-demand document summaries). He makes extensive daily use of Claude Code — custom slash commands, skills, and subagents built into a working development loop, not just chat — and also works across Antigravity, Codex, and Cursor for AI-assisted development."
+    "tags": [
+      "tools",
+      "automation",
+      "zapier",
+      "claude code",
+      "ai workflow"
+    ],
+    "body": "Tim uses Zapier to wire ChatGPT and Claude directly into daily tools: Gmail (drafting, scheduling, auto-replying to email based on trigger conditions) and Google Drive (on-demand document summaries). He makes extensive daily use of Claude Code \u2014 custom slash commands, skills, and subagents built into a working development loop, not just chat \u2014 and also works across Antigravity, Codex, and Cursor for AI-assisted development."
   },
   {
     "id": "coursework",
     "title": "Coursework",
-    "tags": ["coursework", "classes", "courses", "ucla"],
+    "tags": [
+      "coursework",
+      "classes",
+      "courses",
+      "ucla"
+    ],
     "body": "Data Structures & Algorithms, Object-Oriented Programming, Software Design, Introduction to Machine Learning, Foundations of Computer Vision."
+  },
+  {
+    "id": "experience-ipmd",
+    "title": "AI Engineering Intern, IPMD (Summer 2026)",
+    "tags": [
+      "experience",
+      "job",
+      "work",
+      "ipmd",
+      "echo ai",
+      "rag",
+      "langchain",
+      "openface",
+      "chroma",
+      "ai engineering"
+    ],
+    "body": "Built the retrieval-augmented generation (RAG) pipeline behind the IPMD Echo AI mobile app, an emotional-AI companion that analyzes a selfie video captured on a phone camera to deliver real-time insights into the user's emotional state. Used LangChain to orchestrate the pipeline, the OpenFace 3.0 model to detect facial expressions from video, and a Chroma vector database to store and retrieve embeddings."
   },
   {
     "id": "experience-seasnet",
     "title": "Computer Lab Consultant, UCLA SEASNet (Mar 2026 - present)",
-    "tags": ["experience", "job", "work", "seasnet", "ucla"],
+    "tags": [
+      "experience",
+      "job",
+      "work",
+      "seasnet",
+      "ucla"
+    ],
     "body": "Technical support for hundreds of engineering students and faculty daily covering software, hardware, and network issues. Runs training sessions on lab tools and contributes to lab-wide system improvements with the SEASNet technical team."
   },
   {
     "id": "experience-ted",
     "title": "Translator / Transcriber, TED Translators (Jun 2022 - 2024)",
-    "tags": ["experience", "job", "work", "ted", "translation"],
+    "tags": [
+      "experience",
+      "job",
+      "work",
+      "ted",
+      "translation"
+    ],
     "body": "Translated TED Talk scripts between English and Simplified Chinese, reviewed peer translations for accuracy, tone, and cultural sensitivity, and produced time-synced subtitles for global accessibility across concurrent projects."
   },
   {
     "id": "experience-tutor",
     "title": "Mathematics Tutor, Learn To Be (Aug 2023 - Apr 2024)",
-    "tags": ["experience", "job", "work", "tutor", "math"],
+    "tags": [
+      "experience",
+      "job",
+      "work",
+      "tutor",
+      "math"
+    ],
     "body": "Tutored K-12 students from underserved communities, breaking down concepts into individualized, approachable lesson plans over live virtual sessions."
   },
   {
     "id": "certs",
     "title": "Certificates",
-    "tags": ["certificates", "certifications", "courses completed"],
+    "tags": [
+      "certificates",
+      "certifications",
+      "courses completed"
+    ],
     "body": "CS50's Introduction to Programming with Python (Harvard University, 2024). AI Fluency: Framework & Foundations (Anthropic). Claude Code 101 (Anthropic). Claude Code in Action (Anthropic)."
   },
   {
     "id": "proj-cnn",
     "title": "CNN-Based Image Classification - CIFAR-10",
-    "tags": ["project", "computer vision", "cnn", "pytorch", "cifar-10", "academic"],
+    "tags": [
+      "project",
+      "computer vision",
+      "cnn",
+      "pytorch",
+      "cifar-10",
+      "academic"
+    ],
     "body": "Built and trained a convolutional neural network from scratch in PyTorch for 10-class image classification, sweeping batch size and epoch count. Best configuration (batch size 16, 20 epochs) reached 65.7% test accuracy versus 55.5% at 5 epochs. At a fixed 5 epochs, the smaller batch size (4) outperformed the larger one (58.1% vs 55.5%), reversing once given enough epochs (65.7% vs 61.2% at 20 epochs)."
   },
   {
     "id": "proj-rge",
     "title": "Robust Geometric Estimation - SIFT, RANSAC & Homography",
-    "tags": ["project", "computer vision", "sift", "ransac", "homography", "academic"],
+    "tags": [
+      "project",
+      "computer vision",
+      "sift",
+      "ransac",
+      "homography",
+      "academic"
+    ],
     "body": "Full correspondence pipeline: SIFT keypoint detection and descriptor matching, a from-scratch RANSAC loop for robust homography estimation, and inverse warping with bilinear interpolation to stitch image pairs into a panorama. Implemented direct linear transform (DLT) homography estimation, then RANSAC to separate true matches from outliers. Also implemented the eight-point algorithm for essential matrix estimation and 3D point reconstruction (2.7% mean reprojection error)."
   },
   {
     "id": "proj-fd",
     "title": "Feature Detection - Edges, Blobs & Corners",
-    "tags": ["project", "computer vision", "edge detection", "harris corners", "academic"],
+    "tags": [
+      "project",
+      "computer vision",
+      "edge detection",
+      "harris corners",
+      "academic"
+    ],
     "body": "A ground-up image-filtering stack: 2D convolution, Gaussian/median/bilateral filtering, gradient-based edge detection, Laplacian-of-Gaussian blob detection, and Harris corner detection with non-maximum suppression, every operator derived and implemented by hand. Median filtering won on both quantitative error and visual edge preservation compared to average and Gaussian filtering."
   },
   {
     "id": "proj-llm",
     "title": "Semantic Matching & Reasoning with Language Models",
-    "tags": ["project", "nlp", "llm", "lora", "fine-tuning", "academic"],
+    "tags": [
+      "project",
+      "nlp",
+      "llm",
+      "lora",
+      "fine-tuning",
+      "academic"
+    ],
     "body": "Two-part project on paraphrase detection (PAWS) and math reasoning (GSM8K). Paraphrase detection: a bi-encoder baseline hit 61.8% test accuracy; fine-tuning a DistilBERT cross-encoder pushed that to 81.9%, matched by few-shot prompting a 1.5B instruct model (81.5%) with zero training. Math reasoning: LoRA fine-tuned Qwen2.5-1.5B on 1,000 then 2,000 examples, taking base-model accuracy from 36% to 47% to 49%, training under 0.15% of total parameters. A 'reread the problem first' prompt alone lifted base-model accuracy from 44% to 60%."
   },
   {
     "id": "side-cloner",
     "title": "Website Template Cloner",
-    "tags": ["project", "side project", "web tooling", "playwright", "next.js"],
+    "tags": [
+      "project",
+      "side project",
+      "web tooling",
+      "playwright",
+      "next.js"
+    ],
     "body": "An agent-driven pipeline that turns any webpage into a reusable Next.js front-end template: captures the rendered DOM, every stylesheet, and a full-page screenshot, then emits a self-contained app with placeholder copy and imagery. Every value is cited to a selector and property or marked UNVERIFIED, never guessed. The apple.com/iPhone rebuild landed within 1px over a 12,967px page."
   },
   {
     "id": "side-rift",
     "title": "Rift Connections",
-    "tags": ["project", "side project", "league of legends", "next.js", "game"],
+    "tags": [
+      "project",
+      "side project",
+      "league of legends",
+      "next.js",
+      "game"
+    ],
     "body": "A daily NYT Connections-style puzzle for League of Legends: group 16 champions into four hidden thematic categories in a 4x4 grid, with a 3D mascot scene and streak tracking. Puzzles are procedurally generated from a bank of 40 disjoint champion-relationship pools. Built as a Next.js 14 monorepo with Tailwind CSS, Framer Motion, and Zustand."
   },
   {
     "id": "side-esports",
     "title": "ESPORTS.DATA - League of Legends Esports Analytics",
-    "tags": ["project", "side project", "league of legends", "analytics", "dashboard"],
+    "tags": [
+      "project",
+      "side project",
+      "league of legends",
+      "analytics",
+      "dashboard"
+    ],
     "body": "A data analytics dashboard covering 98,000+ professional League of Legends matches from 2014-2026, sourced from Oracle's Elixir and served through REST API routes backed by a Turso (libSQL) database. Covers champion presence, synergy, counters, lane performance, and win rates, plus browsable match history and pro player profiles. Built on Next.js 16 with React 19 and Tailwind CSS 4."
   },
   {
     "id": "side-winrate",
     "title": "League of Legends Win Rate Quiz",
-    "tags": ["project", "side project", "league of legends", "game", "quiz"],
+    "tags": [
+      "project",
+      "side project",
+      "league of legends",
+      "game",
+      "quiz"
+    ],
     "body": "A 'Higher or Lower' streak quiz comparing two champions' win rates. Animated count-up reveal after each guess, running score bar, and round-by-round guess history. High score and run history persist locally via localStorage. Champion art is pulled live from Riot's Data Dragon CDN."
   },
   {
     "id": "side-yugioh",
     "title": "Yu-Gi-Oh! RAG Chatbot",
-    "tags": ["project", "side project", "ai agents", "rag", "langchain", "chatbot"],
+    "tags": [
+      "project",
+      "side project",
+      "ai agents",
+      "rag",
+      "langchain",
+      "chatbot"
+    ],
     "body": "A Retrieval-Augmented Generation chatbot answering questions over the full Yu-Gi-Oh! card database (~14,500 cards) using a locally-hosted LLM, no paid APIs. Hybrid retrieval combines semantic vector search (Sentence Transformers + ChromaDB) with exact metadata filtering. A LangGraph ReAct agent handles tool-calling and intent classification. Generation is grounded strictly in retrieved context using Qwen2.5-7B via Ollama."
   },
   {
     "id": "side-crewai",
     "title": "CrewAI News Agent",
-    "tags": ["project", "side project", "ai agents", "crewai", "multi-agent"],
+    "tags": [
+      "project",
+      "side project",
+      "ai agents",
+      "crewai",
+      "multi-agent"
+    ],
     "body": "A multi-agent news pipeline built with CrewAI: a News Collector agent searches the web for coverage of a topic, and a News Reporter agent turns those findings into a validated headline, both running sequentially against a local LLM (Qwen2.5-7B-Instruct via Ollama). Web search is wired in as a CrewAI tool (Serper)."
   },
   {
     "id": "side-whisper",
     "title": "German Whisper Transcriber",
-    "tags": ["project", "side project", "ai agents", "whisper", "transcription"],
+    "tags": [
+      "project",
+      "side project",
+      "ai agents",
+      "whisper",
+      "transcription"
+    ],
     "body": "A Streamlit app that transcribes German audio/video locally using OpenAI's Whisper model, then translates the transcript to English, built for cases where content shouldn't leave the machine. Runs fully locally with a model-size selector and automatic GPU/CPU detection via PyTorch. Accepts mp3, mp4, wav, m4a, and webm uploads."
   }
 ]

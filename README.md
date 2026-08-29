@@ -29,6 +29,7 @@ This site is deployed via [Vercel](https://vercel.com):
 
 1. Import the repo into Vercel (New Project → select this GitHub repo).
 2. In Project Settings → Environment Variables, add `OPENROUTER_API_KEY` with a real OpenRouter API key (get one at https://openrouter.ai/keys). Required for the Claude Code chat window's `/api/chat` endpoint.
+3. Optionally also add `OPENCODE_API_KEY` (get one at https://opencode.ai, under Zen) to enable Big Pickle as an extra last-resort fallback model if every OpenRouter free model is rate-limited at once. Not required — the chat window works with just `OPENROUTER_API_KEY`, and falls back to showing profile content directly if everything is unavailable.
 3. Every push to `main` auto-deploys. The frontend stays fully static; only `api/chat.js` runs as a serverless function.
 
 ## Editing content

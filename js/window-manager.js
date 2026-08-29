@@ -415,11 +415,27 @@
     win.style.top = `${Math.max(top + 16, top + (bottom - top - rect.height) / 2)}px`;
   }
 
-  function greetOnLoad() {
-    const win = getWin('claude');
-    if (!win) return;
-    centerWindow('claude');
-    openWindow('claude');
+  // First-visit layout: About Me carries the identity/hero content (name,
+  // pitch, résumé/contact), tiled beside the AI assistant so a visitor gets
+  // both "who is this" and "ask me anything" at once, with nothing hidden
+  // behind clicks. Positions are fixed px (matches the rest of this file's
+  // window placements, which assume a desktop-width viewport).
+  function openDefaultWindows() {
+    const about = getWin('about');
+    const claude = getWin('claude');
+    if (about) {
+      about.style.top = '70px';
+      about.style.left = '140px';
+      openWindow('about');
+    }
+    if (claude) {
+      const gap = 40;
+      const aboutRight = about ? about.getBoundingClientRect().right : 480;
+      claude.style.top = '90px';
+      claude.style.left = `${Math.round(aboutRight + gap)}px`;
+      openWindow('claude');
+      focusWindow('claude');
+    }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -427,7 +443,7 @@
     initWindowChrome();
     initClock();
     initDockMagnify();
-    greetOnLoad();
+    openDefaultWindows();
   });
 
   window.WM = { open: openWindow, close: closeWindow, focus: focusWindow };

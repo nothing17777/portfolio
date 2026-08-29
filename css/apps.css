@@ -144,3 +144,18 @@
   padding-bottom: 4px;
 }
 .folder-group-label:first-child{ margin-top: 0; }
+
+/* About window — doubles as the site's hero/identity card */
+.about-app .about-eyebrow{ margin: 0 0 4px; letter-spacing: 0.04em; text-transform: lowercase; color: var(--graphite); font-size: 0.78rem; }
+.about-app .about-name{ margin: 0 0 6px; font-family: var(--display); font-size: 1.9rem; line-height: 1.1; }
+.about-app .about-role{ margin: 0 0 12px; color: var(--ink-soft); font-weight: 500; }
+.about-actions{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.about-btn{
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 7px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 500;
+  text-decoration: none; border: 1px solid var(--hairline); color: var(--ink);
+  background: var(--paper); transition: transform 0.15s var(--spring), background 0.15s;
+}
+.about-btn:hover{ transform: translateY(-1px); background: var(--paper-raised); }
+.about-btn-primary{ background: var(--accent); border-color: var(--accent); color: #fff; }
+.about-btn-primary:hover{ background: var(--accent-ink); }
