@@ -57,9 +57,14 @@
     const offsetX = clientX - rect.left;
     const offsetY = clientY - rect.top;
 
+    // Clamp so the header (and its close/minimize/maximize buttons) can
+    // never be dragged fully behind the menubar — otherwise the window
+    // becomes unreachable: no title bar to drag back down, no buttons to
+    // close or minimize it.
+    const menubarH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--menubar-h')) || 0;
     function move(x, y) {
       win.style.left = `${x - offsetX}px`;
-      win.style.top = `${y - offsetY}px`;
+      win.style.top = `${Math.max(menubarH, y - offsetY)}px`;
     }
 
     function onMouseMove(e) { move(e.clientX, e.clientY); }
