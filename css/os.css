@@ -211,6 +211,24 @@ body{
   transition: opacity 0.15s ease;
 }
 .dock-icon.is-running::after{ opacity: 1; }
+.dock-icon.is-minimized .dock-icon-img{ opacity: 0.55; }
+
+/* Divider between the pinned dock icons and whatever apps are currently
+   running — same idea as the real macOS dock's separator. Hidden until
+   there's at least one running icon to separate from. */
+.dock-divider{
+  width: 1px;
+  align-self: stretch;
+  margin: 4px 0;
+  background: rgba(21, 23, 27, 0.14);
+  display: none;
+}
+.dock-running{
+  display: contents;
+}
+.dock:has(.dock-running:not(:empty)) .dock-divider{
+  display: block;
+}
 
 /* Windows */
 .mac-window{
@@ -245,9 +263,28 @@ body{
   from{ opacity: 1; transform: scale(1) translateY(0); }
   to{ opacity: 0; transform: scale(0.96) translateY(6px); }
 }
+.mac-window.is-minimizing{
+  animation: window-minimize 0.32s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+@keyframes window-minimize{
+  from{ opacity: 1; transform: scale(1) translateY(0); }
+  to{ opacity: 0; transform: scale(0.08) translateY(55vh); }
+}
 @media (prefers-reduced-motion: reduce){
-  .mac-window.is-opening, .mac-window.is-closing{ animation: none; }
+  .mac-window.is-opening, .mac-window.is-closing, .mac-window.is-minimizing{ animation: none; }
   .mac-window.is-opening, .mac-window.is-open{ opacity: 1; transform: none; }
+}
+/* Maximize (the green traffic-light button): fills the desktop area
+   between the menubar and dock. !important overrides the inline
+   top/left/width/height the drag/resize handlers set directly on the
+   element; restoring pops those inline styles back once unmaximized. */
+.mac-window.is-maximized{
+  top: var(--menubar-h) !important;
+  left: 8px !important;
+  width: calc(100vw - 16px) !important;
+  height: calc(100vh - var(--menubar-h) - var(--dock-h) - 8px) !important;
+  max-width: calc(100vw - 16px) !important;
+  max-height: calc(100vh - var(--menubar-h) - var(--dock-h) - 8px) !important;
 }
 .window-header{
   background: linear-gradient(#F7F7F4, #ECECE7);

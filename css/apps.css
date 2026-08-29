@@ -74,6 +74,72 @@
 .resume-app p{ flex-shrink: 0; margin: 0 0 10px; font-weight: 600; }
 .resume-app embed{ flex: 1; border-radius: 6px; border: 1px solid var(--hairline); }
 
+.contact-app{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.contact-card{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.15s var(--spring), border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.contact-card:hover{
+  border-color: var(--accent);
+  box-shadow: 0 6px 16px rgba(21, 23, 27, 0.1);
+  transform: translateY(-1px);
+}
+.contact-icon{
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+.contact-icon svg{ width: 20px; height: 20px; }
+.contact-text{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.contact-label{
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--graphite);
+}
+.contact-value{
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.contact-arrow{
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--graphite);
+  font-size: 0.95rem;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.contact-card:hover .contact-arrow{
+  color: var(--accent);
+  transform: translate(2px, -2px);
+}
+
 .prose-app{ font-family: var(--body); font-size: 0.92rem; line-height: 1.6; }
 .prose-app p{ margin: 0 0 12px; }
 .prose-app ul{ margin: 0; padding-left: 20px; }

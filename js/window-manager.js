@@ -20,12 +20,52 @@
     return document.querySelector(`.dock-icon[data-app="${appId}"]`);
   }
 
+  // Any app can be "running" in the dock while its window is open, not just
+  // the four pinned icons — mirrors real macOS, where launching anything
+  // gives it a temporary dock icon that disappears again on quit. Reuses a
+  // pinned icon if one already exists for this appId; otherwise clones the
+  // icon/label off whatever element (desktop icon, folder icon, ...) opened
+  // this window and appends a transient icon to #dock-running.
+  function ensureRunningIcon(appId) {
+    const existing = dockIconFor(appId);
+    if (existing) return existing;
+
+    const dockRunning = document.getElementById('dock-running');
+    if (!dockRunning) return null;
+
+    const source = document.querySelector(`[data-app="${appId}"]`);
+    const img = source ? source.querySelector('img') : null;
+    const span = source ? source.querySelector('span') : null;
+    const win = getWin(appId);
+    const title = win ? win.querySelector('.window-title') : null;
+
+    const el = document.createElement('div');
+    el.className = 'dock-icon dock-icon-transient';
+    el.dataset.app = appId;
+    el.tabIndex = 0;
+    el.setAttribute('role', 'button');
+    const icon = img ? img.getAttribute('src') : '';
+    const label = span ? span.textContent : (title ? title.textContent : appId);
+    el.innerHTML = `<img class="dock-icon-img" src="${icon}" alt="" width="40" height="40" draggable="false"><span>${label}</span>`;
+    wireIconInteraction(el);
+    dockRunning.appendChild(el);
+    return el;
+  }
+
+  function removeRunningIcon(appId) {
+    const el = dockIconFor(appId);
+    if (!el) return;
+    el.classList.remove('is-running', 'is-minimized');
+    if (el.classList.contains('dock-icon-transient')) el.remove();
+  }
+
   const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function openWindow(appId) {
     const win = getWin(appId);
     if (!win) return;
     const wasHidden = win.style.display !== 'flex';
+    win.classList.remove('is-minimizing');
     win.style.display = 'flex';
     if (wasHidden) {
       win.classList.remove('is-open', 'is-closing');
@@ -42,14 +82,17 @@
       }
     }
     focusWindow(appId);
-    const dockIcon = dockIconFor(appId);
-    if (dockIcon) dockIcon.classList.add('is-running');
+    const dockIcon = ensureRunningIcon(appId);
+    if (dockIcon) {
+      dockIcon.classList.add('is-running');
+      dockIcon.classList.remove('is-minimized');
+    }
   }
 
   function closeWindow(appId) {
     const win = getWin(appId);
     if (!win || win.style.display === 'none') return;
-    win.classList.remove('is-open', 'is-opening');
+    win.classList.remove('is-open', 'is-opening', 'is-minimizing', 'is-maximized');
     if (reducedMotion()) {
       win.style.display = 'none';
       win.classList.remove('is-closing');
@@ -60,8 +103,51 @@
         win.classList.remove('is-closing');
       }, { once: true });
     }
-    const dockIcon = dockIconFor(appId);
-    if (dockIcon) dockIcon.classList.remove('is-running');
+    removeRunningIcon(appId);
+  }
+
+  // Minimize: same end state as closeWindow (display: none) but the dock
+  // icon stays behind — marked .is-minimized instead of removed — so
+  // clicking it restores the window via the normal openWindow path.
+  function minimizeWindow(appId) {
+    const win = getWin(appId);
+    if (!win || win.style.display === 'none') return;
+    win.classList.remove('is-open', 'is-opening');
+    const finish = () => {
+      win.style.display = 'none';
+      win.classList.remove('is-minimizing');
+    };
+    if (reducedMotion()) {
+      finish();
+    } else {
+      win.classList.add('is-minimizing');
+      win.addEventListener('animationend', finish, { once: true });
+    }
+    const dockIcon = ensureRunningIcon(appId);
+    if (dockIcon) {
+      dockIcon.classList.add('is-running', 'is-minimized');
+    }
+  }
+
+  function toggleMaximize(win) {
+    const appId = idOf(win);
+    if (win.classList.contains('is-maximized')) {
+      const prev = win.dataset.prevRect ? JSON.parse(win.dataset.prevRect) : null;
+      win.classList.remove('is-maximized');
+      if (prev) {
+        win.style.top = prev.top;
+        win.style.left = prev.left;
+        win.style.width = prev.width;
+        win.style.height = prev.height;
+      }
+      delete win.dataset.prevRect;
+    } else {
+      win.dataset.prevRect = JSON.stringify({
+        top: win.style.top, left: win.style.left, width: win.style.width, height: win.style.height,
+      });
+      win.classList.add('is-maximized');
+    }
+    focusWindow(appId);
   }
 
   function dragStart(win, clientX, clientY) {
@@ -404,29 +490,39 @@
     document.querySelectorAll('.mac-window').forEach((win) => {
       const header = win.querySelector('.window-header');
       const closeBtn = win.querySelector('.close-btn');
+      const minBtn = win.querySelector('.min-btn');
+      const maxBtn = win.querySelector('.max-btn');
 
       header.addEventListener('mousedown', (e) => {
-        if (e.target.closest('.control-btn')) return;
+        if (e.target.closest('.control-btn') || win.classList.contains('is-maximized')) return;
         dragStart(win, e.clientX, e.clientY);
       });
       header.addEventListener('touchstart', (e) => {
-        if (e.target.closest('.control-btn')) return;
+        if (e.target.closest('.control-btn') || win.classList.contains('is-maximized')) return;
         const t = e.touches[0];
         dragStart(win, t.clientX, t.clientY);
       }, { passive: true });
 
       win.addEventListener('mousedown', () => focusWindow(idOf(win)));
       closeBtn.addEventListener('click', () => closeWindow(idOf(win)));
+      if (minBtn) minBtn.addEventListener('click', () => minimizeWindow(idOf(win)));
+      if (maxBtn) maxBtn.addEventListener('click', () => toggleMaximize(win));
+      header.addEventListener('dblclick', (e) => {
+        if (e.target.closest('.control-btn')) return;
+        toggleMaximize(win);
+      });
 
       const handle = document.createElement('div');
       handle.className = 'window-resize-handle';
       handle.setAttribute('aria-hidden', 'true');
       win.appendChild(handle);
       handle.addEventListener('mousedown', (e) => {
+        if (win.classList.contains('is-maximized')) return;
         e.stopPropagation();
         resizeStart(win, e.clientX, e.clientY);
       });
       handle.addEventListener('touchstart', (e) => {
+        if (win.classList.contains('is-maximized')) return;
         e.stopPropagation();
         const t = e.touches[0];
         resizeStart(win, t.clientX, t.clientY);
