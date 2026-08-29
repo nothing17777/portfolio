@@ -196,6 +196,20 @@
     "body": "A 'Higher or Lower' streak quiz comparing two champions' win rates. Animated count-up reveal after each guess, running score bar, and round-by-round guess history. High score and run history persist locally via localStorage. Champion art is pulled live from Riot's Data Dragon CDN."
   },
   {
+    "id": "side-researchradar",
+    "title": "Research Radar",
+    "tags": [
+      "project",
+      "side project",
+      "ai agents",
+      "research",
+      "next.js",
+      "supabase",
+      "gemini"
+    ],
+    "body": "An automated AI research digest that scrapes academic papers and technical blog posts hourly (via the Oxylabs Web Scraper API) and analyzes them every 15 minutes with Google Gemini via the Vercel AI SDK. Each paper gets a 1-10 difficulty score (beginner/intermediate/expert) and three developer-focused takeaways, plus a full analysis page with methodology and confidence breakdowns. Semantic search over the corpus uses Supabase Postgres with the pgvector extension. Built with Next.js, TypeScript, and Tailwind CSS, with Clerk authentication and Vercel cron jobs driving the pipeline."
+  },
+  {
     "id": "side-yugioh",
     "title": "Yu-Gi-Oh! RAG Chatbot",
     "tags": [

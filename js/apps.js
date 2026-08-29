@@ -3,10 +3,9 @@
     about: 'About Me',
     sideprojects: 'Side Projects',
     tools: 'Tools & Automation',
-    coursework: 'Coursework',
+    academics: 'Academics',
     certs: 'Certificates',
     experience: 'Experience',
-    projects: 'Projects',
     resume: 'Resume',
     contact: 'Contact',
     claude: 'AI Assistant',
@@ -29,8 +28,8 @@
       if (lower === 'help') {
         print(`Available commands:
   help                 show this list
-  open &lt;app&gt;           open a window (about, projects, sideprojects,
-                       tools, coursework, certs, experience, resume, contact, claude)
+  open &lt;app&gt;           open a window (about, academics, sideprojects,
+                       tools, certs, experience, resume, contact, claude)
   clear                clear this terminal`);
       } else if (lower === 'clear') {
         output.innerHTML = '';

@@ -160,3 +160,16 @@
 .about-btn:hover{ transform: translateY(-1px); background: var(--paper-raised); }
 .about-btn-primary{ background: var(--accent); border-color: var(--accent); color: #fff; }
 .about-btn-primary:hover{ background: var(--accent-ink); }
+
+/* Tools & Automation — icon badges for the tools referenced below */
+.tool-badges{ display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+.tool-badge{
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 8px; border: 1px solid var(--hairline);
+  background: var(--paper); font-size: 0.8rem; font-weight: 500; color: var(--ink-soft);
+}
+.tool-badge-icon{ display: block; width: 16px; height: 16px; color: var(--ink-soft); flex: none; }
+.tool-badge-text{ font-family: var(--mono); font-size: 0.75rem; color: var(--graphite); }
+
+/* Academics window — course list + coursework-project folder grid combined */
+.academics-subhead{ margin: 16px 0 8px; font-family: var(--mono); font-size: 0.78rem; text-transform: lowercase; letter-spacing: 0.04em; color: var(--graphite); }
