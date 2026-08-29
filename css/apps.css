@@ -146,7 +146,8 @@
 .folder-group-label:first-child{ margin-top: 0; }
 
 /* About window — doubles as the site's hero/identity card */
-.about-app .about-eyebrow{ margin: 0 0 4px; letter-spacing: 0.04em; text-transform: lowercase; color: var(--graphite); font-size: 0.78rem; }
+.about-app .about-eyebrow{ margin: 0 0 4px; letter-spacing: 0.04em; text-transform: lowercase; color: var(--graphite); font-size: 0.78rem; display: flex; align-items: center; gap: 6px; }
+.about-app .about-ucla-logo{ display: block; }
 .about-app .about-name{ margin: 0 0 6px; font-family: var(--display); font-size: 1.9rem; line-height: 1.1; }
 .about-app .about-role{ margin: 0 0 12px; color: var(--ink-soft); font-weight: 500; }
 .about-actions{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
