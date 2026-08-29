@@ -42,7 +42,7 @@
       "stack",
       "tech stack"
     ],
-    "body": "Tim uses Zapier to wire ChatGPT and Claude directly into daily tools: Gmail (drafting, scheduling, auto-replying to email based on trigger conditions) and Google Drive (on-demand document summaries). He makes extensive daily use of Claude Code \u2014 custom slash commands, skills, and subagents built into a working development loop, not just chat. Also uses Cursor, Codex, and Antigravity as coding agents/editors.\n\nLanguages: Python, TypeScript, C++, HTML, CSS.\n\nMachine learning & computer vision: PyTorch, NumPy, OpenCV, Hugging Face Transformers, PEFT/LoRA.\n\nWeb frontend: Next.js, React, Vite, Tailwind CSS, Framer Motion.\n\nBackend & data: Node.js, Supabase, Turso, Recharts, Playwright.\n\nDev tools: Git, Docker.\n\nAI agents & LLM tooling: Google Gemini, LangChain, LangGraph, ChromaDB, Ollama, Streamlit, OpenAI Whisper, CrewAI, Serper, OpenFace 3.0."
+    "body": "Tim uses Zapier to wire ChatGPT and Claude directly into daily tools: Gmail (drafting, scheduling, auto-replying to email based on trigger conditions) and Google Drive (on-demand document summaries). He makes extensive daily use of Claude Code \u2014 custom slash commands, skills, and subagents built into a working development loop, not just chat. Also uses Cursor, Codex, and Antigravity as coding agents/editors.\n\nLanguages: Python, TypeScript, C++, HTML, CSS.\n\nMachine learning & computer vision: PyTorch, NumPy, OpenCV, Hugging Face Transformers, PEFT/LoRA.\n\nWeb frontend: Next.js, React, Vite, Tailwind CSS, Framer Motion, Leaflet.\n\nBackend & data: Node.js, Express, Supabase, MySQL, Sequelize, Redis, Turso, Recharts, Playwright.\n\nDev tools: Git, Docker.\n\nAI agents & LLM tooling: Google Gemini, LangChain, LangGraph, ChromaDB, Ollama, Streamlit, OpenAI Whisper, CrewAI, Serper, OpenFace 3.0."
   },
   {
     "id": "coursework",
@@ -144,6 +144,22 @@
       "academic"
     ],
     "body": "Two-part project on paraphrase detection (PAWS) and math reasoning (GSM8K). Paraphrase detection: a bi-encoder baseline hit 61.8% test accuracy; fine-tuning a DistilBERT cross-encoder pushed that to 81.9%, matched by few-shot prompting a 1.5B instruct model (81.5%) with zero training. Math reasoning: LoRA fine-tuned Qwen2.5-1.5B on 1,000 then 2,000 examples, taking base-model accuracy from 36% to 47% to 49%, training under 0.15% of total parameters. A 'reread the problem first' prompt alone lifted base-model accuracy from 44% to 60%."
+  },
+  {
+    "id": "proj-35l",
+    "title": "UCLA Delivery Network",
+    "tags": [
+      "project",
+      "academic",
+      "group project",
+      "full stack",
+      "com sci 35l",
+      "software construction",
+      "react",
+      "node",
+      "mysql"
+    ],
+    "body": "Group final project for COM SCI 35L (Software Construction): a UCLA-specific delivery request service connecting students who need something delivered on campus with peers willing to help. Real-time interactive campus map (Leaflet / React-Leaflet) tracks requests through Open, Accepted, and Completed states. Full-stack build: React + Vite + Tailwind frontend, Node/Express API, MySQL via Sequelize, Redis-backed sessions, JWT access/refresh token auth, photo-upload delivery confirmation, and route calculation via the OpenRouteService API. Designed collaboratively with a full SDLC artifact set (ER diagram, request/state diagrams, sequence diagrams) before implementation."
   },
   {
     "id": "side-cloner",

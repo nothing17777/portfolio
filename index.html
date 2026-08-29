@@ -218,6 +218,7 @@ Type 'help' to see available commands.</div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/vite.svg" alt=""><span>Vite</span></div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/tailwind.svg" alt=""><span>Tailwind CSS</span></div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/framer-motion.svg" alt=""><span>Framer Motion</span></div>
+        <div class="tool-badge tool-badge-text"><span>Leaflet</span></div>
       </div>
 
       <p class="tool-category-label">backend &amp; data</p>
@@ -227,6 +228,10 @@ Type 'help' to see available commands.</div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/turso.svg" alt=""><span>Turso</span></div>
         <div class="tool-badge tool-badge-text"><span>Recharts</span></div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/playwright.svg" alt=""><span>Playwright</span></div>
+        <div class="tool-badge tool-badge-text"><span>Express</span></div>
+        <div class="tool-badge tool-badge-text"><span>MySQL</span></div>
+        <div class="tool-badge tool-badge-text"><span>Sequelize</span></div>
+        <div class="tool-badge tool-badge-text"><span>Redis</span></div>
       </div>
 
       <p class="tool-category-label">dev tools</p>
@@ -249,7 +254,7 @@ Type 'help' to see available commands.</div>
     <div class="window-content prose-app academics-app">
       <p class="mono-small">
         Data Structures &amp; Algorithms &middot; Object-Oriented Programming &middot; Software Design &middot;
-        Introduction to Machine Learning &middot; Foundations of Computer Vision
+        Software Construction &middot; Introduction to Machine Learning &middot; Foundations of Computer Vision
       </p>
       <p class="academics-subhead">coursework projects</p>
       <div class="folder-grid">
@@ -268,6 +273,10 @@ Type 'help' to see available commands.</div>
         <div class="folder-icon" data-app="proj-llm" tabindex="0" role="button">
           <img src="assets/icons/proj-llm.svg" alt="" draggable="false">
           <span>Semantic Matching &amp; Reasoning</span>
+        </div>
+        <div class="folder-icon" data-app="proj-35l" tabindex="0" role="button">
+          <img src="assets/icons/proj-35l.svg" alt="" draggable="false">
+          <span>UCLA Delivery Network</span>
         </div>
       </div>
     </div>
@@ -462,6 +471,59 @@ Type 'help' to see available commands.</div>
         <div class="project-links">
           <a href="write-ups/semantic-matching-llm.html">Write-up ↗</a>
           <a href="https://github.com/nothing17777/portfolio/blob/main/notebooks/semantic-matching-llm.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <div id="win-proj-35l" class="mac-window" style="top: 150px; left: 460px; width: 560px; height: 520px;">
+    <div class="window-header">
+      <div class="window-controls">
+        <button class="control-btn close-btn" aria-label="Close"></button>
+        <button class="control-btn min-btn" aria-label="Minimize"></button>
+        <button class="control-btn max-btn" aria-label="Maximize"></button>
+      </div>
+      <div class="window-title">UCLA Delivery Network</div>
+    </div>
+    <div class="window-content projects-app">
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">COM SCI 35L · Software Construction</span>
+          <span class="tag mono">React · Node.js · MySQL · Sequelize</span>
+        </div>
+        <h3>UCLA Delivery Network</h3>
+        <div class="tech-stack">
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/react.svg" alt="">React</span>
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/vite.svg" alt="">Vite</span>
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/tailwind.svg" alt="">Tailwind</span>
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/node.svg" alt="">Node.js</span>
+          <span class="tech-badge tech-badge-text">Express</span>
+          <span class="tech-badge tech-badge-text">MySQL</span>
+          <span class="tech-badge tech-badge-text">Sequelize</span>
+          <span class="tech-badge tech-badge-text">Redis</span>
+          <span class="tech-badge tech-badge-text">Leaflet</span>
+        </div>
+        <p>
+          A group final project for COM SCI 35L: a UCLA-specific delivery request service that
+          connects students who need something delivered on campus with peers willing to help,
+          from dorm/class food runs to peer-to-peer package drops.
+        </p>
+        <ul class="findings">
+          <li>Real-time interactive campus map (Leaflet / React-Leaflet) showing open delivery
+            requests and tracking each one through Open &rarr; Accepted &rarr; Completed.</li>
+          <li>Full-stack build: a React + Vite + Tailwind frontend against a Node/Express API,
+            with MySQL via Sequelize for persistence, Redis-backed sessions, and JWT
+            access/refresh token authentication.</li>
+          <li>Photo-upload delivery confirmation and route calculation via the OpenRouteService
+            API for pickup/dropoff distance.</li>
+          <li>Designed and documented collaboratively with a full SDLC artifact set &mdash; ER
+            diagram, request/state diagrams, and sequence diagrams &mdash; before implementation.</li>
+        </ul>
+        <div class="project-links">
+          <a href="https://www.carpp.net" target="_blank" rel="noopener">Live ↗</a>
+          <a href="https://github.com/MagiCarpy/ucladn-35LProject" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
       </article>
 
