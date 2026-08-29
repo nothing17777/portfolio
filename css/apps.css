@@ -169,7 +169,14 @@
   background: var(--paper); font-size: 0.8rem; font-weight: 500; color: var(--ink-soft);
 }
 .tool-badge-icon{ display: block; width: 16px; height: 16px; color: var(--ink-soft); flex: none; }
+.tool-badge-img{ display: block; width: 16px; height: 16px; flex: none; }
 .tool-badge-text{ font-family: var(--mono); font-size: 0.75rem; color: var(--graphite); }
+.tool-category-label{
+  font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--graphite); margin: 16px 0 6px;
+  border-bottom: 1px solid var(--hairline); padding-bottom: 4px;
+}
+.tool-category-label:first-of-type{ margin-top: 4px; }
 
 /* Academics window — course list + coursework-project folder grid combined */
 .academics-subhead{ margin: 16px 0 8px; font-family: var(--mono); font-size: 0.78rem; text-transform: lowercase; letter-spacing: 0.04em; color: var(--graphite); }
