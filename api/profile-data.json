@@ -12,15 +12,19 @@
   },
   {
     "id": "tools",
-    "title": "Tools & Automation",
+    "title": "Tools and Framework",
     "tags": [
       "tools",
+      "frameworks",
       "automation",
       "zapier",
       "claude code",
-      "ai workflow"
+      "ai workflow",
+      "languages",
+      "stack",
+      "tech stack"
     ],
-    "body": "Tim uses Zapier to wire ChatGPT and Claude directly into daily tools: Gmail (drafting, scheduling, auto-replying to email based on trigger conditions) and Google Drive (on-demand document summaries). He makes extensive daily use of Claude Code \u2014 custom slash commands, skills, and subagents built into a working development loop, not just chat \u2014 and also works across Antigravity, Codex, and Cursor for AI-assisted development."
+    "body": "Tim uses Zapier to wire ChatGPT and Claude directly into daily tools: Gmail (drafting, scheduling, auto-replying to email based on trigger conditions) and Google Drive (on-demand document summaries). He makes extensive daily use of Claude Code \u2014 custom slash commands, skills, and subagents built into a working development loop, not just chat \u2014 and also works across Antigravity, Codex, and Cursor for AI-assisted development.\n\nLanguages: Python, TypeScript, C++, HTML, CSS.\n\nMachine learning & computer vision: PyTorch, NumPy, OpenCV, Hugging Face Transformers, PEFT/LoRA.\n\nWeb frontend: Next.js, React, Vite, Tailwind CSS, Framer Motion.\n\nBackend & data: Node.js, Supabase, Turso, Recharts, Playwright.\n\nAI agents & LLM tooling: Google Gemini, LangChain, LangGraph, ChromaDB, Ollama, Streamlit, OpenAI Whisper, CrewAI, Serper, OpenFace 3.0."
   },
   {
     "id": "coursework",
