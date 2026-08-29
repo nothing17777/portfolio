@@ -376,7 +376,7 @@
       clockEl.textContent = `${date}  ${time}`;
     }
     tick();
-    setInterval(tick, 30000);
+    setInterval(tick, 1000);
   }
 
   function initDockMagnify() {

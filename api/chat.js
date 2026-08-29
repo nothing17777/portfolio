@@ -38,6 +38,13 @@ const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 const OPENCODE_ZEN_URL = 'https://opencode.ai/zen/v1/chat/completions';
 const BIG_PICKLE_MODEL = 'big-pickle';
 
+// Groq: also OpenAI-compatible, and its free tier allows far more
+// requests/minute than OpenRouter's free models do, so it's tried before
+// Big Pickle. Needs GROQ_API_KEY (get one at https://console.groq.com/keys —
+// no billing details required for the free tier, unlike OpenCode Zen).
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
+
 function scoreSection(section, queryWords) {
   const haystack = `${section.title} ${section.tags.join(' ')} ${section.body}`.toLowerCase();
   let score = 0;
@@ -110,6 +117,10 @@ function callBigPickle(systemPrompt, message) {
   return callChatCompletions(OPENCODE_ZEN_URL, process.env.OPENCODE_API_KEY, BIG_PICKLE_MODEL, systemPrompt, message);
 }
 
+function callGroq(systemPrompt, message) {
+  return callChatCompletions(GROQ_URL, process.env.GROQ_API_KEY, GROQ_MODEL, systemPrompt, message);
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -142,8 +153,20 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  // Every OpenRouter model failed — try Big Pickle on OpenCode Zen as a last
-  // resort, but only if it's actually configured.
+  // Every OpenRouter model failed — try Groq next (much roomier free-tier
+  // rate limits), then Big Pickle on OpenCode Zen, each only if configured.
+  if (process.env.GROQ_API_KEY) {
+    try {
+      const result = await callGroq(systemPrompt, message);
+      if (result.ok) {
+        res.status(200).json({ reply: result.reply });
+        return;
+      }
+    } catch (err) {
+      // Fall through to the next fallback.
+    }
+  }
+
   if (process.env.OPENCODE_API_KEY) {
     try {
       const result = await callBigPickle(systemPrompt, message);
