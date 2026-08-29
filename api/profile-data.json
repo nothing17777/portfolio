@@ -21,9 +21,9 @@
       "reach",
       "hire",
       "resume",
-      "résumé"
+      "r\u00e9sum\u00e9"
     ],
-    "body": "Reach Tim by email at timzhang.email@gmail.com, or find his code on GitHub at github.com/nothing17777. His full résumé is also downloadable from the site (About Me window, or the Resume app in the dock)."
+    "body": "Reach Tim by email at timzhang.email@gmail.com, or find his code on GitHub at github.com/nothing17777. His full r\u00e9sum\u00e9 is also downloadable from the site (About Me window, or the Resume app in the dock)."
   },
   {
     "id": "tools",
@@ -83,18 +83,6 @@
       "ucla"
     ],
     "body": "Technical support for hundreds of engineering students and faculty daily covering software, hardware, and network issues. Runs training sessions on lab tools and contributes to lab-wide system improvements with the SEASNet technical team."
-  },
-  {
-    "id": "experience-ted",
-    "title": "Translator / Transcriber, TED Translators (Jun 2022 - 2024)",
-    "tags": [
-      "experience",
-      "job",
-      "work",
-      "ted",
-      "translation"
-    ],
-    "body": "Translated TED Talk scripts between English and Simplified Chinese, reviewed peer translations for accuracy, tone, and cultural sensitivity, and produced time-synced subtitles for global accessibility across concurrent projects."
   },
   {
     "id": "experience-tutor",
