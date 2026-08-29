@@ -15,24 +15,23 @@ const profileData = require('./profile-data.json');
 // https://openrouter.ai/models?max_price=0 for the current free roster if
 // this list needs pruning or refreshing later.
 const MODELS = [
-  'liquid/lfm-2.5-2.6b:free',
-  'deepseek/deepseek-chat-v3.1:free',
-  'deepseek/deepseek-r1:free',
-  'google/gemini-2.0-flash-exp:free',
-  'meta-llama/llama-3.2-3b-instruct:free',
-  'meta-llama/llama-3.3-70b-instruct:free',
-  'qwen/qwen-2.5-72b-instruct:free',
-  'mistralai/mistral-7b-instruct:free',
-  'google/gemma-2-9b-it:free',
-  'microsoft/phi-3-mini-128k-instruct:free',
+  'minimax/minimax-m3:free',
+  'nvidia/nemotron-3-ultra-550b-a55b:free',
+  'nvidia/nemotron-3-super-120b-a12b:free',
+  'google/gemma-4-31b-it:free',
+  'google/gemma-4-26b-a4b-it:free',
 ];
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
 // Gemini's OpenAI-compatible endpoint. Ordered cheapest/free-tier-friendly
 // first: the *-lite and 2.5 models are free of charge on Gemini's free tier
-// (see https://ai.google.dev/gemini-api/docs/pricing), so they're tried
-// before the heavier non-lite Flash models. Needs GEMINI_API_KEY (from
-// https://aistudio.google.com/apikey).
+// (see https://ai.google.dev/gemini-api/docs/pricing). NOTE: as of writing,
+// this project's GEMINI_API_KEY gets 403 "project has been denied access"
+// on every 3.x model and 404 "no longer available to new users" on every
+// 2.x model — that's an account verification/billing issue on Google's
+// side (confirmed via `GET /v1beta/models`, which lists these as existing),
+// not a wrong model id. Left in place since it'll start working once the
+// underlying Google AI Studio project is verified.
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions';
 const GEMINI_MODELS = [
   'gemini-2.5-flash-lite',
@@ -42,17 +41,20 @@ const GEMINI_MODELS = [
   'gemini-3.5-flash',
 ];
 
-// NVIDIA NIM's OpenAI-compatible endpoint (build.nvidia.com), also
-// OpenAI-compatible. Its free tier grants a pool of API credits for hosted
-// inference, no billing details required. Ordered smallest/cheapest first.
+// NVIDIA NIM's OpenAI-compatible endpoint (build.nvidia.com). Its free tier
+// grants a pool of API credits for hosted inference, no billing details
+// required. These 5 were verified live against this account (many
+// candidates are end-of-life or not entitled per-account — checked via
+// `GET /v1/models` and a real chat completion, not just existence in a
+// model list). Ordered smallest/cheapest first.
 // Needs NVIDIA_NIM_API_KEY (from https://build.nvidia.com).
 const NVIDIA_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const NVIDIA_MODELS = [
-  'meta/llama-3.1-8b-instruct',
-  'mistralai/mixtral-8x22b-instruct',
-  'meta/llama-3.1-70b-instruct',
-  'meta/llama-3.3-70b-instruct',
-  'qwen/qwen3-next-80b-a3b-instruct',
+  'meta/llama-3.2-11b-vision-instruct',
+  'mistralai/mistral-nemotron',
+  'moonshotai/kimi-k3',
+  'minimaxai/minimax-m3',
+  'nvidia/nemotron-3-nano-30b-a3b',
 ];
 
 // Big Pickle is a separate provider (OpenCode Zen, not OpenRouter) with its
@@ -137,7 +139,7 @@ async function callChatCompletions(url, apiKey, model, systemPrompt, message) {
 }
 
 function callModel(model, systemPrompt, message) {
-  return callChatCompletions(OPENROUTER_URL, process.env.OPENROUTER_API_KEY, model, systemPrompt, message);
+  return callChatCompletions(OPENROUTER_URL, process.env.OPEN_ROUTER_API_KEY, model, systemPrompt, message);
 }
 
 function callBigPickle(systemPrompt, message) {
