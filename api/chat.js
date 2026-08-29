@@ -28,6 +28,33 @@ const MODELS = [
 ];
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
+// Gemini's OpenAI-compatible endpoint. Ordered cheapest/free-tier-friendly
+// first: the *-lite and 2.5 models are free of charge on Gemini's free tier
+// (see https://ai.google.dev/gemini-api/docs/pricing), so they're tried
+// before the heavier non-lite Flash models. Needs GEMINI_API_KEY (from
+// https://aistudio.google.com/apikey).
+const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions';
+const GEMINI_MODELS = [
+  'gemini-2.5-flash-lite',
+  'gemini-3.1-flash-lite',
+  'gemini-3.5-flash-lite',
+  'gemini-2.5-flash',
+  'gemini-3.5-flash',
+];
+
+// NVIDIA NIM's OpenAI-compatible endpoint (build.nvidia.com), also
+// OpenAI-compatible. Its free tier grants a pool of API credits for hosted
+// inference, no billing details required. Ordered smallest/cheapest first.
+// Needs NVIDIA_NIM_API_KEY (from https://build.nvidia.com).
+const NVIDIA_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
+const NVIDIA_MODELS = [
+  'meta/llama-3.1-8b-instruct',
+  'mistralai/mixtral-8x22b-instruct',
+  'meta/llama-3.1-70b-instruct',
+  'meta/llama-3.3-70b-instruct',
+  'qwen/qwen3-next-80b-a3b-instruct',
+];
+
 // Big Pickle is a separate provider (OpenCode Zen, not OpenRouter) with its
 // own OpenAI-compatible endpoint and its own API key. It's currently free
 // while OpenCode collects feedback on it, but "free" still requires signing
@@ -121,6 +148,14 @@ function callGroq(systemPrompt, message) {
   return callChatCompletions(GROQ_URL, process.env.GROQ_API_KEY, GROQ_MODEL, systemPrompt, message);
 }
 
+function callGemini(model, systemPrompt, message) {
+  return callChatCompletions(GEMINI_URL, process.env.GEMINI_API_KEY, model, systemPrompt, message);
+}
+
+function callNvidia(model, systemPrompt, message) {
+  return callChatCompletions(NVIDIA_URL, process.env.NVIDIA_NIM_API_KEY, model, systemPrompt, message);
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -153,8 +188,37 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  // Every OpenRouter model failed — try Groq next (much roomier free-tier
-  // rate limits), then Big Pickle on OpenCode Zen, each only if configured.
+  // Every OpenRouter model failed — try Gemini next, then NVIDIA NIM, then
+  // Groq (much roomier free-tier rate limits), then Big Pickle on OpenCode
+  // Zen, each only if configured.
+  if (process.env.GEMINI_API_KEY) {
+    for (const model of GEMINI_MODELS) {
+      try {
+        const result = await callGemini(model, systemPrompt, message);
+        if (result.ok) {
+          res.status(200).json({ reply: result.reply });
+          return;
+        }
+      } catch (err) {
+        // Try the next Gemini model.
+      }
+    }
+  }
+
+  if (process.env.NVIDIA_NIM_API_KEY) {
+    for (const model of NVIDIA_MODELS) {
+      try {
+        const result = await callNvidia(model, systemPrompt, message);
+        if (result.ok) {
+          res.status(200).json({ reply: result.reply });
+          return;
+        }
+      } catch (err) {
+        // Try the next NVIDIA model.
+      }
+    }
+  }
+
   if (process.env.GROQ_API_KEY) {
     try {
       const result = await callGroq(systemPrompt, message);
