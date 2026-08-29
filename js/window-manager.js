@@ -445,18 +445,17 @@
       about.style.left = '140px';
       openWindow('about');
     }
+    const gap = 30;
+    const row2Top = about ? Math.round(about.getBoundingClientRect().bottom + gap) : 500;
     if (claude) {
-      const gap = 40;
-      const aboutRight = about ? about.getBoundingClientRect().right : 480;
-      claude.style.top = '90px';
-      claude.style.left = `${Math.round(aboutRight + gap)}px`;
+      claude.style.top = `${row2Top}px`;
+      claude.style.left = '140px';
       openWindow('claude');
       focusWindow('claude');
     }
     if (tools) {
-      const gap = 40;
-      const claudeRight = claude ? claude.getBoundingClientRect().right : 960;
-      tools.style.top = '60px';
+      const claudeRight = claude ? claude.getBoundingClientRect().right : 760;
+      tools.style.top = `${row2Top - 30}px`;
       tools.style.left = `${Math.round(claudeRight + gap)}px`;
       openWindow('tools');
       focusWindow('tools');
