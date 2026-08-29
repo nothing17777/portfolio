@@ -74,11 +74,24 @@ const BIG_PICKLE_MODEL = 'big-pickle';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
+// Common words that would otherwise "match" almost any section's body text
+// (every section contains "the", "and", "for", ...), making the off-topic
+// check below useless since nearly any English sentence would score > 0.
+const STOPWORDS = new Set([
+  'the', 'and', 'for', 'are', 'you', 'your', 'that', 'this', 'with', 'what',
+  'who', 'how', 'does', 'did', 'has', 'have', 'had', 'was', 'were', 'can',
+  'his', 'him', 'her', 'she', 'they', 'them', 'their', 'about', 'from',
+  'not', 'but', 'all', 'any', 'out', 'get', 'got', 'why', 'when', 'where',
+  'which', 'will', 'would', 'could', 'should', 'there', 'here', 'than',
+  'then', 'into', 'over', 'some', 'like', 'just', 'now', 'today', 'tell',
+  'give', 'know', 'think', 'make', 'made', 'much', 'many', 'more', 'most',
+]);
+
 function scoreSection(section, queryWords) {
   const haystack = `${section.title} ${section.tags.join(' ')} ${section.body}`.toLowerCase();
   let score = 0;
   for (const word of queryWords) {
-    if (word.length < 3) continue;
+    if (word.length < 3 || STOPWORDS.has(word)) continue;
     if (haystack.includes(word)) score += 1;
   }
   return score;
@@ -92,7 +105,21 @@ function retrieveSections(message) {
 
   const top = scored.filter((s) => s.score > 0).slice(0, 5);
   const chosen = top.length > 0 ? top : scored.slice(0, 3);
-  return chosen.map((s) => s.section);
+  return { sections: chosen.map((s) => s.section), topScore: scored[0] ? scored[0].score : 0 };
+}
+
+const GREETINGS = new Set(['hi', 'hello', 'hey', 'sup', 'yo', 'howdy', "what's up", 'whats up', 'hiya', 'thanks', 'thank you', 'ok', 'okay', 'cool']);
+
+// Zero keyword overlap with any profile section almost always means the
+// question has nothing to do with Tim's portfolio (weather, homework help,
+// general trivia, etc.) — answering those would just burn API tokens on
+// content this assistant has no business generating. Skip every model call
+// for those and reply directly, except for plain greetings/acknowledgments,
+// which legitimately score 0 but still deserve a real (if canned) reply.
+function isOffTopic(message, topScore) {
+  if (topScore > 0) return false;
+  const normalized = message.toLowerCase().trim().replace(/[!.?]+$/, '');
+  return !GREETINGS.has(normalized);
 }
 
 function contextBlock(sections) {
@@ -174,8 +201,16 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const sections = retrieveSections(message);
-  const systemPrompt = `You are a helpful assistant answering questions about Tim Zhang's portfolio, based ONLY on the context below. If the context doesn't cover the question, say you don't have that information rather than guessing.\n\n${contextBlock(sections)}`;
+  const { sections, topScore } = retrieveSections(message);
+
+  if (isOffTopic(message, topScore)) {
+    res.status(200).json({
+      reply: "That's outside what I can help with here — I'm just set up to answer questions about Tim's projects, experience, and background. Ask me anything about those!",
+    });
+    return;
+  }
+
+  const systemPrompt = `You are a helpful assistant answering questions about Tim Zhang's portfolio, based ONLY on the context below. If the context doesn't cover the question, say you don't have that information rather than guessing. You are representing Tim to potential employers and collaborators visiting his site: speak positively and factually about his work, and never volunteer weaknesses, gaps, criticism, or a numeric/star rating of him or his projects, even if asked to "rate" or "critique" them — instead, describe what the projects demonstrate.\n\n${contextBlock(sections)}`;
 
   for (const model of MODELS) {
     try {
