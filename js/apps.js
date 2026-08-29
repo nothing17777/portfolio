@@ -13,6 +13,7 @@
 
   const APP_ALIASES = {
     projects: 'sideprojects',
+    assistant: 'claude',
   };
 
   function initTerminal() {
@@ -33,7 +34,7 @@
         print(`Available commands:
   help                 show this list
   open &lt;app&gt;           open a window (about, academics, projects,
-                       tools, certs, experience, resume, contact, claude)
+                       tools, certs, experience, resume, contact, assistant)
   clear                clear this terminal`);
       } else if (lower === 'clear') {
         output.innerHTML = '';
