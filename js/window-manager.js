@@ -20,6 +20,8 @@
     return document.querySelector(`.dock-icon[data-app="${appId}"]`);
   }
 
+  const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   function openWindow(appId) {
     const win = getWin(appId);
     if (!win) return;
@@ -27,11 +29,17 @@
     win.style.display = 'flex';
     if (wasHidden) {
       win.classList.remove('is-open', 'is-closing');
-      win.classList.add('is-opening');
-      win.addEventListener('animationend', () => {
-        win.classList.remove('is-opening');
+      if (reducedMotion()) {
+        // No animation will run under reduced motion, so 'animationend' below
+        // would never fire and the window would stay stuck at opacity: 0.
         win.classList.add('is-open');
-      }, { once: true });
+      } else {
+        win.classList.add('is-opening');
+        win.addEventListener('animationend', () => {
+          win.classList.remove('is-opening');
+          win.classList.add('is-open');
+        }, { once: true });
+      }
     }
     focusWindow(appId);
     const dockIcon = dockIconFor(appId);
@@ -42,11 +50,16 @@
     const win = getWin(appId);
     if (!win || win.style.display === 'none') return;
     win.classList.remove('is-open', 'is-opening');
-    win.classList.add('is-closing');
-    win.addEventListener('animationend', () => {
+    if (reducedMotion()) {
       win.style.display = 'none';
       win.classList.remove('is-closing');
-    }, { once: true });
+    } else {
+      win.classList.add('is-closing');
+      win.addEventListener('animationend', () => {
+        win.style.display = 'none';
+        win.classList.remove('is-closing');
+      }, { once: true });
+    }
     const dockIcon = dockIconFor(appId);
     if (dockIcon) dockIcon.classList.remove('is-running');
   }

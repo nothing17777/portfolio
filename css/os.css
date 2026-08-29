@@ -247,7 +247,7 @@ body{
 }
 @media (prefers-reduced-motion: reduce){
   .mac-window.is-opening, .mac-window.is-closing{ animation: none; }
-  .mac-window.is-open{ opacity: 1; transform: none; }
+  .mac-window.is-opening, .mac-window.is-open{ opacity: 1; transform: none; }
 }
 .window-header{
   background: linear-gradient(#F7F7F4, #ECECE7);
