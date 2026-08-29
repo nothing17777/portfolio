@@ -88,11 +88,22 @@ const STOPWORDS = new Set([
 ]);
 
 function scoreSection(section, queryWords) {
-  const haystack = `${section.title} ${section.tags.join(' ')} ${section.body}`.toLowerCase();
+  // Tag/title hits are weighted above incidental body mentions, so e.g. a
+  // query word matching a project's "side project" tag outranks the word
+  // "projects" merely appearing in the About blurb's prose.
+  const primary = `${section.title} ${section.tags.join(' ')}`.toLowerCase();
+  const body = section.body.toLowerCase();
   let score = 0;
   for (const word of queryWords) {
     if (word.length < 3 || STOPWORDS.has(word)) continue;
-    if (haystack.includes(word)) score += 1;
+    // Plain substring matching misses singular/plural pairs (e.g. query
+    // "projects" vs. a tag stored as "project"), so also try the word with
+    // its trailing 's' stripped or added.
+    const variants = word.endsWith('s') && word.length > 3
+      ? [word, word.slice(0, -1)]
+      : [word, `${word}s`];
+    if (variants.some((v) => primary.includes(v))) score += 2;
+    else if (variants.some((v) => body.includes(v))) score += 1;
   }
   return score;
 }
@@ -103,7 +114,7 @@ function retrieveSections(message) {
     .map((section) => ({ section, score: scoreSection(section, queryWords) }))
     .sort((a, b) => b.score - a.score);
 
-  const top = scored.filter((s) => s.score > 0).slice(0, 5);
+  const top = scored.filter((s) => s.score > 0).slice(0, 8);
   const chosen = top.length > 0 ? top : scored.slice(0, 3);
   return { sections: chosen.map((s) => s.section), topScore: scored[0] ? scored[0].score : 0 };
 }
