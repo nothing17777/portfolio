@@ -160,6 +160,12 @@
     const data = iconRegistry[appId];
     if (!data) return;
 
+    // Clear any leftover inline transform from the dock's hover-magnify
+    // effect (initDockMagnify) before measuring — otherwise a drag that
+    // starts while the icon is magnified keeps that scale baked into the
+    // drag offset and, if dropped on the desktop, permanently enlarged
+    // (the desktop has no code path that ever clears it again).
+    el.style.transform = '';
     const rect = el.getBoundingClientRect();
     const offsetX = startClientX - rect.left;
     const offsetY = startClientY - rect.top;
@@ -183,6 +189,11 @@
       cleanup();
       if (!dragging) return;
       el.classList.remove('icon-dragging');
+      // The dock's hover-magnify effect (initDockMagnify) can re-apply its
+      // inline scale transform to this icon on every mousemove while it's
+      // still parented inside the dock, even mid-drag — clear it again here
+      // so a stale scale never survives the drop.
+      el.style.transform = '';
       el.dataset.justDragged = '1';
       // Reparenting el above can suppress the browser's usual post-drag
       // click event, leaving this flag stuck forever and swallowing the
