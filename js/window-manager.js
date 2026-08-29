@@ -439,6 +439,7 @@
   function openDefaultWindows() {
     const about = getWin('about');
     const claude = getWin('claude');
+    const tools = getWin('tools');
     if (about) {
       about.style.top = '70px';
       about.style.left = '140px';
@@ -451,6 +452,14 @@
       claude.style.left = `${Math.round(aboutRight + gap)}px`;
       openWindow('claude');
       focusWindow('claude');
+    }
+    if (tools) {
+      const gap = 40;
+      const claudeRight = claude ? claude.getBoundingClientRect().right : 960;
+      tools.style.top = '60px';
+      tools.style.left = `${Math.round(claudeRight + gap)}px`;
+      openWindow('tools');
+      focusWindow('tools');
     }
   }
 
