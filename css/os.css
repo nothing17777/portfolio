@@ -335,7 +335,7 @@ body{
   position: fixed;
   width: 48px;
   height: 48px;
-  z-index: 500;
+  z-index: 2;
   cursor: grab;
   user-select: none;
   touch-action: none;
