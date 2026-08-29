@@ -105,13 +105,30 @@
       const menubar = document.querySelector('.menubar');
       const menubarH = menubar ? menubar.getBoundingClientRect().height : 0;
       const dockRect = dock.getBoundingClientRect();
-      const deskCenterX = window.innerWidth / 2;
-      const deskCenterY = menubarH + (dockRect.top - menubarH) / 2;
+
+      // The AI Assistant window defaults to opening low (see
+      // openDefaultWindows in window-manager.js), leaving a gap between
+      // the menubar and its top edge. Center the hoop/ball in that gap,
+      // over that window's column, so the default layout doesn't bury
+      // them. Fall back to centering on the full desktop if that window
+      // isn't open or doesn't leave enough room.
+      const claudeWin = document.getElementById('win-claude');
+      const claudeRect = claudeWin && claudeWin.style.display === 'flex'
+        ? claudeWin.getBoundingClientRect() : null;
+      const clearTop = menubarH + 20;
+      let deskCenterX = window.innerWidth / 2;
+      let deskCenterY;
+      if (claudeRect && claudeRect.top - clearTop >= 160) {
+        deskCenterX = claudeRect.left + claudeRect.width / 2;
+        deskCenterY = clearTop + (claudeRect.top - 20 - clearTop) / 2;
+      } else {
+        deskCenterY = menubarH + (dockRect.top - menubarH) / 2;
+      }
 
       if (!hoopMoved) {
         // Center the hoop's actual visual box (120px wide) and the ball's
-        // rest point symmetrically around the desktop area's center, so
-        // the pair reads as one balanced composition on the wallpaper.
+        // rest point symmetrically around the chosen point, so the pair
+        // reads as one balanced composition on the wallpaper.
         hoopX = deskCenterX - 55 - 60;
         hoopY = deskCenterY - 65;
       }

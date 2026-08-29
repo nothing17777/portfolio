@@ -445,17 +445,21 @@
       about.style.left = '140px';
       openWindow('about');
     }
-    const gap = 30;
-    const row2Top = about ? Math.round(about.getBoundingClientRect().bottom + gap) : 500;
     if (claude) {
-      claude.style.top = `${row2Top}px`;
-      claude.style.left = '140px';
+      const gap = 40;
+      const aboutRight = about ? about.getBoundingClientRect().right : 480;
+      // Left lower than About Me so the gap above it (between the menubar
+      // and this window) stays open for the basketball hoop/ball, which
+      // centers itself in that gap — see js/basketball.js.
+      claude.style.top = '420px';
+      claude.style.left = `${Math.round(aboutRight + gap)}px`;
       openWindow('claude');
       focusWindow('claude');
     }
     if (tools) {
-      const claudeRight = claude ? claude.getBoundingClientRect().right : 760;
-      tools.style.top = `${row2Top - 30}px`;
+      const gap = 40;
+      const claudeRight = claude ? claude.getBoundingClientRect().right : 960;
+      tools.style.top = '60px';
       tools.style.left = `${Math.round(claudeRight + gap)}px`;
       openWindow('tools');
       focusWindow('tools');
