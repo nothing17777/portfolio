@@ -121,6 +121,13 @@ function retrieveSections(message) {
 
 const GREETINGS = new Set(['hi', 'hello', 'hey', 'sup', 'yo', 'howdy', "what's up", 'whats up', 'hiya', 'thanks', 'thank you', 'ok', 'okay', 'cool']);
 
+// Catches "write/generate/build me a <thing>" style requests, which keyword
+// overlap alone can't filter out — e.g. "generate me a calculator" scores
+// > 0 just because "code" incidentally appears in the Tools section's
+// "Claude Code" mentions, even though the request has nothing to do with
+// Tim's portfolio.
+const CODE_REQUEST_PATTERN = /\b(write|generate|create|build|make|code)\b.{0,30}\b(code|script|program|app|website|function|calculator|game|algorithm)\b/i;
+
 // Zero keyword overlap with any profile section almost always means the
 // question has nothing to do with Tim's portfolio (weather, homework help,
 // general trivia, etc.) — answering those would just burn API tokens on
@@ -128,6 +135,7 @@ const GREETINGS = new Set(['hi', 'hello', 'hey', 'sup', 'yo', 'howdy', "what's u
 // for those and reply directly, except for plain greetings/acknowledgments,
 // which legitimately score 0 but still deserve a real (if canned) reply.
 function isOffTopic(message, topScore) {
+  if (CODE_REQUEST_PATTERN.test(message)) return true;
   if (topScore > 0) return false;
   const normalized = message.toLowerCase().trim().replace(/[!.?]+$/, '');
   return !GREETINGS.has(normalized);
@@ -221,7 +229,7 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const systemPrompt = `You are a helpful assistant answering questions about Tim Zhang's portfolio, based ONLY on the context below. If the context doesn't cover the question, say you don't have that information rather than guessing. You are representing Tim to potential employers and collaborators visiting his site: speak positively and factually about his work, and never volunteer weaknesses, gaps, criticism, or a numeric/star rating of him or his projects, even if asked to "rate" or "critique" them — instead, describe what the projects demonstrate.\n\n${contextBlock(sections)}`;
+  const systemPrompt = `You are a helpful assistant answering questions about Tim Zhang's portfolio, based ONLY on the context below. If the context doesn't cover the question, say you don't have that information rather than guessing. You are representing Tim to potential employers and collaborators visiting his site: speak positively and factually about his work, and never volunteer weaknesses, gaps, criticism, or a numeric/star rating of him or his projects, even if asked to "rate" or "critique" them — instead, describe what the projects demonstrate.\n\nYou only discuss Tim's portfolio. Never write, generate, or debug code, and never answer general programming, technical, or how-to questions, even if a request loosely resembles something in the context (e.g. "write me a calculator" or "build me a website") — decline those and redirect to asking about Tim's actual projects instead. Do not offer to write code as a follow-up either.\n\n${contextBlock(sections)}`;
 
   for (const model of MODELS) {
     try {
