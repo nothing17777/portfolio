@@ -1,8 +1,8 @@
 (function () {
   const APP_NAMES = {
     about: 'About Me',
-    sideprojects: 'Side Projects',
-    tools: 'Tools & Automation',
+    sideprojects: 'Projects',
+    tools: 'Tools and Framework',
     academics: 'Academics',
     certs: 'Certificates',
     experience: 'Experience',

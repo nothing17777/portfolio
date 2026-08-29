@@ -173,3 +173,15 @@
 
 /* Academics window — course list + coursework-project folder grid combined */
 .academics-subhead{ margin: 16px 0 8px; font-family: var(--mono); font-size: 0.78rem; text-transform: lowercase; letter-spacing: 0.04em; color: var(--graphite); }
+
+/* Project tech stacks — colored logos for tools/frameworks used, distinct
+   from the monochrome tool-badges above: these carry each tool's own
+   brand color rather than being recolored to match the UI. */
+.tech-stack{ display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px; }
+.tech-badge{
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px; border-radius: 8px; border: 1px solid var(--hairline);
+  background: var(--paper); font-size: 0.78rem; font-weight: 500; color: var(--ink-soft);
+}
+.tech-badge-icon{ display: block; width: 16px; height: 16px; flex: none; }
+.tech-badge-text{ font-family: var(--mono); font-size: 0.74rem; color: var(--graphite); padding: 5px 10px; }
