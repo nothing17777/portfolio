@@ -232,6 +232,8 @@ Type 'help' to see available commands.</div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/playwright.svg" alt=""><span>Playwright</span></div>
         <div class="tool-badge tool-badge-text"><span>Express</span></div>
         <div class="tool-badge tool-badge-text"><span>MySQL</span></div>
+        <div class="tool-badge tool-badge-text"><span>PostgreSQL</span></div>
+        <div class="tool-badge tool-badge-text"><span>pgvector</span></div>
         <div class="tool-badge tool-badge-text"><span>Sequelize</span></div>
         <div class="tool-badge tool-badge-text"><span>Redis</span></div>
       </div>
@@ -571,6 +573,10 @@ Type 'help' to see available commands.</div>
         <div class="folder-icon" data-app="side-yugioh" tabindex="0" role="button">
           <img src="assets/icons/side-yugioh.svg" alt="" draggable="false">
           <span>Yu-Gi-Oh! RAG Chatbot</span>
+        </div>
+        <div class="folder-icon" data-app="side-hoopsrag" tabindex="0" role="button">
+          <img src="assets/icons/side-hoopsrag.svg" alt="" draggable="false">
+          <span>Basketball Stats RAG</span>
         </div>
         <div class="folder-icon" data-app="side-crewai" tabindex="0" role="button">
           <img src="assets/icons/side-crewai.svg" alt="" draggable="false">
@@ -1032,6 +1038,54 @@ Type 'help' to see available commands.</div>
         <div class="project-links">
           <a href="https://github.com/nothing17777/google-ai-mcp-agent" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
+      </article>
+
+    </div>
+  </div>
+
+  <div id="win-side-hoopsrag" class="mac-window" style="top: 210px; left: 440px; width: 560px; height: 520px;">
+    <div class="window-header">
+      <div class="window-controls">
+        <button class="control-btn close-btn" aria-label="Close"></button>
+        <button class="control-btn min-btn" aria-label="Minimize"></button>
+        <button class="control-btn max-btn" aria-label="Maximize"></button>
+      </div>
+      <div class="window-title">Basketball Stats RAG</div>
+    </div>
+    <div class="window-content projects-app">
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">Applied AI Internship Project</span>
+          <span class="tag mono">Python · PostgreSQL · pgvector · Ollama · FastAPI</span>
+        </div>
+        <h3>Basketball Stats RAG Pipeline</h3>
+        <div class="tech-stack">
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/python.svg" alt="">Python</span>
+          <span class="tech-badge tech-badge-text">PostgreSQL</span>
+          <span class="tech-badge tech-badge-text">pgvector</span>
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/ollama.svg" alt="">Ollama</span>
+          <span class="tech-badge tech-badge-text">FastAPI</span>
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/docker.svg" alt="">Docker</span>
+        </div>
+        <p>
+          A retrieval-augmented question-answering backend over box scores, game details, recaps
+          and injury notes for a fictional basketball league, built for an Applied AI Engineer
+          internship take-home. Runs fully local (Qwen 3.5 2B and nomic-embed-text via Ollama).
+          The dataset is proprietary and the source repo is private, so there is no public link.
+        </p>
+        <ul class="findings">
+          <li>Deterministic entity extraction (players, teams with subject/opponent roles, dates,
+            ordinals like &ldquo;first&rdquo; or &ldquo;most recent&rdquo;) scopes an uncapped SQL row
+            set before any vector search, with top-k pgvector hits added only as a fallback.</li>
+          <li>The LLM never does arithmetic: margins, scores, ordinals and per-player aggregates
+            are computed in Python, the model only picks which rows answer the question, and derived
+            fields and evidence citations are then recomputed from the rows it picked.</li>
+          <li>Abstention is structural &mdash; an empty entity scope, an unresolvable selection or a
+            missing supporting row returns &ldquo;not answerable&rdquo; rather than a guessed number.</li>
+          <li>Reruns reproduce exactly: temperature 0, fixed seed, and exact-scan vector retrieval
+            with tie-breaking <code>ORDER BY</code> instead of an approximate index.</li>
+        </ul>
       </article>
 
     </div>

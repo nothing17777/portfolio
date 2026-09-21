@@ -42,7 +42,7 @@
       "stack",
       "tech stack"
     ],
-    "body": "Tim uses Zapier to wire ChatGPT and Claude directly into daily tools: Gmail (drafting, scheduling, auto-replying to email based on trigger conditions) and Google Drive (on-demand document summaries). He makes extensive daily use of Claude Code \u2014 custom slash commands, skills, and subagents built into a working development loop, not just chat. Also uses Cursor, Codex, and Antigravity as coding agents/editors.\n\nLanguages: Python, TypeScript, C++, HTML, CSS.\n\nMachine learning & computer vision: PyTorch, NumPy, OpenCV, Hugging Face Transformers, PEFT/LoRA, Jupyter Notebook, Google Colab.\n\nWeb frontend: Next.js, React, Vite, Tailwind CSS, Framer Motion, Leaflet.\n\nBackend & data: Node.js, Express, Supabase, MySQL, Sequelize, Redis, Turso, Recharts, Playwright.\n\nDev tools: Git, Docker.\n\nAI agents & LLM tooling: Google Gemini, LangChain, LangGraph, ChromaDB, Ollama, Streamlit, OpenAI Whisper, CrewAI, Serper, OpenFace 3.0."
+    "body": "Tim uses Zapier to wire ChatGPT and Claude directly into daily tools: Gmail (drafting, scheduling, auto-replying to email based on trigger conditions) and Google Drive (on-demand document summaries). He makes extensive daily use of Claude Code \u2014 custom slash commands, skills, and subagents built into a working development loop, not just chat. Also uses Cursor, Codex, and Antigravity as coding agents/editors.\n\nLanguages: Python, TypeScript, C++, HTML, CSS.\n\nMachine learning & computer vision: PyTorch, NumPy, OpenCV, Hugging Face Transformers, PEFT/LoRA, Jupyter Notebook, Google Colab.\n\nWeb frontend: Next.js, React, Vite, Tailwind CSS, Framer Motion, Leaflet.\n\nBackend & data: Node.js, Express, Supabase, MySQL, PostgreSQL, pgvector, Sequelize, Redis, Turso, Recharts, Playwright.\n\nDev tools: Git, Docker.\n\nAI agents & LLM tooling: Google Gemini, LangChain, LangGraph, ChromaDB, Ollama, Streamlit, OpenAI Whisper, CrewAI, Serper, OpenFace 3.0."
   },
   {
     "id": "coursework",
@@ -235,6 +235,23 @@
       "chatbot"
     ],
     "body": "A Retrieval-Augmented Generation chatbot answering questions over the full Yu-Gi-Oh! card database (~14,500 cards) using a locally-hosted LLM, no paid APIs. Hybrid retrieval combines semantic vector search (Sentence Transformers + ChromaDB) with exact metadata filtering. A LangGraph ReAct agent handles tool-calling and intent classification. Generation is grounded strictly in retrieved context using Qwen2.5-7B via Ollama."
+  },
+  {
+    "id": "side-hoopsrag",
+    "title": "Basketball Stats RAG Pipeline",
+    "tags": [
+      "project",
+      "side project",
+      "ai agents",
+      "rag",
+      "pgvector",
+      "postgresql",
+      "ollama",
+      "fastapi",
+      "internship",
+      "basketball"
+    ],
+    "body": "A retrieval-augmented question-answering backend over box scores, game details, recaps and injury notes for a fictional basketball league, built for an Applied AI Engineer internship take-home and running fully local (Qwen 3.5 2B and nomic-embed-text via Ollama, PostgreSQL with pgvector, FastAPI, Docker). Deterministic entity extraction (players, teams with subject/opponent roles, dates, ordinals) scopes an uncapped SQL row set before any vector search. Margins, scores, ordinals and per-player aggregates are computed in Python so the LLM only picks which rows answer the question; derived fields and evidence citations are recomputed from the selected rows. Abstention is structural: an empty scope, unresolvable selection or missing supporting row returns not-answerable instead of a guess. Runs are reproducible via temperature 0, a fixed seed, and exact-scan retrieval with tie-breaking ORDER BY. The dataset is proprietary and the source repo is private, so there is no public link."
   },
   {
     "id": "side-crewai",
