@@ -238,7 +238,7 @@
   },
   {
     "id": "side-hoopsrag",
-    "title": "Basketball Stats RAG Pipeline",
+    "title": "NBA Stats RAG Pipeline - OKC Thunder",
     "tags": [
       "project",
       "side project",
@@ -249,9 +249,12 @@
       "ollama",
       "fastapi",
       "internship",
-      "basketball"
+      "basketball",
+      "nba",
+      "okc thunder",
+      "oklahoma city thunder"
     ],
-    "body": "A retrieval-augmented question-answering backend over box scores, game details, recaps and injury notes for a fictional basketball league, built for an Applied AI Engineer internship take-home and running fully local (Qwen 3.5 2B and nomic-embed-text via Ollama, PostgreSQL with pgvector, FastAPI, Docker). Deterministic entity extraction (players, teams with subject/opponent roles, dates, ordinals) scopes an uncapped SQL row set before any vector search. Margins, scores, ordinals and per-player aggregates are computed in Python so the LLM only picks which rows answer the question; derived fields and evidence citations are recomputed from the selected rows. Abstention is structural: an empty scope, unresolvable selection or missing supporting row returns not-answerable instead of a guess. Runs are reproducible via temperature 0, a fixed seed, and exact-scan retrieval with tie-breaking ORDER BY. The dataset is proprietary and the source repo is private, so there is no public link."
+    "body": "A retrieval-augmented question-answering backend over box scores, game details, recaps and injury notes for a fictional NBA-style league, built for the Oklahoma City Thunder Applied AI Engineer internship take-home and running fully local (Qwen 3.5 2B and nomic-embed-text via Ollama, PostgreSQL with pgvector, FastAPI, Docker). Deterministic entity extraction (players, teams with subject/opponent roles, dates, ordinals) scopes an uncapped SQL row set before any vector search. Margins, scores, ordinals and per-player aggregates are computed in Python so the LLM only picks which rows answer the question; derived fields and evidence citations are recomputed from the selected rows. Abstention is structural: an empty scope, unresolvable selection or missing supporting row returns not-answerable instead of a guess. Runs are reproducible via temperature 0, a fixed seed, and exact-scan retrieval with tie-breaking ORDER BY. The dataset is proprietary and the source repo is private, so there is no public link."
   },
   {
     "id": "side-crewai",
