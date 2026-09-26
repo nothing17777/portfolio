@@ -90,6 +90,20 @@
     "body": "Technical support for hundreds of engineering students and faculty daily covering software, hardware, and network issues. Runs training sessions on lab tools and contributes to lab-wide system improvements with the SEASNet technical team."
   },
   {
+    "id": "experience-lahacks",
+    "title": "Hackathon Participant, LA Hacks 2026 (Spring 2026)",
+    "tags": [
+      "experience",
+      "hackathon",
+      "la hacks",
+      "lahacks",
+      "ucla",
+      "pauley pavilion",
+      "mlh"
+    ],
+    "body": "Tim attended LA Hacks in Spring 2026, UCLA's student-run 501(c)(3) nonprofit 36-hour hackathon at Pauley Pavilion with 1,000+ student hackers, workshops, mentorship and industry support."
+  },
+  {
     "id": "certs",
     "title": "Certificates",
     "tags": [
