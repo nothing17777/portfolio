@@ -57,7 +57,7 @@
   },
   {
     "id": "experience-ipmd",
-    "title": "AI Engineering Intern, IPMD",
+    "title": "AI Engineering Intern, IPMD (Echo AI & EchoSphere Robot, Summer 2026)",
     "tags": [
       "experience",
       "job",
@@ -68,9 +68,14 @@
       "langchain",
       "openface",
       "chroma",
-      "ai engineering"
+      "ai engineering",
+      "echosphere",
+      "robot",
+      "touch engine",
+      "3d model",
+      "particle animations"
     ],
-    "body": "Built the retrieval-augmented generation (RAG) pipeline behind the IPMD Echo AI mobile app, an emotional-AI companion that analyzes a selfie video captured on a phone camera to deliver real-time insights into the user's emotional state. Used LangChain to orchestrate the pipeline, the OpenFace 3.0 model to detect facial expressions from video, and a Chroma vector database to store and retrieve embeddings."
+    "body": "Echo AI: built the retrieval-augmented generation pipeline behind the Echo AI mobile app, orchestrating retrieval with LangChain, detecting facial expressions with OpenFace 3.0 and storing embeddings in a Chroma vector database to turn selfie video into real-time emotional-state insight. EchoSphere robot: rebuilt core functionality of the robot's touch engine, classifying raw sensor input into gesture types mapped to distinct emotional response states; redesigned the robot's 3D model from reference imagery and embedded four emotion particle animations so expressive states render inside the sphere itself."
   },
   {
     "id": "experience-seasnet",
@@ -238,7 +243,7 @@
   },
   {
     "id": "side-hoopsrag",
-    "title": "NBA OKC RAG Internship Project",
+    "title": "OKC Thunder Applied AI Engineer Project (Basketball Data Solutions, Sept. 2026)",
     "tags": [
       "project",
       "side project",
@@ -252,9 +257,33 @@
       "basketball",
       "nba",
       "okc thunder",
-      "oklahoma city thunder"
+      "oklahoma city thunder",
+      "applied ai engineer",
+      "basketball data solutions"
     ],
-    "body": "A retrieval-augmented question-answering backend over box scores, game details, recaps and injury notes for a fictional NBA-style league, built for the Oklahoma City Thunder Applied AI Engineer internship take-home and running fully local (Qwen 3.5 2B and nomic-embed-text via Ollama, PostgreSQL with pgvector, FastAPI, Docker). Deterministic entity extraction (players, teams with subject/opponent roles, dates, ordinals) scopes an uncapped SQL row set before any vector search. Margins, scores, ordinals and per-player aggregates are computed in Python so the LLM only picks which rows answer the question; derived fields and evidence citations are recomputed from the selected rows. Abstention is structural: an empty scope, unresolvable selection or missing supporting row returns not-answerable instead of a guess. Runs are reproducible via temperature 0, a fixed seed, and exact-scan retrieval with tie-breaking ORDER BY. The dataset is proprietary and the source repo is private, so there is no public link."
+    "body": "A retrieval-augmented question-answering backend over box scores, game details, recaps and injury notes for a fictional NBA-style league, built for the Oklahoma City Thunder Applied AI Engineer Applied AI Engineer project and running fully local with no hosted inference (Qwen 3.5 2B and nomic-embed-text via Ollama, PostgreSQL with pgvector, FastAPI, Docker). Deterministic entity extraction (players, teams with subject/opponent roles, dates, ordinals) scopes an uncapped SQL row set before any vector search. Margins, scores, ordinals and per-player aggregates are computed in Python so the LLM only picks which rows answer the question; derived fields and evidence citations are recomputed from the selected rows. Abstention is structural: an empty scope, unresolvable selection or missing supporting row returns not-answerable instead of a guess. Runs are reproducible via temperature 0, a fixed seed, and exact-scan retrieval with tie-breaking ORDER BY. The dataset is proprietary and the source repo is private, so there is no public link."
+  },
+  {
+    "id": "side-okcdash",
+    "title": "OKC Thunder Software Engineer Project (Basketball Data Solutions, Sept. 2026)",
+    "tags": [
+      "project",
+      "side project",
+      "internship",
+      "basketball",
+      "nba",
+      "okc thunder",
+      "oklahoma city thunder",
+      "software engineer",
+      "django",
+      "angular",
+      "typescript",
+      "postgresql",
+      "railway",
+      "lineup",
+      "dashboard"
+    ],
+    "body": "A full-stack lineup-analytics app for the Oklahoma City Thunder Software Engineer project (Django, PostgreSQL, Angular, TypeScript, Railway). A Django REST API aggregates possession-level data into per-lineup offensive and defensive efficiency metrics, backed by PostgreSQL. An Angular dashboard serves coaching and front-office users, and the full stack is deployed to Railway. The dataset is proprietary and the source repo is private, so there is no public link."
   },
   {
     "id": "side-crewai",

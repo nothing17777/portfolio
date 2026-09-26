@@ -217,6 +217,7 @@ Type 'help' to see available commands.</div>
       <div class="tool-badges">
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/nextjs.svg" alt=""><span>Next.js</span></div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/react.svg" alt=""><span>React</span></div>
+        <div class="tool-badge tool-badge-text"><span>Angular</span></div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/vite.svg" alt=""><span>Vite</span></div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/tailwind.svg" alt=""><span>Tailwind CSS</span></div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/framer-motion.svg" alt=""><span>Framer Motion</span></div>
@@ -235,6 +236,7 @@ Type 'help' to see available commands.</div>
         <div class="tool-badge tool-badge-text"><span>PostgreSQL</span></div>
         <div class="tool-badge tool-badge-text"><span>pgvector</span></div>
         <div class="tool-badge tool-badge-text"><span>Sequelize</span></div>
+        <div class="tool-badge tool-badge-text"><span>Django</span></div>
         <div class="tool-badge tool-badge-text"><span>Redis</span></div>
       </div>
 
@@ -242,6 +244,7 @@ Type 'help' to see available commands.</div>
       <div class="tool-badges">
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/git.svg" alt=""><span>Git</span></div>
         <div class="tool-badge"><img class="tool-badge-img" src="assets/icons/tech/docker.svg" alt=""><span>Docker</span></div>
+        <div class="tool-badge tool-badge-text"><span>Railway</span></div>
       </div>
     </div>
   </div>
@@ -576,7 +579,11 @@ Type 'help' to see available commands.</div>
         </div>
         <div class="folder-icon" data-app="side-hoopsrag" tabindex="0" role="button">
           <img src="assets/icons/side-hoopsrag.svg" alt="" draggable="false">
-          <span>NBA OKC RAG Internship Project</span>
+          <span>OKC Thunder Applied AI Project</span>
+        </div>
+        <div class="folder-icon" data-app="side-okcdash" tabindex="0" role="button">
+          <img src="assets/icons/side-hoopsrag.svg" alt="" draggable="false">
+          <span>OKC Thunder Software Engineer Project</span>
         </div>
         <div class="folder-icon" data-app="side-crewai" tabindex="0" role="button">
           <img src="assets/icons/side-crewai.svg" alt="" draggable="false">
@@ -1050,16 +1057,16 @@ Type 'help' to see available commands.</div>
         <button class="control-btn min-btn" aria-label="Minimize"></button>
         <button class="control-btn max-btn" aria-label="Maximize"></button>
       </div>
-      <div class="window-title">NBA OKC RAG Internship Project</div>
+      <div class="window-title">OKC Thunder &middot; Applied AI Engineer Project</div>
     </div>
     <div class="window-content projects-app">
 
       <article class="project">
         <div class="project-meta">
-          <span class="tag">OKC Thunder · Applied AI Engineer Internship</span>
+          <span class="tag">OKC Thunder · Basketball Data Solutions · Sept. 2026</span>
           <span class="tag mono">Python · PostgreSQL · pgvector · Ollama · FastAPI</span>
         </div>
-        <h3>NBA OKC RAG Internship Project</h3>
+        <h3>Applied AI Engineer Project</h3>
         <div class="tech-stack">
           <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/python.svg" alt="">Python</span>
           <span class="tech-badge tech-badge-text">PostgreSQL</span>
@@ -1071,7 +1078,7 @@ Type 'help' to see available commands.</div>
         <p>
           A retrieval-augmented question-answering backend over box scores, game details, recaps
           and injury notes for a fictional NBA-style league, built for the Oklahoma City Thunder
-          Applied AI Engineer internship take-home. Runs fully local (Qwen 3.5 2B and nomic-embed-text via Ollama).
+          Applied AI Engineer project. Runs fully local (Qwen 3.5 2B and nomic-embed-text via Ollama) with no hosted inference.
           The dataset is proprietary and the source repo is private, so there is no public link.
         </p>
         <ul class="findings">
@@ -1085,6 +1092,46 @@ Type 'help' to see available commands.</div>
             missing supporting row returns &ldquo;not answerable&rdquo; rather than a guessed number.</li>
           <li>Reruns reproduce exactly: temperature 0, fixed seed, and exact-scan vector retrieval
             with tie-breaking <code>ORDER BY</code> instead of an approximate index.</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+
+  <div id="win-side-okcdash" class="mac-window" style="top: 190px; left: 420px; width: 560px; height: 460px;">
+    <div class="window-header">
+      <div class="window-controls">
+        <button class="control-btn close-btn" aria-label="Close"></button>
+        <button class="control-btn min-btn" aria-label="Minimize"></button>
+        <button class="control-btn max-btn" aria-label="Maximize"></button>
+      </div>
+      <div class="window-title">OKC Thunder &middot; Software Engineer Project</div>
+    </div>
+    <div class="window-content projects-app">
+
+      <article class="project">
+        <div class="project-meta">
+          <span class="tag">OKC Thunder · Basketball Data Solutions · Sept. 2026</span>
+          <span class="tag mono">Django · PostgreSQL · Angular · TypeScript · Railway</span>
+        </div>
+        <h3>Software Engineer Project</h3>
+        <div class="tech-stack">
+          <span class="tech-badge tech-badge-text">Django</span>
+          <span class="tech-badge tech-badge-text">PostgreSQL</span>
+          <span class="tech-badge tech-badge-text">Angular</span>
+          <span class="tech-badge"><img class="tech-badge-icon" src="assets/icons/tech/typescript.svg" alt="">TypeScript</span>
+          <span class="tech-badge tech-badge-text">Railway</span>
+        </div>
+        <p>
+          A full-stack lineup-analytics app for coaching and front-office users, built for the
+          Oklahoma City Thunder Software Engineer project. The dataset is proprietary and the
+          source repo is private, so there is no public link.
+        </p>
+        <ul class="findings">
+          <li>Django REST API that aggregates possession-level data into per-lineup offensive and
+            defensive efficiency metrics, backed by PostgreSQL.</li>
+          <li>Angular dashboard for coaching and front-office users.</li>
+          <li>Deployed the full stack to Railway.</li>
         </ul>
       </article>
 
@@ -1193,12 +1240,17 @@ Type 'help' to see available commands.</div>
       <div class="xp-row">
         <div class="xp-when mono">Summer 2026</div>
         <div class="xp-what">
-          <h4>AI Engineering Intern · IPMD</h4>
-          <p>Built the retrieval-augmented generation pipeline behind the IPMD Echo AI mobile
-            app &mdash; an emotional-AI companion that analyzes a selfie video for real-time
-            insights into the user's emotional state. Used LangChain to orchestrate the
-            pipeline, OpenFace 3.0 for facial-expression detection, and a Chroma vector
-            database to store and retrieve embeddings.</p>
+          <h4>AI Engineering Intern · IPMD &mdash; Echo AI &amp; EchoSphere Robot</h4>
+          <ul class="xp-bullets">
+            <li>Built the retrieval-augmented generation pipeline behind the Echo AI mobile app,
+              orchestrating retrieval with LangChain, detecting facial expressions with OpenFace 3.0
+              and storing embeddings in a Chroma vector database to turn selfie video into real-time
+              emotional-state insight.</li>
+            <li>Rebuilt core functionality of the EchoSphere robot&rsquo;s touch engine, classifying raw
+              sensor input into gesture types mapped to distinct emotional response states.</li>
+            <li>Redesigned the robot&rsquo;s 3D model from reference imagery and embedded four emotion
+              particle animations so expressive states render inside the sphere itself.</li>
+          </ul>
         </div>
       </div>
 

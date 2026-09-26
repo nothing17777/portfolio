@@ -178,6 +178,8 @@
 .xp-app .xp-when{ flex-shrink: 0; width: 130px; font-family: var(--mono); font-size: 0.75rem; color: var(--graphite); }
 .xp-app .xp-what h4{ font-family: var(--display); font-size: 0.9rem; margin: 0 0 6px; }
 .xp-app .xp-what p{ font-size: 0.85rem; margin: 0; line-height: 1.55; }
+.xp-app .xp-what ul.xp-bullets{ font-size: 0.85rem; margin: 0; padding-left: 1.1rem; line-height: 1.55; }
+.xp-app .xp-what ul.xp-bullets li{ margin: 0 0 4px; }
 
 .folder-grid{
   display: grid;
